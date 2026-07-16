@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#001C3D">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MSP Alumni">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+    <title>Alumni Stories | MSP Alumni Network</title>
+    <link rel="icon" type="image/png" href="assets/logos/maastricht-science-programme-logo.png">
+    <meta name="description" content="Real stories from MSP alumni — from nuclear research in Singapore to whale conservation in Mexico. Discover where MSP can take you.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@0.576.0/dist/umd/lucide.js"></script>
+
+    <style>
+        /* ============================================
+           HEADER
+        ============================================ */
+        header {
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,28,61,0.06);
+        }
+        header.scrolled {
+            background: var(--um-dark-blue);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        header.scrolled .logo-text h1,
+        header.scrolled .logo-text p { color: white; }
+        header.scrolled .logo-text p { color: rgba(255,255,255,0.7); }
+        header.scrolled .header-nav a { color: rgba(255,255,255,0.8); }
+        header.scrolled .header-nav a:hover { color: white; background: rgba(255,255,255,0.1); }
+        header.scrolled .header-nav a.active { color: white; }
+        header.scrolled .logo-img { filter: brightness(0) invert(1); }
+
+        .header-nav a { color: var(--um-gray-600); }
+        .header-nav a:hover { color: var(--um-dark-blue); background: var(--um-gray-50); }
+        .header-nav a.active { color: var(--um-dark-blue); font-weight: 600; position: relative; }
+        .header-nav a.active::after {
+            content: ''; position: absolute; bottom: 4px; left: 50%;
+            transform: translateX(-50%); width: 20px; height: 2px;
+            background: var(--um-orange); border-radius: 2px;
+        }
+
+        /* Mobile menu toggle button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1002;
+            width: 32px;
+            height: 32px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--um-dark-blue);
+            border-radius: 2px;
+            position: absolute;
+            left: 5px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .menu-toggle span:nth-child(1) { top: 8px; }
+        .menu-toggle span:nth-child(2) { top: 15px; }
+        .menu-toggle span:nth-child(3) { top: 22px; }
+
+        .menu-toggle.open span:nth-child(1) {
+            top: 15px;
+            transform: rotate(45deg);
+        }
+
+        .menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.open span:nth-child(3) {
+            top: 15px;
+            transform: rotate(-45deg);
+        }
+
+        header.scrolled .menu-toggle span {
+            background: white;
+        }
+
+        /* Mobile nav overlay */
+        @media (max-width: 900px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .header-nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 280px;
+                height: 100vh;
+                height: 100dvh;
+                background: white;
+                flex-direction: column;
+                align-items: stretch;
+                padding: 80px 24px 32px;
+                gap: 0;
+                box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+                transform: translateX(100%);
+                visibility: hidden;
+                transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
+                z-index: 1001;
+                overflow-y: auto;
+            }
+
+            .header-nav.open {
+                transform: translateX(0);
+                visibility: visible;
+            }
+
+            .header-nav a {
+                font-size: 16px;
+                padding: 14px 16px;
+                border-radius: var(--radius-sm);
+                color: var(--um-gray-600);
+                border-bottom: 1px solid var(--um-gray-100);
+            }
+
+            .header-nav a:last-child {
+                border-bottom: none;
+            }
+
+            .header-nav a:hover,
+            .header-nav a.active {
+                background: var(--um-gray-50);
+                color: var(--um-dark-blue);
+            }
+
+            .header-nav .btn-cta {
+                margin-left: 0;
+                margin-top: 12px;
+                text-align: center;
+            }
+        }
+
+        /* ============================================
+           HERO
+        ============================================ */
+        .hero {
+            background: linear-gradient(165deg, #000a14 0%, var(--um-dark-blue) 35%, #001a35 70%, #00243d 100%);
+            padding: 140px 50px 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(rgba(0,162,219,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,162,219,0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 70%);
+        }
+        .hero-orb {
+            position: absolute; border-radius: 50%;
+            filter: blur(100px); opacity: 0.2;
+        }
+        .hero-orb-1 { width: 500px; height: 500px; background: var(--um-light-blue); top: -200px; right: -100px; }
+        .hero-orb-2 { width: 300px; height: 300px; background: var(--um-orange); bottom: -100px; left: -50px; }
+        .hero-content {
+            max-width: 1200px; margin: 0 auto;
+            position: relative; z-index: 2;
+        }
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 16px;
+            background: rgba(0,162,219,0.15);
+            border: 1px solid rgba(0,162,219,0.3);
+            border-radius: 100px;
+            font-size: 11px; font-weight: 600;
+            color: rgba(255,255,255,0.9);
+            text-transform: uppercase; letter-spacing: 1.5px;
+            margin-bottom: 24px;
+        }
+        .hero-eyebrow i { width: 14px; height: 14px; color: var(--um-light-blue); }
+        .hero h1 {
+            font-size: 64px; font-weight: 800;
+            letter-spacing: -0.03em; line-height: 1.05;
+            color: white; margin-bottom: 20px;
+        }
+        .hero h1 span { color: var(--um-orange); }
+        .hero-subtitle {
+            font-size: 19px; color: rgba(255,255,255,0.7);
+            line-height: 1.7; max-width: 600px;
+        }
+
+        /* ============================================
+           STORIES GRID
+        ============================================ */
+        .stories-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 50px 100px;
+        }
+
+        .stories-intro {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .stories-intro h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            margin-bottom: 12px;
+        }
+        .stories-intro p {
+            font-size: 17px;
+            color: var(--um-gray-600);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        /* ============================================
+           STORY CARD
+        ============================================ */
+        .story-card {
+            background: white;
+            border: 2px solid var(--um-gray-100);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            transition: all var(--transition-smooth);
+            cursor: pointer;
+            position: relative;
+        }
+        .story-card:hover {
+            border-color: var(--um-light-blue);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .story-card-image {
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+        }
+        .story-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .story-card:hover .story-card-image img {
+            transform: scale(1.05);
+        }
+        .story-card-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 100px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.4));
+        }
+
+        .story-tag {
+            position: absolute;
+            top: 16px; left: 16px;
+            background: var(--um-orange);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 14px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+
+        .story-card-body {
+            padding: 28px 28px 24px;
+        }
+
+        .story-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .story-card-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--um-gray-200);
+        }
+        .story-card-info h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            line-height: 1.3;
+        }
+        .story-card-info p {
+            font-size: 13px;
+            color: var(--um-gray-500);
+        }
+
+        .story-card-excerpt {
+            font-size: 15px;
+            color: var(--um-gray-600);
+            line-height: 1.7;
+            margin-bottom: 18px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .story-card-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--um-orange);
+            transition: gap var(--transition-fast);
+        }
+        .story-card-cta i { width: 16px; height: 16px; }
+        .story-card:hover .story-card-cta {
+            gap: 12px;
+        }
+
+        /* ============================================
+           STORY MODAL
+        ============================================ */
+        .story-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 28, 61, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+        .story-modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .story-modal-content {
+            background: white;
+            border-radius: var(--radius-xl);
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto;
+            position: relative;
+            animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+        }
+        @keyframes modalSlideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .story-modal-close {
+            position: fixed;
+            top: 24px; right: 24px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 28px;
+            font-weight: 300;
+            transition: all var(--transition-smooth);
+            z-index: 2001;
+        }
+        .story-modal-close:hover {
+            background: var(--um-orange);
+            border-color: var(--um-orange);
+            transform: rotate(90deg);
+        }
+
+        .story-modal-hero {
+            width: 100%;
+            height: 360px;
+            position: relative;
+            overflow: hidden;
+        }
+        .story-modal-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .story-modal-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 160px;
+            background: linear-gradient(transparent, rgba(0,28,61,0.8));
+        }
+
+        .story-modal-hero-info {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 30px 40px;
+            z-index: 2;
+            color: white;
+        }
+        .story-modal-hero-info h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .story-modal-hero-info p {
+            font-size: 15px;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .story-modal-body {
+            padding: 40px;
+        }
+
+        .story-detail-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .story-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--um-gray-50);
+            border: 1px solid var(--um-gray-200);
+            padding: 7px 14px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--um-dark-blue);
+        }
+        .story-chip i { width: 14px; height: 14px; color: var(--um-orange); }
+
+        .story-modal-text {
+            font-size: 16px;
+            color: var(--um-gray-700);
+            line-height: 1.85;
+        }
+        .story-modal-text p {
+            margin-bottom: 20px;
+        }
+        .story-modal-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .story-pullquote {
+            padding: 24px 32px;
+            background: var(--um-gray-50);
+            border-left: 4px solid var(--um-orange);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 28px 0;
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--um-dark-blue);
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* Share your story CTA */
+        .share-story-section {
+            background: linear-gradient(165deg, var(--um-dark-blue) 0%, #001530 50%, #00203d 100%);
+            padding: 80px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .share-story-section::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(rgba(0,162,219,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,162,219,0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            opacity: 0.5;
+        }
+        .share-story-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .share-story-content h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+        }
+        .share-story-content p {
+            font-size: 17px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+        .share-story-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--um-orange) 0%, #d94008 100%);
+            color: white;
+            padding: 16px 32px;
+            border-radius: var(--radius-md);
+            font-family: var(--font-heading);
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(232,78,16,0.4);
+            transition: all var(--transition-smooth);
+            text-decoration: none;
+        }
+        .share-story-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(232,78,16,0.5);
+            color: white;
+        }
+        .share-story-btn i { width: 20px; height: 20px; }
+
+        /* ============================================
+           FOOTER
+        ============================================ */
+        footer {
+            background: var(--um-dark-blue);
+            color: rgba(255,255,255,0.7);
+            padding: 60px 50px 30px;
+        }
+        .footer-container {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px; padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .footer-brand { padding-right: 20px; }
+        .footer-logo { height: 40px; width: auto; filter: brightness(0) invert(1); margin-bottom: 16px; }
+        .footer-brand h3 { font-size: 16px; font-weight: 700; color: white; margin-bottom: 10px; }
+        .footer-brand p { font-size: 14px; line-height: 1.7; }
+        .footer-links-group h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+        .footer-links-group a { display: block; font-size: 14px; color: rgba(255,255,255,0.65); padding: 5px 0; transition: color var(--transition-fast); }
+        .footer-links-group a:hover { color: white; }
+        .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 24px; font-size: 13px; color: rgba(255,255,255,0.35); }
+
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (max-width: 1100px) {
+            .stories-grid { grid-template-columns: 1fr; max-width: 640px; margin: 0 auto; }
+        }
+        @media (max-width: 900px) {
+            header { padding: 0 20px; }
+            .hero { padding: 120px 30px 80px; }
+            .hero h1 { font-size: 42px; }
+            .stories-section { padding: 60px 24px 80px; }
+            .story-modal-body { padding: 28px; }
+            .story-modal-hero { height: 260px; }
+            .story-modal-hero-info { padding: 24px 28px; }
+            .story-modal-hero-info h2 { font-size: 26px; }
+            .share-story-section { padding: 60px 24px; }
+            .footer-container { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        @media (max-width: 600px) {
+            .hero { padding: 110px 20px 60px; }
+            .hero h1 { font-size: 32px; }
+            .hero-subtitle { font-size: 16px; }
+            .stories-section { padding: 40px 16px 60px; }
+            .stories-intro h2 { font-size: 28px; }
+            .story-card-image { height: 220px; }
+            .story-modal-hero { height: 200px; }
+            .story-modal-hero-info h2 { font-size: 22px; }
+            .story-modal-body { padding: 24px 20px; }
+            .story-modal-text { font-size: 15px; }
+            .story-pullquote { font-size: 16px; padding: 20px 24px; }
+            .share-story-content h2 { font-size: 28px; }
+            .footer-container { grid-template-columns: 1fr; gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <a href="index.html" class="logo">
+            <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" class="logo-img">
+            <div class="logo-text">
+                <h1>MSP Alumni Network</h1>
+                <p>Maastricht Science Programme</p>
+            </div>
+        </a>
+        <nav class="header-nav">
+            <a href="index.html">Home</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="community.html">Community</a>
+            <a href="events.html">Events</a>
+            <a href="stories.html" class="active">Stories</a>
+            <a href="considering-msp.html" class="btn-cta">Considering MSP?</a>
+        </nav>
+        <button class="menu-toggle" onclick="toggleMobileNav(this)" aria-label="Menu"><span></span><span></span><span></span></button>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-content">
+            <div class="hero-eyebrow">
+                <i data-lucide="book-open"></i>
+                Alumni Journeys
+            </div>
+            <h1>Every path is<br><span>unique.</span></h1>
+            <p class="hero-subtitle">
+                Explore the journeys of our alumni after MSP — where they went, what they discovered, and how it all began.
+            </p>
+        </div>
+    </section>
+
+    <!-- Stories Section -->
+    <section class="stories-section">
+        <div class="stories-intro">
+            <h2>Alumni Stories</h2>
+            <p>Four MSP graduates share how the programme shaped their journey and where life has taken them since.</p>
+        </div>
+
+        <div class="stories-grid">
+
+            <!-- Francesca -->
+            <div class="story-card" onclick="openStory('francesca')">
+                <div class="story-card-image">
+                    <div class="story-tag">Marine Biology</div>
+                    <img src="assets/images/Diaz.jpg" alt="Francesca Diaz Cabal" onerror="this.style.display='none'">
+                </div>
+                <div class="story-card-body">
+                    <div class="story-card-meta">
+                        <img src="assets/images/Diaz.jpg" alt="" class="story-card-avatar" onerror="this.style.display='none'">
+                        <div class="story-card-info">
+                            <h3>Francesca Diaz Cabal</h3>
+                            <p>Gray Whale Researcher &middot; Ecuador / Mexico</p>
+                        </div>
+                    </div>
+                    <p class="story-card-excerpt">
+                        "Ever since I was five years old, I knew I wanted to become a marine biologist and study whales. MSP gave me the freedom to shape my academic path around my passions."
+                    </p>
+                    <span class="story-card-cta">Read Francesca's story <i data-lucide="arrow-right"></i></span>
+                </div>
+            </div>
+
+            <!-- Vitesh -->
+            <div class="story-card" onclick="openStory('vitesh')">
+                <div class="story-card-image">
+                    <div class="story-tag">Nuclear Physics</div>
+                    <img src="assets/images/Vitesh.JPG" alt="Vitesh" onerror="this.style.display='none'">
+                </div>
+                <div class="story-card-body">
+                    <div class="story-card-meta">
+                        <img src="assets/images/Vitesh.JPG" alt="" class="story-card-avatar" onerror="this.style.display='none'">
+                        <div class="story-card-info">
+                            <h3>Vitesh</h3>
+                            <p>Nuclear Researcher &middot; Singapore</p>
+                        </div>
+                    </div>
+                    <p class="story-card-excerpt">
+                        "The mysteries of the universe have always fascinated me. MSP nurtured curiosity, encouraged independent thinking, and reignited my genuine enjoyment of learning."
+                    </p>
+                    <span class="story-card-cta">Read Vitesh's story <i data-lucide="arrow-right"></i></span>
+                </div>
+            </div>
+
+            <!-- Daria -->
+            <div class="story-card" onclick="openStory('daria')">
+                <div class="story-card-image">
+                    <div class="story-tag">Environmental Engineering</div>
+                    <img src="assets/images/Daria.jpg" alt="Daria Legostaeva" onerror="this.style.display='none'">
+                </div>
+                <div class="story-card-body">
+                    <div class="story-card-meta">
+                        <img src="assets/images/Daria.jpg" alt="" class="story-card-avatar" onerror="this.style.display='none'">
+                        <div class="story-card-info">
+                            <h3>Daria Legostaeva</h3>
+                            <p>Environmental Engineer at SBM Offshore &middot; Netherlands</p>
+                        </div>
+                    </div>
+                    <p class="story-card-excerpt">
+                        "I wanted to become a bridge between scientific research and real-world business applications. Every path is unique — if you are truly committed, it will find its way to you."
+                    </p>
+                    <span class="story-card-cta">Read Daria's story <i data-lucide="arrow-right"></i></span>
+                </div>
+            </div>
+
+            <!-- Yannick -->
+            <div class="story-card" onclick="openStory('yannick')">
+                <div class="story-card-image">
+                    <div class="story-tag">Wildlife Conservation</div>
+                    <img src="assets/images/Yannick.jpg" alt="Yannick" onerror="this.style.display='none'">
+                </div>
+                <div class="story-card-body">
+                    <div class="story-card-meta">
+                        <img src="assets/images/Yannick.jpg" alt="" class="story-card-avatar" onerror="this.style.display='none'">
+                        <div class="story-card-info">
+                            <h3>Yannick</h3>
+                            <p>Wildlife Crime Consultant &middot; Fauna Flux</p>
+                        </div>
+                    </div>
+                    <p class="story-card-excerpt">
+                        "I wanted to do something that would help create change now. This led me to the field of wildlife crime, leveraging technology and military experience to combat illegal trade."
+                    </p>
+                    <span class="story-card-cta">Read Yannick's story <i data-lucide="arrow-right"></i></span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Share Your Story CTA -->
+    <section class="share-story-section">
+        <div class="share-story-content">
+            <h2>Share your story</h2>
+            <p>Every MSP journey is worth telling. Whether you're doing a PhD, working in industry, or charting your own path — we'd love to feature you.</p>
+            <a href="mailto:msp-alumni@maastrichtuniversity.nl?subject=I'd%20like%20to%20share%20my%20alumni%20story" class="share-story-btn">
+                Get in touch
+                <i data-lucide="mail"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" class="footer-logo">
+                <h3>MSP Alumni Network</h3>
+                <p>Connecting MSP graduates from the Maastricht Science Programme across the world. Part of the Faculty of Science and Engineering at Maastricht University.</p>
+            </div>
+            <div class="footer-links-group">
+                <h4>Explore</h4>
+                <a href="index.html">Home</a>
+                <a href="destinations.html">Destinations</a>
+                <a href="community.html">Community</a>
+                <a href="events.html">Events</a>
+                <a href="stories.html">Stories</a>
+            </div>
+            <div class="footer-links-group">
+                <h4>Connect</h4>
+                <a href="considering-msp.html">Considering MSP?</a>
+                <a href="https://www.maastrichtuniversity.nl" target="_blank">Maastricht University</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <div class="footer-links-group">
+                <h4>Follow Us</h4>
+                <a href="https://www.instagram.com/msp_alumni/" target="_blank">Instagram</a>
+                <a href="https://www.linkedin.com/groups/12893377/" target="_blank">LinkedIn (MSP)</a>
+                <a href="https://www.linkedin.com/groups/4689010/" target="_blank">LinkedIn (FSE)</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 MSP Alumni Network. Maastricht University, Faculty of Science and Engineering.</p>
+        </div>
+    </footer>
+
+    <!-- Story Modal -->
+    <div class="story-modal" id="storyModal" onclick="closeStory(event)">
+        <button class="story-modal-close" onclick="closeStory()">&times;</button>
+        <div class="story-modal-content" onclick="event.stopPropagation()">
+            <div class="story-modal-hero">
+                <img id="modalHeroImg" src="" alt="">
+                <div class="story-modal-hero-info">
+                    <h2 id="modalName"></h2>
+                    <p id="modalRole"></p>
+                </div>
+            </div>
+            <div class="story-modal-body">
+                <div class="story-detail-chips" id="modalChips"></div>
+                <div class="story-modal-text" id="modalText"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile nav toggle
+        function toggleMobileNav(btn) {
+            const nav = document.querySelector('.header-nav');
+            const isOpen = nav.classList.contains('open');
+            btn.classList.toggle('open');
+            nav.classList.toggle('open');
+
+            if (!isOpen) {
+                const backdrop = document.createElement('div');
+                backdrop.className = 'nav-backdrop';
+                backdrop.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);z-index:999;opacity:0;transition:opacity 0.3s ease';
+                document.body.appendChild(backdrop);
+                document.body.style.overflow = 'hidden';
+                requestAnimationFrame(() => backdrop.style.opacity = '1');
+                backdrop.addEventListener('click', () => toggleMobileNav(btn));
+            } else {
+                const backdrop = document.querySelector('.nav-backdrop');
+                if (backdrop) {
+                    backdrop.style.opacity = '0';
+                    setTimeout(() => backdrop.remove(), 300);
+                }
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close mobile nav when a link is clicked
+        document.querySelectorAll('.header-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                const btn = document.querySelector('.menu-toggle');
+                if (btn.classList.contains('open')) {
+                    toggleMobileNav(btn);
+                }
+            });
+        });
+
+        // Header scroll
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Story data
+        const STORIES = {
+            francesca: {
+                name: 'Francesca Diaz Cabal',
+                role: 'Gray Whale Researcher',
+                image: 'assets/images/Diaz.jpg',
+                chips: [
+                    { icon: 'graduation-cap', label: 'MSP Graduate' },
+                    { icon: 'globe', label: 'Ecuador / Mexico' },
+                    { icon: 'fish', label: 'Marine Biology' }
+                ],
+                text: `
+                    <p>Hello everyone! My name is Francesca, and I'm from Ecuador. Ever since I was five years old, I knew I wanted to become a marine biologist and study whales. I remember when I was applying for different universities, and MSP immediately stood out because of the BTR programme it offered. The fact that it allowed students to do their bachelor thesis research anywhere in the world was truly the tip of the iceberg for me, and the final push that brought me to Maastricht.</p>
+
+                    <p>My university years in the Netherlands were amazing. Living in such an international environment, choosing my own courses, biking everywhere, and meeting people from all over the world became some of the highlights of my studies. MSP gave me the freedom to shape my academic path around my passions, and that made all the difference. As my Bachelor Thesis Research (BTR) approached, I decided to dream big and that took me to Baja California Sur, Mexico, to work with photo identification with gray whales.</p>
+
+                    <div class="story-pullquote">"My family likes to joke that I 'work where the whales go,' and honestly, that's the truth."</div>
+
+                    <p>For my thesis, I joined PRIMMA (Programa de Investigaci&oacute;n de Mam&iacute;feros Marinos), and what started as a research project quickly became so much more. I was invited to be part of the gray whale research team, and to this day, I'm still working with them. Since my thesis, I've been invited back to Mexico for the gray whale season from January to April &mdash; twice already, and I'll be returning again for the 2026 season, which will be my third.</p>
+
+                    <p>Thanks to my BTR on gray whales the doors in the marine mammal community opened for me, and I've been able to explore other opportunities. I recently finished my first humpback whale season (June&ndash;December) as a volunteer with the Pacific Whale Foundation in Ecuador, where I spent six months as part of the research team. I joined expeditions, worked on photo-ID, and learned new research techniques that I'm excited to apply in my future projects. Now, as I finish the year in Puerto Lopez, Ecuador, I'll be heading back to Mexico to work with gray whales once again.</p>
+
+                    <p>Looking ahead, my goal is to pursue a master's degree using data from Ecuador's marine mammal team, where there is still so much to be discovered about these migrating species. I'm hoping to find a programme that, just like MSP, allows me to do my thesis abroad and continue combining research, travel, and real-world experience.</p>
+
+                    <div class="story-pullquote">"Dream big and stay persistent. If you truly want something and work for it, it will come."</div>
+                `
+            },
+            vitesh: {
+                name: 'Vitesh',
+                role: 'Nuclear Researcher &middot; Singapore',
+                image: 'assets/images/Vitesh.JPG',
+                chips: [
+                    { icon: 'graduation-cap', label: 'MSP Graduate' },
+                    { icon: 'globe', label: 'Singapore' },
+                    { icon: 'atom', label: 'Nuclear Engineering' }
+                ],
+                text: `
+                    <p>The mysteries of the universe &mdash; from planets and stars to black holes and galaxies &mdash; have always fascinated me. My name is Vitesh, though many know me as Vitz, and I have long held a deep passion for physics.</p>
+
+                    <p>My time at the Maastricht Science Programme stands out as one of the most meaningful and enriching educational experiences of my life. I am truly honoured to have been part of the programme. While the courses themselves were intellectually rigorous and engaging, it was the educational approach and the dedication of the lecturers that made MSP truly exceptional.</p>
+
+                    <div class="story-pullquote">"I could have studied similar subjects elsewhere, but the learning environment at MSP was unlike anything I had previously experienced."</div>
+
+                    <p>It nurtured curiosity, encouraged independent thinking, and most importantly, reignited my genuine enjoyment of learning. Following my studies at MSP, I was awarded a scholarship in Singapore to further my education, where I pursued Nuclear Engineering.</p>
+
+                    <p>Today, I work as a Nuclear Researcher in Singapore, assessing the safety systems of various reactor technologies, conducting severe accident and neutronic simulations, and performing radiological environmental impact assessments.</p>
+
+                    <p>I can say with confidence that the curriculum at MSP, together with the guidance and inspiration provided by my lecturers &mdash; particularly Dr. Chris Pawley, Dr. Sarah Williams, Dr. Ronald Westra, and Dr. Donna Carroll, among many others &mdash; and the support of my course mates, shaped my academic journey in profound ways. The experience was not only unforgettable, but also instrumental in moulding me into the passionate and inquisitive researcher I am today.</p>
+
+                    <div class="story-pullquote">"The important thing is not to stop questioning. Curiosity has its own reason for existence." &mdash; Albert Einstein</div>
+                `
+            },
+            daria: {
+                name: 'Daria Legostaeva',
+                role: 'Environmental Engineer at SBM Offshore',
+                image: 'assets/images/Daria.jpg',
+                chips: [
+                    { icon: 'graduation-cap', label: 'MSP 2024' },
+                    { icon: 'globe', label: 'Netherlands' },
+                    { icon: 'flask-conical', label: 'Biochemistry' },
+                    { icon: 'building-2', label: 'SBM Offshore' }
+                ],
+                text: `
+                    <p>If you had asked me back then, I wouldn't have predicted that I would end up at MSP for my bachelor's. At the time, I had never been to Maastricht or toured the university and the FSE faculty. In high school, I knew I wanted to pursue natural sciences, but I couldn't commit to just one subject. The diversity and flexibility of the MSP programme were what truly drew me to apply.</p>
+
+                    <p>Looking back at my journey, I didn't expect my studies to lead me to where I am today, and I mean that in the best way possible. Early on, I realized that a purely academic or research path was not entirely for me. I was much more drawn to the application of knowledge in industry and scientific business practices.</p>
+
+                    <div class="story-pullquote">"I wanted to become a bridge between scientific research and real-world business applications."</div>
+
+                    <p>After completing my BTR at the Brightlands campus with an innovative startup, I became deeply interested in sustainability and environmental topics. That experience helped me realize this was the market I wanted to pursue.</p>
+
+                    <p>Being an international student in Europe comes with its own pressures: meeting grade requirements to retain residency, and after graduation, facing the ticking clock of finding a master's programme or a job with visa sponsorship. I found myself in a position where no particular master's programme sparked strong interest, and I felt ready to give working life a chance &mdash; almost as a trial to confirm whether sustainability and environmental science were truly the fields I wanted to grow in.</p>
+
+                    <p>The journey to finding my first job was definitely not easy. At times it was disappointing, lonely, and frustrating. What kept me going was my desire to stay in the Netherlands, which had become a new home with its routines, friendships, and sense of familiarity.</p>
+
+                    <p>After countless applications, interviews, rejections, and unanswered emails, I connected with a recruiter from my current company. That opportunity led to an offer for a position as an Environmental Engineer. Coming from a non-traditional engineering background, the first year came with a steep learning curve. However, I kept reminding myself that throughout my education, it was precisely the skills of research, self-study, and proactivity that allowed me to grow.</p>
+
+                    <p>This February, I completed my first year working in a large corporate environment and living in a new city. It has been a year of incredible highs, but also moments of doubt and uncertainty.</p>
+
+                    <div class="story-pullquote">"Every path is unique. If you are truly committed to something, it will find its way to you. Patience and timing are always part of the journey."</div>
+                `
+            },
+            yannick: {
+                name: 'Yannick',
+                role: 'Wildlife Crime Consultant &middot; Fauna Flux',
+                image: 'assets/images/Yannick.jpg',
+                chips: [
+                    { icon: 'graduation-cap', label: 'MSP Graduate' },
+                    { icon: 'globe', label: 'Copenhagen / Belize / Ecuador' },
+                    { icon: 'shield', label: 'Wildlife Crime' },
+                    { icon: 'paw-print', label: 'Conservation' }
+                ],
+                text: `
+                    <p>After completing my bachelor's at MSP, I went to do a master's at the University of Copenhagen. The programme offered much flexibility and I exploited this.</p>
+
+                    <p>I conducted a research project in the Llanganates-Sangay ecological corridor in Ecuador where I worked on some conservation genetics specifically tailored to herpetofauna, and a year and a half later, I went to Belize to do my master's thesis on the American Crocodile together with the Crocodile Research Coalition funded by the IUCN Crocodile Specialist Group and the Hendrik Muller Fonds.</p>
+
+                    <div class="story-pullquote">"I wanted to do something that would help create change now. This led me to the field of wildlife crime."</div>
+
+                    <p>After my studies, I decided to change direction and pursue something else to research. I wanted to do something that would help create change now. This led me to the field of wildlife crime.</p>
+
+                    <p>Currently, I work as a consultant at Langland Conservation through my own company Fauna Flux. It is an exciting company that leverages the power of technology and military experience to combat the illegal trade of wildlife. We help local partners optimise their conservation efforts to achieve actionable results by supporting them with analytics and intelligence.</p>
+                `
+            }
+        };
+
+        function openStory(key) {
+            const story = STORIES[key];
+            if (!story) return;
+
+            document.getElementById('modalHeroImg').src = story.image;
+            document.getElementById('modalHeroImg').alt = story.name;
+            document.getElementById('modalName').textContent = story.name;
+            document.getElementById('modalRole').innerHTML = story.role;
+
+            const chipsHtml = story.chips.map(c =>
+                `<span class="story-chip"><i data-lucide="${c.icon}"></i> ${c.label}</span>`
+            ).join('');
+            document.getElementById('modalChips').innerHTML = chipsHtml;
+            document.getElementById('modalText').innerHTML = story.text;
+
+            document.getElementById('storyModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function closeStory(e) {
+            if (e && e.target !== e.currentTarget && !e.target.closest('.story-modal-close')) return;
+            document.getElementById('storyModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeStory();
+        });
+
+        // Init
+        lucide.createIcons();
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>

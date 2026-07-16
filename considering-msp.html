@@ -1,0 +1,2950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#001C3D">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MSP Alumni">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+    <title>Considering MSP? | Where Will Science Take You?</title>
+    <meta name="description" content="See where MSP graduates go - from Oxford to ETH Zurich, from research labs to startups. Real outcomes from 1,321 alumni." data-stat="totalAlumni-formatted">
+    
+    <link rel="icon" type="image/png" href="assets/logos/maastricht-science-programme-logo.png">
+    <link rel="apple-touch-icon" href="assets/logos/maastricht-science-programme-logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <script src="https://unpkg.com/lucide@0.576.0/dist/umd/lucide.js"></script>
+    <script src="data.js"></script>
+    <script src="data-bind.js"></script>
+
+    <style>
+        :root {
+            --um-dark-blue: #001C3D;
+            --um-darker-blue: #00101f;
+            --um-light-blue: #00A2DB;
+            --um-orange: #E84E10;
+            --um-white: #FFFFFF;
+            --um-gray-50: #f8fafc;
+            --um-gray-100: #f1f5f9;
+            --um-gray-200: #e2e8f0;
+            --um-gray-300: #cbd5e1;
+            --um-gray-500: #64748b;
+            --um-gray-600: #475569;
+            --um-gray-700: #334155;
+            --um-gray-800: #1e293b;
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.1), 0 16px 48px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 50px rgba(0,0,0,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        body { font-family: var(--font-body); font-size: 16px; line-height: 1.6; color: var(--um-dark-blue); background: #000408; overflow-x: hidden; }
+        h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); line-height: 1.15; letter-spacing: -0.02em; }
+        a { color: var(--um-light-blue); text-decoration: none; transition: color var(--transition-fast); }
+        a:hover { color: var(--um-orange); }
+        
+        /* Header */
+        header { background: transparent; padding: 0 50px; height: 72px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all var(--transition-smooth); }
+        header.scrolled { background: var(--um-dark-blue); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+        .logo-img { height: 44px; width: auto; filter: brightness(0) invert(1); transition: all var(--transition-smooth); }
+        .logo:hover .logo-img { transform: scale(1.02); }
+        .logo-text h1 { font-size: 15px; font-weight: 700; color: white; margin: 0; line-height: 1.2; }
+        .logo-text p { font-size: 11px; color: rgba(255,255,255,0.7); margin: 0; font-weight: 500; }
+        .header-nav { display: flex; gap: 6px; align-items: center; }
+        .header-nav a { font-size: 14px; font-weight: 500; padding: 10px 18px; border-radius: var(--radius-sm); color: rgba(255,255,255,0.8); transition: all var(--transition-fast); }
+        .header-nav a:hover { color: white; background: rgba(255,255,255,0.1); }
+        .header-nav a.active { color: white; font-weight: 600; }
+        .header-nav .btn-cta { background: linear-gradient(135deg, var(--um-orange) 0%, #d94008 100%); color: white; margin-left: 12px; box-shadow: 0 2px 8px rgba(232, 78, 16, 0.25); }
+        .header-nav .btn-cta:hover { background: linear-gradient(135deg, #ff5a1f 0%, var(--um-orange) 100%); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(232, 78, 16, 0.35); color: white; }
+
+        /* Mobile menu toggle button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1002;
+            width: 32px;
+            height: 32px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--um-dark-blue);
+            border-radius: 2px;
+            position: absolute;
+            left: 5px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .menu-toggle span:nth-child(1) { top: 8px; }
+        .menu-toggle span:nth-child(2) { top: 15px; }
+        .menu-toggle span:nth-child(3) { top: 22px; }
+
+        .menu-toggle.open span:nth-child(1) {
+            top: 15px;
+            transform: rotate(45deg);
+        }
+
+        .menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.open span:nth-child(3) {
+            top: 15px;
+            transform: rotate(-45deg);
+        }
+
+        header.scrolled .menu-toggle span {
+            background: white;
+        }
+
+        /* Mobile nav overlay */
+        @media (max-width: 900px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .header-nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 280px;
+                height: 100vh;
+                height: 100dvh;
+                background: white;
+                flex-direction: column;
+                align-items: stretch;
+                padding: 80px 24px 32px;
+                gap: 0;
+                box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+                transform: translateX(100%);
+                visibility: hidden;
+                transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
+                z-index: 1001;
+                overflow-y: auto;
+            }
+
+            .header-nav.open {
+                transform: translateX(0);
+                visibility: visible;
+            }
+
+            .header-nav a {
+                font-size: 16px;
+                padding: 14px 16px;
+                border-radius: var(--radius-sm);
+                color: var(--um-gray-600);
+                border-bottom: 1px solid var(--um-gray-100);
+            }
+
+            .header-nav a:last-child {
+                border-bottom: none;
+            }
+
+            .header-nav a:hover,
+            .header-nav a.active {
+                background: var(--um-gray-50);
+                color: var(--um-dark-blue);
+            }
+
+            .header-nav .btn-cta {
+                margin-left: 0;
+                margin-top: 12px;
+                text-align: center;
+            }
+        }
+
+        /* === PROFESSIONAL AMBITION-FOCUSED HERO === */
+        .hero-fullpage { 
+            min-height: 100vh; 
+            background: linear-gradient(165deg, #000408 0%, #000a15 20%, #001020 40%, var(--um-dark-blue) 70%, #001530 100%);
+            position: relative; 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 100px 50px; 
+        }
+        
+        /* Research Network Pattern - Professional Geometric */
+        .network-grid {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 1;
+            background-image: 
+                linear-gradient(rgba(0,162,219,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,162,219,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridShift 30s linear infinite;
+        }
+        @keyframes gridShift {
+            from { transform: translate(0, 0); }
+            to { transform: translate(60px, 60px); }
+        }
+        
+        /* Subtle Gradient Overlays - Not Planets */
+        .gradient-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 2;
+            pointer-events: none;
+            background: 
+                radial-gradient(ellipse 1000px 600px at 20% 30%, rgba(0,162,219,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 800px 500px at 80% 70%, rgba(232,78,16,0.06) 0%, transparent 50%);
+        }
+        
+        /* Animated Connection Nodes - Research Network Aesthetic */
+        .network-nodes {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 3;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .network-node {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(0,162,219,0.6);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0,162,219,0.4);
+            animation: nodePulse 4s ease-in-out infinite;
+        }
+        .network-node:nth-child(1) { top: 20%; left: 15%; animation-delay: 0s; }
+        .network-node:nth-child(2) { top: 15%; right: 20%; background: rgba(232,78,16,0.6); box-shadow: 0 0 20px rgba(232,78,16,0.4); animation-delay: 1s; }
+        .network-node:nth-child(3) { bottom: 25%; left: 25%; animation-delay: 2s; }
+        .network-node:nth-child(4) { top: 45%; right: 15%; animation-delay: 1.5s; }
+        .network-node:nth-child(5) { bottom: 35%; right: 30%; background: rgba(232,78,16,0.6); box-shadow: 0 0 20px rgba(232,78,16,0.4); animation-delay: 0.5s; }
+        @keyframes nodePulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+        
+        .hero-center { position: relative; z-index: 10; text-align: center; max-width: 1000px; }
+        .hero-eyebrow { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: rgba(232,78,16,0.15); border: 1px solid rgba(232,78,16,0.3); padding: 10px 24px; border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--um-orange); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; animation: fadeInDown 0.8s ease; backdrop-filter: blur(10px); }
+        .hero-eyebrow-icon { width: 18px; height: 18px; }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .hero-title { font-size: 72px; font-weight: 700; color: white; line-height: 1.05; margin-bottom: 24px; letter-spacing: -0.03em; animation: fadeInUp 0.8s ease 0.2s both; text-shadow: 0 0 60px rgba(0,162,219,0.3), 0 0 120px rgba(0,162,219,0.1); }
+        .hero-title .highlight { display: block; background: linear-gradient(135deg, var(--um-orange) 0%, #ff6b35 50%, var(--um-light-blue) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% auto; animation: gradientShift 5s ease-in-out infinite; filter: drop-shadow(0 0 30px rgba(232,78,16,0.4)); }
+        @keyframes gradientShift { 0%, 100% { background-position: 0% center; } 50% { background-position: 100% center; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .hero-subtitle { font-size: 22px; color: rgba(255,255,255,0.75); max-width: 700px; margin: 0 auto 50px; line-height: 1.7; animation: fadeInUp 0.8s ease 0.4s both; text-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+        .journey-flow { display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 60px; animation: fadeInUp 0.8s ease 0.6s both; flex-wrap: wrap; }
+        .journey-node { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); padding: 24px 32px; text-align: center; transition: all var(--transition-smooth); min-width: 140px; }
+        .journey-node:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); transform: translateY(-4px); }
+        .journey-node.highlight { background: rgba(232,78,16,0.15); border-color: rgba(232,78,16,0.4); }
+        .journey-node.highlight:hover { background: rgba(232,78,16,0.25); border-color: rgba(232,78,16,0.6); }
+        .journey-number { font-family: var(--font-heading); font-size: 36px; font-weight: 700; color: white; line-height: 1; }
+        .journey-label { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 8px; font-weight: 500; }
+        .journey-arrow { color: var(--um-orange); opacity: 0.7; }
+        .journey-arrow i { width: 24px; height: 24px; }
+        .hero-ctas { display: flex; gap: 20px; justify-content: center; animation: fadeInUp 0.8s ease 0.8s both; flex-wrap: wrap; }
+        .hero-btn { display: inline-flex; align-items: center; gap: 12px; padding: 18px 36px; border-radius: var(--radius-md); font-family: var(--font-heading); font-size: 16px; font-weight: 600; transition: all var(--transition-smooth); cursor: pointer; text-decoration: none; }
+        .hero-btn i { width: 20px; height: 20px; }
+        .hero-btn.primary { background: linear-gradient(135deg, var(--um-orange) 0%, #d94008 100%); color: white; box-shadow: 0 4px 20px rgba(232,78,16,0.4); }
+        .hero-btn.primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(232,78,16,0.5); color: white; }
+        .hero-btn.secondary { background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.2); color: white; }
+        .hero-btn.secondary:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); transform: translateY(-3px); color: white; }
+        .scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.4); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; animation: scrollBounce 2.5s ease-in-out infinite; z-index: 2; }
+        .scroll-hint i { width: 20px; height: 20px; }
+        @keyframes scrollBounce { 0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; } 50% { transform: translateX(-50%) translateY(10px); opacity: 1; } }
+        /* === END EXACT ORIGINAL HERO === */
+        
+        /* CLEAN SECTION STYLES */
+        .clean-section { background: white; padding: 120px 50px; }
+        .clean-section.gray { background: var(--um-gray-50); }
+        .clean-section.dark { background: linear-gradient(165deg, var(--um-dark-blue) 0%, #001530 50%, #00203d 100%); color: white; }
+        
+        .section-header { text-align: center; max-width: 800px; margin: 0 auto 80px; }
+        .section-label { font-size: 14px; font-weight: 700; color: var(--um-orange); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; }
+        .clean-section.dark .section-label { color: var(--um-orange); }
+        .section-title { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--um-dark-blue); margin-bottom: 20px; line-height: 1.2; }
+        .clean-section.dark .section-title { color: white; }
+        .section-subtitle { font-size: 18px; color: var(--um-gray-600); line-height: 1.6; }
+        .clean-section.dark .section-subtitle { color: rgba(255,255,255,0.7); }
+        
+        /* MSP 3-YEAR LEARNING JOURNEY */
+        .learning-journey { max-width: 1100px; margin: 0 auto; display: flex; justify-content: center; align-items: flex-start; gap: 40px; position: relative; }
+        .learning-journey::before { content: ''; position: absolute; top: 60px; left: 15%; right: 15%; height: 4px; background: linear-gradient(90deg, var(--um-light-blue), #8b5cf6, var(--um-orange)); border-radius: 2px; z-index: 0; }
+        .learning-step { flex: 1; max-width: 320px; position: relative; z-index: 1; }
+        .learning-circle { width: 120px; height: 120px; background: white; border: 6px solid var(--um-light-blue); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; position: relative; box-shadow: var(--shadow-lg); }
+        .learning-step:nth-child(2) .learning-circle { border-color: #8b5cf6; }
+        .learning-step:nth-child(3) .learning-circle { border-color: var(--um-orange); }
+        .learning-year { font-family: var(--font-heading); font-size: 56px; font-weight: 700; color: var(--um-dark-blue); line-height: 1; }
+        .learning-title { font-family: var(--font-heading); font-size: 22px; font-weight: 700; color: var(--um-dark-blue); margin-bottom: 16px; text-align: center; }
+        .learning-desc { font-size: 15px; color: var(--um-gray-600); line-height: 1.5; text-align: center; margin-bottom: 20px; }
+        .learning-features { display: flex; flex-direction: column; gap: 12px; }
+        .learning-feature { display: flex; align-items: start; gap: 10px; font-size: 14px; color: var(--um-gray-700); }
+        .learning-feature i { width: 18px; height: 18px; color: var(--um-orange); flex-shrink: 0; margin-top: 2px; }
+        
+        /* WHERE ALUMNI GO - OUTCOME WHEEL */
+        .outcome-wheel-section { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .outcome-visual { position: relative; width: 100%; max-width: 500px; margin: 0 auto; }
+        .outcome-circle { width: 400px; height: 400px; border-radius: 50%; background: conic-gradient(
+            from 0deg,
+            var(--um-light-blue) 0deg 241.2deg,
+            #8b5cf6 241.2deg 279.72deg,
+            var(--um-orange) 279.72deg 360deg
+        ); margin: 0 auto; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-xl); position: relative; }
+        .outcome-center { width: 240px; height: 240px; background: white; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: var(--shadow-lg); }
+        .outcome-center-number { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--um-dark-blue); line-height: 1; }
+        .outcome-center-label { font-size: 14px; color: var(--um-gray-600); font-weight: 600; margin-top: 4px; }
+        .outcome-legend { display: flex; flex-direction: column; gap: 24px; }
+        .outcome-item { display: flex; align-items: start; gap: 16px; }
+        .outcome-color { width: 60px; height: 60px; border-radius: var(--radius-md); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .outcome-color i { width: 28px; height: 28px; color: white; }
+        .outcome-item:nth-child(1) .outcome-color { background: var(--um-light-blue); }
+        .outcome-item:nth-child(2) .outcome-color { background: #8b5cf6; }
+        .outcome-item:nth-child(3) .outcome-color { background: var(--um-orange); }
+        .outcome-text { flex: 1; }
+        .outcome-percent { font-family: var(--font-heading); font-size: 36px; font-weight: 700; color: var(--um-dark-blue); line-height: 1; margin-bottom: 4px; }
+        .outcome-label { font-size: 18px; font-weight: 700; color: var(--um-dark-blue); margin-bottom: 4px; }
+        .outcome-desc { font-size: 14px; color: var(--um-gray-600); line-height: 1.5; }
+        
+        /* INTERACTIVE FIELD TO CAREER PATHWAYS */
+        .pathways-interactive { max-width: 1000px; margin: 0 auto; position: relative; min-height: 500px; }
+        .fields-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .field-bubble { background: white; border: 2px solid var(--um-gray-200); border-radius: 50%; width: 160px; height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
+        .field-bubble:hover { border-color: var(--um-orange); transform: scale(1.08); box-shadow: 0 12px 40px rgba(232,78,16,0.3); border-width: 3px; background: linear-gradient(135deg, #fff8f5 0%, white 100%); }
+        .field-bubble.active { border-color: var(--um-orange); transform: scale(1.08); box-shadow: 0 12px 40px rgba(232,78,16,0.3); border-width: 3px; background: linear-gradient(135deg, #fff8f5 0%, white 100%); }
+        .field-icon-bubble { width: 48px; height: 48px; background: linear-gradient(135deg, var(--um-dark-blue) 0%, #002b5c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+        .field-icon-bubble i { width: 24px; height: 24px; color: white; }
+        .field-name { font-family: var(--font-heading); font-size: 14px; font-weight: 700; color: var(--um-dark-blue); text-align: center; line-height: 1.2; padding: 0 8px; }
+        .field-count { font-size: 11px; color: var(--um-gray-500); margin-top: 4px; }
+        
+        .careers-display { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 3px solid var(--um-orange); border-radius: var(--radius-xl); padding: 40px; box-shadow: var(--shadow-xl); min-width: 400px; opacity: 0; pointer-events: none; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 10; }
+        .careers-display.active { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+        .careers-display-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--um-dark-blue); margin-bottom: 24px; text-align: center; }
+        .career-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--um-gray-50); border-radius: var(--radius-sm); margin-bottom: 10px; }
+        .career-name { font-size: 14px; color: var(--um-gray-700); font-weight: 500; }
+        .career-count { font-family: var(--font-heading); font-size: 18px; font-weight: 700; color: var(--um-orange); }
+        
+        /* CAREER SECTORS - WITH FLAT ICONS */
+        .career-sectors { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .sector-card { background: white; border: 2px solid var(--um-gray-200); border-radius: var(--radius-lg); padding: 32px 24px; text-align: center; transition: all var(--transition-smooth); }
+        .sector-card:hover { border-color: var(--um-orange); transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .sector-icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--um-dark-blue) 0%, #002b5c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+        .sector-icon i { width: 28px; height: 28px; color: white; stroke-width: 2; }
+        .sector-name { font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--um-dark-blue); margin-bottom: 12px; line-height: 1.3; }
+        .sector-count { font-family: var(--font-heading); font-size: 32px; font-weight: 700; color: var(--um-orange); margin-bottom: 8px; }
+        .sector-percent { font-size: 14px; color: var(--um-gray-500); font-weight: 600; }
+        
+        /* PHD PIPELINE */
+        .phd-showcase { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 400px 1fr; gap: 50px; align-items: center; }
+        .phd-stat-hero { background: white; border-radius: var(--radius-xl); padding: 60px 40px; text-align: center; box-shadow: var(--shadow-xl); position: relative; overflow: hidden; }
+        .phd-stat-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 70% 30%, rgba(0,162,219,0.1) 0%, transparent 70%); }
+        .phd-big-number { font-family: var(--font-heading); font-size: 96px; font-weight: 700; background: linear-gradient(135deg, var(--um-orange) 0%, #ff6b35 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; position: relative; }
+        .phd-big-label { font-size: 20px; color: var(--um-dark-blue); font-weight: 700; margin-top: 16px; position: relative; }
+        .phd-sub-number { font-family: var(--font-heading); font-size: 40px; font-weight: 700; color: var(--um-light-blue); }
+        .phd-sub-label { font-size: 14px; color: var(--um-gray-600); font-weight: 600; }
+        .phd-details { display: flex; flex-direction: column; gap: 20px; }
+        .phd-detail { background: white; border: 2px solid var(--um-gray-200); border-radius: var(--radius-lg); padding: 24px; display: flex; gap: 16px; }
+        .phd-detail-icon { width: 48px; height: 48px; background: rgba(232,78,16,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .phd-detail-icon i { width: 24px; height: 24px; color: var(--um-orange); }
+        .phd-detail-text { flex: 1; }
+        .phd-detail-title { font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--um-dark-blue); margin-bottom: 6px; }
+        .phd-detail-desc { font-size: 14px; color: var(--um-gray-600); line-height: 1.5; }
+        
+        /* UNIVERSITY EXCELLENCE */
+        .uni-showcase { max-width: 1200px; margin: 0 auto; }
+        .uni-tier { margin-bottom: 50px; }
+        .uni-tier-header { display: flex; align-items: center; gap: 20px; margin-bottom: 32px; }
+        .uni-tier-badge { background: linear-gradient(135deg, var(--um-orange) 0%, #d94008 100%); color: white; padding: 10px 24px; border-radius: 100px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 2px 8px rgba(232,78,16,0.3); }
+        .uni-tier-line { flex: 1; height: 2px; background: linear-gradient(90deg, rgba(255,255,255,0.3), transparent); }
+        .uni-tier-count { font-size: 14px; color: rgba(255,255,255,0.6); font-weight: 600; }
+        .uni-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
+        .uni-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); padding: 24px 16px; text-align: center; transition: all var(--transition-smooth); }
+        .uni-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-4px); }
+        .uni-logo { width: 56px; height: 56px; background: white; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; padding: 8px; }
+        .uni-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .uni-name { font-size: 13px; font-weight: 600; color: white; margin-bottom: 8px; line-height: 1.3; }
+        .uni-count-badge { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--um-orange); }
+        
+        /* GLOBAL FOOTPRINT */
+        .cities-showcase { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+        .city-card { background: white; border: 2px solid var(--um-gray-200); border-radius: var(--radius-lg); padding: 24px 20px; text-align: center; transition: all var(--transition-smooth); }
+        .city-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--um-orange); }
+        .city-rank { width: 32px; height: 32px; background: var(--um-gray-100); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-family: var(--font-heading); font-size: 14px; font-weight: 700; color: var(--um-gray-600); }
+        .city-card:nth-child(1) .city-rank, .city-card:nth-child(2) .city-rank, .city-card:nth-child(3) .city-rank { background: var(--um-orange); color: white; }
+        .city-name { font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--um-dark-blue); margin-bottom: 4px; }
+        .city-country { font-size: 12px; color: var(--um-gray-500); margin-bottom: 12px; }
+        .city-count { font-family: var(--font-heading); font-size: 28px; font-weight: 700; color: var(--um-orange); }
+        .city-label { font-size: 11px; color: var(--um-gray-500); text-transform: uppercase; }
+        
+        /* CTA SECTION */
+        .cta-section { background: linear-gradient(135deg, var(--um-dark-blue) 0%, #001530 100%); padding: 100px 50px; text-align: center; }
+        .cta-content { max-width: 700px; margin: 0 auto; }
+        .cta-title { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: white; margin-bottom: 20px; }
+        .cta-subtitle { font-size: 18px; color: rgba(255,255,255,0.7); margin-bottom: 40px; line-height: 1.6; }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .cta-btn { display: inline-flex; align-items: center; gap: 10px; padding: 18px 36px; border-radius: var(--radius-md); font-family: var(--font-heading); font-size: 16px; font-weight: 600; transition: all var(--transition-smooth); text-decoration: none; }
+        .cta-btn i { width: 20px; height: 20px; }
+        .cta-btn.primary { background: linear-gradient(135deg, var(--um-orange) 0%, #d94008 100%); color: white; box-shadow: 0 4px 16px rgba(232,78,16,0.3); }
+        .cta-btn.primary:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(232,78,16,0.4); color: white; }
+        .cta-btn.secondary { background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border: 2px solid rgba(255,255,255,0.2); color: white; }
+        .cta-btn.secondary:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); color: white; }
+        
+        /* FOOTER */
+        footer { background: var(--um-dark-blue); color: rgba(255,255,255,0.7); padding: 60px 50px 30px; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .footer-brand { padding-right: 20px; }
+        .footer-logo { height: 40px; width: auto; filter: brightness(0) invert(1); margin-bottom: 16px; }
+        .footer-brand h3 { font-size: 16px; font-weight: 700; color: white; margin-bottom: 10px; }
+        .footer-brand p { font-size: 14px; line-height: 1.7; }
+        .footer-links-group h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+        .footer-links-group a { display: block; font-size: 14px; color: rgba(255,255,255,0.65); padding: 5px 0; transition: color var(--transition-fast); }
+        .footer-links-group a:hover { color: white; }
+        .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 24px; font-size: 13px; color: rgba(255,255,255,0.35); }
+        
+        /* TESTIMONIALS SECTION */
+        .testimonials-section { background: linear-gradient(180deg, #fafbfc 0%, white 100%); padding: 100px 50px; }
+        .testimonials-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .testimonial-card { background: white; border: 2px solid var(--um-gray-200); border-radius: var(--radius-lg); padding: 32px 28px; position: relative; transition: all var(--transition-smooth); display: flex; flex-direction: column; min-height: 240px; }
+        .testimonial-card::before { content: '"'; position: absolute; top: 16px; left: 24px; font-family: var(--font-heading); font-size: 120px; font-weight: 700; color: var(--um-gray-100); line-height: 1; z-index: 0; }
+        .testimonial-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--um-orange); }
+        .testimonial-card:nth-child(1) { background: linear-gradient(135deg, rgba(0,162,219,0.02) 0%, white 100%); }
+        .testimonial-card:nth-child(2) { background: linear-gradient(135deg, rgba(232,78,16,0.02) 0%, white 100%); }
+        .testimonial-card:nth-child(3) { background: linear-gradient(135deg, rgba(139,92,246,0.02) 0%, white 100%); }
+        .testimonial-card:nth-child(4) { background: linear-gradient(135deg, rgba(16,185,129,0.02) 0%, white 100%); }
+        .testimonial-card:nth-child(5) { background: linear-gradient(135deg, rgba(245,158,11,0.02) 0%, white 100%); }
+        .testimonial-card:nth-child(6) { background: linear-gradient(135deg, rgba(236,72,153,0.02) 0%, white 100%); }
+        .testimonial-card:nth-child(7) { background: linear-gradient(135deg, rgba(0,162,219,0.02) 0%, white 100%); }
+        .testimonial-card:nth-child(8) { background: linear-gradient(135deg, rgba(232,78,16,0.02) 0%, white 100%); }
+        .testimonial-card:nth-child(9) { background: linear-gradient(135deg, rgba(99,102,241,0.02) 0%, white 100%); }
+        .testimonial-year-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--um-dark-blue); color: white; padding: 6px 14px; border-radius: 100px; font-family: var(--font-heading); font-size: 12px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 20px; z-index: 1; position: relative; width: fit-content; }
+        .testimonial-year-badge i { width: 12px; height: 12px; }
+        .testimonial-quote { font-family: var(--font-body); font-size: 17px; line-height: 1.6; color: var(--um-dark-blue); position: relative; z-index: 1; flex: 1; font-weight: 500; }
+        .testimonial-quote::before { content: ''; position: absolute; top: -8px; left: -12px; width: 4px; height: calc(100% + 16px); background: linear-gradient(180deg, var(--um-orange) 0%, var(--um-light-blue) 100%); border-radius: 100px; opacity: 0; transition: opacity var(--transition-smooth); }
+        .testimonial-card:hover .testimonial-quote::before { opacity: 1; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .testimonials-section { padding: 80px 30px; }
+            .testimonials-grid { grid-template-columns: 1fr; gap: 20px; }
+        }
+        
+        @media (max-width: 1024px) {
+            .hero-title { font-size: 60px; }
+            .learning-journey { flex-direction: column; align-items: center; }
+            .learning-journey::before { display: none; }
+            .outcome-wheel-section { grid-template-columns: 1fr; }
+            .fields-grid { grid-template-columns: repeat(2, 1fr); }
+            .career-sectors { grid-template-columns: repeat(2, 1fr); }
+            .phd-showcase { grid-template-columns: 1fr; }
+            .uni-grid { grid-template-columns: repeat(4, 1fr); }
+            .cities-showcase { grid-template-columns: repeat(3, 1fr); }
+            .footer-container { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title { font-size: 48px; }
+            .fields-grid { grid-template-columns: 1fr; }
+            .career-sectors { grid-template-columns: 1fr; }
+            .uni-grid { grid-template-columns: repeat(2, 1fr); }
+            .cities-showcase { grid-template-columns: repeat(2, 1fr); }
+            .footer-container { grid-template-columns: 1fr; gap: 30px; }
+            .careers-display { min-width: 320px; padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header id="header" class="dark-header">
+        <a href="index.html" class="logo">
+            <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" class="logo-img">
+            <div class="logo-text">
+                <h1>MSP Alumni Network</h1>
+                <p>Maastricht University</p>
+            </div>
+        </a>
+        <nav class="header-nav">
+            <a href="index.html">Home</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="community.html">Community</a>
+            <a href="events.html">Events</a>
+            <a href="stories.html">Stories</a>
+            <a href="considering-msp.html" class="active">Considering MSP?</a>
+            <a href="https://www.maastrichtuniversity.nl/education/bachelor/maastricht-science-programme" target="_blank" class="btn-cta">Visit MSP</a>
+        </nav>
+        <button class="menu-toggle" onclick="toggleMobileNav(this)" aria-label="Menu"><span></span><span></span><span></span></button>
+    </header>
+
+    <!-- === PROFESSIONAL AMBITION-FOCUSED HERO === -->
+    <section class="hero-fullpage">
+        <div class="network-grid"></div>
+        <div class="gradient-overlay"></div>
+        <div class="network-nodes">
+            <div class="network-node"></div>
+            <div class="network-node"></div>
+            <div class="network-node"></div>
+            <div class="network-node"></div>
+            <div class="network-node"></div>
+        </div>
+        
+        <div class="hero-center">
+            <div class="hero-eyebrow">
+                <i data-lucide="graduation-cap" class="hero-eyebrow-icon"></i>
+                Considering MSP?
+            </div>
+            <h1 class="hero-title">
+                Where MSP
+                <span class="highlight">Graduates Go</span>
+            </h1>
+            <p class="hero-subtitle">
+                <span data-stat="totalAlumni-formatted">1,321</span> MSP graduates now study and work at the world's leading institutions. See where an interdisciplinary science education leads—and why MSP opens doors.
+            </p>
+            <div class="journey-flow" id="journeyFlow"></div>
+            <div class="hero-ctas">
+                <a href="#learning" class="hero-btn primary">
+                    <i data-lucide="map"></i>
+                    See the Journey
+                </a>
+                <a href="https://www.maastrichtuniversity.nl/education/bachelor/maastricht-science-programme" target="_blank" class="hero-btn secondary">
+                    <i data-lucide="external-link"></i>
+                    Visit Official MSP
+                </a>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            <span>Explore</span>
+            <i data-lucide="chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- SLEEK STATS BAR - WITH CONTEXT -->
+    <section class="stats-bar">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">233</div>
+                <div class="stat-label">Universities Worldwide</div>
+                <div class="stat-context">Including Oxford, Cambridge, ETH Zürich, Imperial</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-number">8/10</div>
+                <div class="stat-label">QS Top 10 Universities</div>
+                <div class="stat-context">MSP graduates at world-leading institutions</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-number">47%</div>
+                <div class="stat-label">QS Top 100</div>
+                <div class="stat-context">Attend globally ranked universities</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-number">10.7%</div>
+                <div class="stat-label">PhD Track</div>
+                <div class="stat-context">At top research institutions</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="main-content">
+
+        <!-- UM OFFICIAL LINKS -->
+        <section class="um-links-section">
+            <div class="um-links-header">
+                <img src="assets/logos/maastricht-university.png" alt="Maastricht University" class="um-links-logo">
+                <h2 class="um-links-title">Official Programme Information</h2>
+                <p class="um-links-subtitle">Everything you need to know from Maastricht University</p>
+            </div>
+            
+            <div class="um-links-grid">
+                <a href="https://www.maastrichtuniversity.nl/education/bachelor/maastricht-science-programme" target="_blank" class="um-link-card featured">
+                    <div class="um-link-icon">
+                        <i data-lucide="home"></i>
+                    </div>
+                    <div class="um-link-content">
+                        <h3 class="um-link-title">MSP Programme Homepage</h3>
+                        <p class="um-link-desc">The official starting point for all information about MSP at Maastricht University.</p>
+                    </div>
+                    <span class="um-link-arrow"><i data-lucide="arrow-right"></i></span>
+                </a>
+                
+                <a href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/maastricht-science-programme/why-this-programme" target="_blank" class="um-link-card">
+                    <div class="um-link-icon">
+                        <i data-lucide="lightbulb"></i>
+                    </div>
+                    <div class="um-link-content">
+                        <h3 class="um-link-title">Why This Programme</h3>
+                        <p class="um-link-desc">Discover what makes MSP unique and why it's the right choice.</p>
+                    </div>
+                    <span class="um-link-arrow"><i data-lucide="arrow-right"></i></span>
+                </a>
+                
+                <a href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/maastricht-science-programme/courses-and-curriculum" target="_blank" class="um-link-card">
+                    <div class="um-link-icon">
+                        <i data-lucide="book-open"></i>
+                    </div>
+                    <div class="um-link-content">
+                        <h3 class="um-link-title">Courses & Curriculum</h3>
+                        <p class="um-link-desc">Explore the full 3-year curriculum and course details.</p>
+                    </div>
+                    <span class="um-link-arrow"><i data-lucide="arrow-right"></i></span>
+                </a>
+                
+                <a href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/maastricht-science-programme/your-future" target="_blank" class="um-link-card">
+                    <div class="um-link-icon">
+                        <i data-lucide="rocket"></i>
+                    </div>
+                    <div class="um-link-content">
+                        <h3 class="um-link-title">Your Future</h3>
+                        <p class="um-link-desc">Career paths and Master's opportunities after MSP.</p>
+                    </div>
+                    <span class="um-link-arrow"><i data-lucide="arrow-right"></i></span>
+                </a>
+                
+                <a href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/maastricht-science-programme/admission-requirements" target="_blank" class="um-link-card">
+                    <div class="um-link-icon">
+                        <i data-lucide="clipboard-check"></i>
+                    </div>
+                    <div class="um-link-content">
+                        <h3 class="um-link-title">Admission Requirements</h3>
+                        <p class="um-link-desc">Check what you need to apply.</p>
+                    </div>
+                    <span class="um-link-arrow"><i data-lucide="arrow-right"></i></span>
+                </a>
+                
+                <a href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/maastricht-science-programme/admission-and-enrolment" target="_blank" class="um-link-card">
+                    <div class="um-link-icon">
+                        <i data-lucide="user-plus"></i>
+                    </div>
+                    <div class="um-link-content">
+                        <h3 class="um-link-title">Admission & Enrolment</h3>
+                        <p class="um-link-desc">The application process explained.</p>
+                    </div>
+                    <span class="um-link-arrow"><i data-lucide="arrow-right"></i></span>
+                </a>
+                
+                <a href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/maastricht-science-programme/tuition-fees" target="_blank" class="um-link-card">
+                    <div class="um-link-icon">
+                        <i data-lucide="euro"></i>
+                    </div>
+                    <div class="um-link-content">
+                        <h3 class="um-link-title">Tuition Fees</h3>
+                        <p class="um-link-desc">Costs and financial information.</p>
+                    </div>
+                    <span class="um-link-arrow"><i data-lucide="arrow-right"></i></span>
+                </a>
+                
+                <a href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/maastricht-science-programme/contact" target="_blank" class="um-link-card">
+                    <div class="um-link-icon">
+                        <i data-lucide="mail"></i>
+                    </div>
+                    <div class="um-link-content">
+                        <h3 class="um-link-title">Contact</h3>
+                        <p class="um-link-desc">Get in touch with the MSP team.</p>
+                    </div>
+                    <span class="um-link-arrow"><i data-lucide="arrow-right"></i></span>
+                </a>
+            </div>
+        </section>
+        <!-- 3-YEAR JOURNEY (COMPACT) -->
+        <section class="section-compact" id="learning">
+            <div class="section-header-compact">
+                <span class="section-tag">Your Journey</span>
+                <h2>3 Years at MSP</h2>
+                <p>From foundation to independent research</p>
+            </div>
+            
+            <div class="journey-compact">
+                <div class="year-card">
+                    <div class="year-badge">Year 1</div>
+                    <h3>Foundation</h3>
+                    <ul class="year-features">
+                        <li class="clickable-feature" data-feature="y1-core"><i data-lucide="check"></i>Core sciences (Bio, Chem, Physics)</li>
+                        <li class="clickable-feature" data-feature="y1-pbl"><i data-lucide="check"></i>Problem-Based Learning</li>
+                        <li class="clickable-feature" data-feature="y1-lab"><i data-lucide="check"></i>Lab skills introduction</li>
+                    </ul>
+                </div>
+                
+                <div class="year-card">
+                    <div class="year-badge">Year 2</div>
+                    <h3>Specialization</h3>
+                    <ul class="year-features">
+                        <li class="clickable-feature" data-feature="y2-elective"><i data-lucide="check"></i>Elective curriculum</li>
+                        <li class="clickable-feature" data-feature="y2-project"><i data-lucide="check"></i>Project work</li>
+                        <li class="clickable-feature" data-feature="y2-skills"><i data-lucide="check"></i>Advanced skills</li>
+                    </ul>
+                </div>
+                
+                <div class="year-card">
+                    <div class="year-badge">Year 3</div>
+                    <h3>Research</h3>
+                    <ul class="year-features">
+                        <li class="clickable-feature" data-feature="y3-btr"><i data-lucide="check"></i>Bachelor Thesis Research (30 ECTS)</li>
+                        <li class="clickable-feature" data-feature="y3-facilities"><i data-lucide="check"></i>DUB30 & Brightlands labs</li>
+                        <li class="clickable-feature" data-feature="y3-research"><i data-lucide="check"></i>Independent research project</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- WHERE GRADUATES GO (STACKED BAR) -->
+        <section class="section-compact">
+            <div class="section-header-compact">
+                <span class="section-tag">After MSP</span>
+                <h2>Career Trajectories</h2>
+                <p>Where our <span data-stat="totalAlumni-formatted">1,321</span> alumni are today</p>
+            </div>
+            
+            <div class="outcomes-container">
+                <div class="outcomes-bar-wrapper">
+                    <div class="outcomes-stacked-bar">
+                        <div class="bar-segment masters" data-outcome="masters">
+                            <span class="bar-label">77%</span>
+                        </div>
+                        <div class="bar-segment phd" data-outcome="phd">
+                            <span class="bar-label">10.7%</span>
+                        </div>
+                        <div class="bar-segment career" data-outcome="career">
+                            <span class="bar-label">22%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="outcomes-details">
+                    <div class="outcome-detail-card" data-outcome="masters">
+                        <div class="detail-icon">
+                            <i data-lucide="graduation-cap"></i>
+                        </div>
+                        <div class="detail-title">Master's Programs</div>
+                        <div class="detail-description">1,019 alumni at 233 universities worldwide</div>
+                    </div>
+                    
+                    <div class="outcome-detail-card" data-outcome="phd">
+                        <div class="detail-icon">
+                            <i data-lucide="microscope"></i>
+                        </div>
+                        <div class="detail-title">PhD Track</div>
+                        <div class="detail-description">141 candidates + 9 postdocs at leading institutions</div>
+                    </div>
+                    
+                    <div class="outcome-detail-card" data-outcome="career">
+                        <div class="detail-icon">
+                            <i data-lucide="briefcase"></i>
+                        </div>
+                        <div class="detail-title">Direct to Career</div>
+                        <div class="detail-description">295 alumni in workforce across diverse sectors</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- CAREER PATHWAYS FLOW -->
+        <section class="section-compact">
+            <div class="section-header-compact">
+                <span class="section-tag">Career Journeys</span>
+                <h2>From Fields to Careers</h2>
+                <p>Trace the pathways MSP alumni take from their academic focus to diverse career destinations</p>
+            </div>
+            
+            <div class="career-flow-container">
+                <!-- SVG overlay for connections -->
+                <svg id="flowSvg" class="flow-svg"></svg>
+                
+                <div class="flow-stage">
+                    <div class="flow-stage-label">Academic Focus</div>
+                    <div id="flowFields" class="flow-nodes"></div>
+                </div>
+                
+                <div style="grid-column: 2;"></div>
+                
+                <div class="flow-stage">
+                    <div class="flow-stage-label">Career Destinations</div>
+                    <div id="flowCareers" class="flow-nodes"></div>
+                </div>
+            </div>
+            
+            <div class="flow-legend">
+                <i data-lucide="info" style="width: 16px; height: 16px;"></i>
+                <span>Click any career destination to see specific companies, positions, and alumni examples</span>
+            </div>
+        </section>
+        <!-- ELITE UNIVERSITIES -->
+        <section class="section-compact elite-section">
+            <div class="section-header-compact">
+                <span class="section-tag">Academic Excellence</span>
+                <h2>Academic Destinations</h2>
+                <p>MSP opens doors to world-leading institutions</p>
+            </div>
+            
+            <div class="elite-showcase">
+                <div class="elite-grid" id="eliteGrid"></div>
+                <div class="elite-cta">
+                    <a href="destinations.html" class="btn-sleek">
+                        Explore All 233 Universities
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <!-- PHD PIPELINE COMPACT -->
+        <section class="section-compact">
+            <div class="section-header-compact">
+                <span class="section-tag">Research Excellence</span>
+                <h2>The PhD Pipeline</h2>
+                <p>Above-average pathway to doctoral research</p>
+            </div>
+            
+            <div class="phd-compact">
+                <div class="phd-hero-stat">
+                    <div class="phd-big">10.7%</div>
+                    <div class="phd-small">Pursuing PhDs</div>
+                    <div class="phd-note">vs. 3-5% typical rate</div>
+                </div>
+                <div class="phd-details-compact">
+                    <div class="phd-fact">
+                        <i data-lucide="users"></i>
+                        <div>
+                            <strong>141 PhD Candidates</strong>
+                            <span>Plus 9 postdocs</span>
+                        </div>
+                    </div>
+                    <div class="phd-fact">
+                        <i data-lucide="award"></i>
+                        <div>
+                            <strong>Elite Institutions</strong>
+                            <span>Max Planck, ETH Zurich, Cambridge, Oxford</span>
+                        </div>
+                    </div>
+                    <div class="phd-fact">
+                        <i data-lucide="globe"></i>
+                        <div>
+                            <strong>204 in Academia</strong>
+                            <span>15.4% of all alumni</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- TESTIMONIALS -->
+        <section class="testimonials-section">
+            <div class="section-header-compact">
+                <span class="section-tag">In Their Words</span>
+                <h2>What Alumni Say</h2>
+                <p>Real experiences from MSP graduates</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-year-badge">
+                        <i data-lucide="graduation-cap"></i>
+                        MSP Graduate  -  2016
+                    </div>
+                    <div class="testimonial-quote">
+                        "The learning environment at MSP nurtured curiosity, encouraged independent thinking, and reignited my genuine enjoyment of learning."
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-year-badge">
+                        <i data-lucide="graduation-cap"></i>
+                        MSP Graduate  -  2023
+                    </div>
+                    <div class="testimonial-quote">
+                        "Your degree doesn't lock you into one career - it can open doors you didn't even know existed."
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-year-badge">
+                        <i data-lucide="graduation-cap"></i>
+                        MSP Graduate  -  2022
+                    </div>
+                    <div class="testimonial-quote">
+                        "We learned how to adapt our narrative to our audience. This remains one of the most valuable skills I bring to the workplace."
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-year-badge">
+                        <i data-lucide="graduation-cap"></i>
+                        MSP Graduate  -  2022
+                    </div>
+                    <div class="testimonial-quote">
+                        "The small class sizes, supportive staff, and sense of community are special - not something you easily find again."
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-year-badge">
+                        <i data-lucide="graduation-cap"></i>
+                        MSP Graduate  -  2015
+                    </div>
+                    <div class="testimonial-quote">
+                        "MSP has a very unique atmosphere that is not found anywhere else. My classmates were inspirational."
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-year-badge">
+                        <i data-lucide="graduation-cap"></i>
+                        MSP Graduate  -  2020
+                    </div>
+                    <div class="testimonial-quote">
+                        "MSP allowed me to explore my interests while still receiving guidance. This helped me feel confident making decisions about my future."
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-year-badge">
+                        <i data-lucide="graduation-cap"></i>
+                        MSP Graduate  -  2019
+                    </div>
+                    <div class="testimonial-quote">
+                        "I really enjoyed the programme's multidisciplinary approach. MSP was the perfect way to explore a wide range of subjects across very different disciplines."
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-year-badge">
+                        <i data-lucide="graduation-cap"></i>
+                        MSP Graduate  -  2021
+                    </div>
+                    <div class="testimonial-quote">
+                        "The skills courses and project work were especially important - they helped me build practical skills that became essential in my academic journey."
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-year-badge">
+                        <i data-lucide="graduation-cap"></i>
+                        MSP Graduate  -  2024
+                    </div>
+                    <div class="testimonial-quote">
+                        "MSP gave me the freedom to discover early on and the confidence to change direction without feeling limited by my degree."
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- FINAL CTA -->
+        <section class="cta-final">
+            <div class="cta-content-final">
+                <h2>Ready to Start Your Journey?</h2>
+                <p>Join <span data-stat="totalAlumni-formatted">1,321</span> alumni who began their scientific careers at MSP</p>
+                <div class="cta-buttons-final">
+                    <a href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/maastricht-science-programme/admission-and-enrolment" target="_blank" class="btn-final primary">
+                        Apply to MSP
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                    <a href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/maastricht-science-programme/contact" target="_blank" class="btn-final secondary">
+                        Contact Us
+                        <i data-lucide="mail"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" class="footer-logo">
+                <h3>MSP Alumni Network</h3>
+                <p>Connecting MSP graduates from the Maastricht Science Programme across the world. Part of the Faculty of Science and Engineering at Maastricht University.</p>
+            </div>
+            <div class="footer-links-group">
+                <h4>Explore</h4>
+                <a href="index.html">Home</a>
+                <a href="destinations.html">Destinations</a>
+                <a href="community.html">Community</a>
+                <a href="events.html">Events</a>
+                <a href="stories.html">Stories</a>
+            </div>
+            <div class="footer-links-group">
+                <h4>Connect</h4>
+                <a href="considering-msp.html">Considering MSP?</a>
+                <a href="https://www.maastrichtuniversity.nl" target="_blank">Maastricht University</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <div class="footer-links-group">
+                <h4>Follow Us</h4>
+                <a href="https://www.instagram.com/msp_alumni/" target="_blank">Instagram</a>
+                <a href="https://www.linkedin.com/groups/12893377/" target="_blank">LinkedIn (MSP)</a>
+                <a href="https://www.linkedin.com/groups/4689010/" target="_blank">LinkedIn (FSE)</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 MSP Alumni Network. Maastricht University, Faculty of Science and Engineering.</p>
+        </div>
+    </footer>
+
+    <style>
+        /* ===== SLEEK REDESIGN STYLES ===== */
+        
+        /* Stats Bar */
+        .stats-bar {
+            background: linear-gradient(135deg, var(--um-dark-blue) 0%, #002b5c 100%);
+            padding: 40px 50px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 42px;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .stat-context {
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+            font-weight: 400;
+            line-height: 1.4;
+            max-width: 180px;
+            margin: 0 auto;
+        }
+        .stat-divider {
+            width: 1px;
+            height: 50px;
+            background: rgba(255,255,255,0.15);
+        }
+        
+        /* Main Content Wrapper */
+        .main-content {
+            background: #f8fafc;
+            padding: 80px 50px;
+        }
+        
+        /* Compact Sections */
+        .section-compact {
+            max-width: 1200px;
+            margin: 0 auto 80px;
+        }
+        .section-compact:last-child {
+            margin-bottom: 0;
+        }
+        .section-header-compact {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-tag {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--um-orange);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 6px 16px;
+            background: rgba(232,78,16,0.1);
+            border-radius: 100px;
+            margin-bottom: 16px;
+        }
+        .section-header-compact h2 {
+            font-family: var(--font-heading);
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            margin-bottom: 12px;
+        }
+        .section-header-compact p {
+            font-size: 16px;
+            color: var(--um-gray-600);
+        }
+        
+        /* Journey Compact - Clean Timeline */
+        .journey-compact {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            position: relative;
+        }
+        
+        .year-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-smooth);
+            border: 1px solid var(--um-gray-200);
+            position: relative;
+        }
+        
+        .year-card::before {
+            content: '';
+            position: absolute;
+            left: -14px;
+            top: 45px;
+            width: 4px;
+            height: 60px;
+            background: var(--um-light-blue);
+            border-radius: 2px;
+            transition: all var(--transition-smooth);
+        }
+        
+        .year-card:nth-child(3)::before {
+            background: var(--um-orange);
+        }
+        
+        .year-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .year-card:hover::before {
+            height: 80px;
+            background: var(--um-orange);
+        }
+        
+        .year-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            background: var(--um-light-blue);
+            padding: 6px 14px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        
+        .year-card:nth-child(3) .year-badge {
+            background: var(--um-orange);
+        }
+        
+        .year-card h3 {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            margin-bottom: 20px;
+        }
+        
+        .year-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .year-features li {
+            display: flex;
+            align-items: start;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--um-gray-700);
+            line-height: 1.5;
+        }
+        .year-features li i {
+            width: 16px;
+            height: 16px;
+            color: var(--um-orange);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .clickable-feature {
+            cursor: pointer;
+            padding: 6px 10px;
+            margin-left: -10px;
+            margin-right: -10px;
+            border-radius: 6px;
+            transition: all var(--transition-fast);
+        }
+        .clickable-feature:hover {
+            background: var(--um-gray-50);
+            color: var(--um-dark-blue);
+        }
+        .clickable-feature:hover i {
+            color: var(--um-light-blue);
+        }
+        
+        /* Outcomes Stacked Bar */
+        .outcomes-container {
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: 50px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .outcomes-bar-wrapper {
+            margin-bottom: 40px;
+        }
+        
+        .outcomes-stacked-bar {
+            display: flex;
+            height: 80px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            position: relative;
+        }
+        
+        .bar-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all var(--transition-smooth);
+            cursor: pointer;
+        }
+        
+        .bar-segment:hover {
+            filter: brightness(1.1);
+            transform: scaleY(1.05);
+        }
+        
+        .bar-segment.masters {
+            background: linear-gradient(135deg, var(--um-light-blue), #0077b6);
+            width: 77%;
+        }
+        
+        .bar-segment.phd {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            width: 10.7%;
+        }
+        
+        .bar-segment.career {
+            background: linear-gradient(135deg, var(--um-orange), #d94008);
+            width: 22%;
+        }
+        
+        .bar-label {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .outcomes-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .outcome-detail-card {
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            padding: 24px;
+            border-radius: var(--radius-md);
+        }
+        
+        .outcome-detail-card:hover {
+            transform: translateY(-4px);
+            background: var(--um-gray-50);
+        }
+        
+        .detail-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+        
+        .outcome-detail-card:nth-child(1) .detail-icon {
+            background: linear-gradient(135deg, var(--um-light-blue), #0077b6);
+        }
+        
+        .outcome-detail-card:nth-child(2) .detail-icon {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+        }
+        
+        .outcome-detail-card:nth-child(3) .detail-icon {
+            background: linear-gradient(135deg, var(--um-orange), #d94008);
+        }
+        
+        .detail-icon i {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+        
+        .detail-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            margin-bottom: 8px;
+        }
+        
+        .detail-description {
+            font-size: 14px;
+            color: var(--um-gray-600);
+            line-height: 1.5;
+        }
+        
+        /* Careers Grid */
+        /* Career Flow Visualization */
+        .career-flow-container {
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            gap: 40px;
+            margin: 40px 0;
+            padding: 40px;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: visible;
+            align-items: center;
+        }
+        .flow-stage {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            z-index: 2;
+        }
+        .flow-stage-label {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--um-gray-600);
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--um-gray-200);
+        }
+        .flow-nodes {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .flow-node {
+            padding: 14px 18px;
+            background: white;
+            border: 2px solid var(--um-gray-200);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            position: relative;
+        }
+        .flow-node:hover {
+            border-color: var(--um-orange);
+            transform: translateX(4px);
+            box-shadow: var(--shadow-sm);
+        }
+        .flow-node.field-node {
+            border-left: 4px solid;
+        }
+        .flow-node.career-node {
+            border-right: 4px solid;
+        }
+        .flow-node-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--um-dark-blue);
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+        .flow-node-count {
+            font-size: 12px;
+            color: var(--um-gray-600);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .flow-node-count i {
+            width: 14px;
+            height: 14px;
+        }
+        .flow-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .flow-path {
+            fill: none;
+            stroke-width: 2;
+            opacity: 0.15;
+            transition: all var(--transition-smooth);
+        }
+        .flow-path.highlighted {
+            opacity: 0.75;
+            stroke-width: 4;
+            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+        }
+        .flow-node.active-hover {
+            background: var(--um-gray-50);
+            box-shadow: var(--shadow-md);
+            transform: translateX(6px);
+        }
+        .flow-legend {
+            margin-top: 24px;
+            padding: 16px 20px;
+            background: var(--um-gray-50);
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--um-light-blue);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--um-gray-700);
+        }
+        .flow-legend i {
+            color: var(--um-light-blue);
+        }
+        
+        /* Elite Section */
+        .elite-section {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 60px;
+            box-shadow: var(--shadow-md);
+            margin-top: 80px;
+        }
+        .elite-stat-bar {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .elite-stat {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 12px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, var(--um-dark-blue), #002b5c);
+            border-radius: 100px;
+        }
+        .elite-number {
+            font-family: var(--font-heading);
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+        }
+        .elite-label {
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+            font-weight: 600;
+        }
+        .elite-label-only {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+        .elite-citation {
+            font-size: 11px;
+            color: var(--um-gray-500);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+        .elite-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .uni-card-compact {
+            background: var(--um-gray-50);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+            transition: all var(--transition-smooth);
+            border: 1px solid var(--um-gray-200);
+        }
+        .uni-card-compact:hover {
+            background: white;
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--um-light-blue);
+        }
+        .uni-logo-compact {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin: 0 auto 12px;
+            display: block;
+        }
+        .uni-name-compact {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--um-dark-blue);
+            line-height: 1.2;
+        }
+        .elite-cta {
+            text-align: center;
+        }
+        .btn-sleek {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: var(--um-orange);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 15px;
+            transition: all var(--transition-smooth);
+            text-decoration: none;
+        }
+        .btn-sleek:hover {
+            background: #d94008;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            color: white;
+        }
+        .btn-sleek i {
+            width: 18px;
+            height: 18px;
+        }
+        
+        /* PhD Compact */
+        .phd-compact {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 50px;
+            box-shadow: var(--shadow-md);
+        }
+        .phd-hero-stat {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--um-dark-blue), #002b5c);
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .phd-big {
+            font-family: var(--font-heading);
+            font-size: 72px;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+        .phd-small {
+            font-size: 16px;
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .phd-note {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+        }
+        .phd-details-compact {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            justify-content: center;
+        }
+        .phd-fact {
+            display: flex;
+            align-items: start;
+            gap: 16px;
+        }
+        .phd-fact i {
+            width: 24px;
+            height: 24px;
+            color: var(--um-orange);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .phd-fact strong {
+            display: block;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            margin-bottom: 4px;
+        }
+        .phd-fact span {
+            font-size: 14px;
+            color: var(--um-gray-600);
+        }
+        
+        /* UM Links Section */
+        .um-links-section {
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 60px;
+            box-shadow: var(--shadow-md);
+        }
+        .um-links-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .um-links-logo {
+            height: 50px;
+            margin-bottom: 24px;
+        }
+        .um-links-title {
+            font-family: var(--font-heading);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            margin-bottom: 12px;
+        }
+        .um-links-subtitle {
+            font-size: 16px;
+            color: var(--um-gray-600);
+        }
+        .um-links-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .um-link-card {
+            background: var(--um-gray-50);
+            border: 2px solid var(--um-gray-200);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all var(--transition-smooth);
+            text-decoration: none;
+            position: relative;
+        }
+        .um-link-card:hover {
+            background: white;
+            border-color: var(--um-light-blue);
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+        .um-link-card.featured {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, var(--um-dark-blue), #002b5c);
+            border-color: var(--um-dark-blue);
+        }
+        .um-link-card.featured:hover {
+            background: linear-gradient(135deg, #002b5c, var(--um-dark-blue));
+        }
+        .um-link-card.featured .um-link-title,
+        .um-link-card.featured .um-link-desc {
+            color: white;
+        }
+        .um-link-card.featured .um-link-icon {
+            background: rgba(255,255,255,0.15);
+        }
+        .um-link-card.featured .um-link-icon i {
+            color: white;
+        }
+        .um-link-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .um-link-icon i {
+            width: 24px;
+            height: 24px;
+            color: var(--um-light-blue);
+        }
+        .um-link-content {
+            flex: 1;
+        }
+        .um-link-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            margin-bottom: 6px;
+        }
+        .um-link-desc {
+            font-size: 14px;
+            color: var(--um-gray-600);
+            line-height: 1.4;
+        }
+        .um-link-arrow {
+            width: 24px;
+            height: 24px;
+            color: var(--um-gray-400);
+            flex-shrink: 0;
+            transition: all var(--transition-smooth);
+        }
+        .um-link-card:hover .um-link-arrow {
+            color: var(--um-light-blue);
+            transform: translateX(4px);
+        }
+        .um-link-card.featured .um-link-arrow {
+            color: rgba(255,255,255,0.6);
+        }
+        .um-link-card.featured:hover .um-link-arrow {
+            color: white;
+        }
+        .um-link-arrow i {
+            width: 24px;
+            height: 24px;
+        }
+        
+        /* Final CTA */
+        .cta-final {
+            background: linear-gradient(135deg, var(--um-dark-blue), #002b5c);
+            border-radius: var(--radius-xl);
+            padding: 80px 60px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .cta-content-final h2 {
+            font-family: var(--font-heading);
+            font-size: 42px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+        }
+        .cta-content-final p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 36px;
+        }
+        .cta-buttons-final {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-final {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 16px;
+            transition: all var(--transition-smooth);
+            text-decoration: none;
+        }
+        .btn-final.primary {
+            background: var(--um-orange);
+            color: white;
+        }
+        .btn-final.primary:hover {
+            background: #ff5a1f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(232,78,16,0.3);
+            color: white;
+        }
+        .btn-final.secondary {
+            background: white;
+            color: var(--um-dark-blue);
+        }
+        .btn-final.secondary:hover {
+            background: var(--um-gray-100);
+            transform: translateY(-2px);
+            color: var(--um-dark-blue);
+        }
+        .btn-final i {
+            width: 18px;
+            height: 18px;
+        }
+        
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-container { flex-wrap: wrap; gap: 30px; }
+            .stat-divider { display: none; }
+            .journey-compact { 
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+            .year-card::before {
+                display: none;
+            }
+            .outcomes-container {
+                padding: 30px 24px;
+            }
+            .outcomes-stacked-bar {
+                height: 60px;
+            }
+            .bar-label {
+                font-size: 20px;
+            }
+            .outcomes-details {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .career-flow-container { grid-template-columns: 1fr; gap: 30px; }
+            .flow-svg { display: none; } /* Hide connections on tablet */
+            .elite-grid { grid-template-columns: repeat(3, 1fr); }
+            .phd-compact { grid-template-columns: 1fr; }
+            .um-links-grid { grid-template-columns: 1fr; }
+            .footer-container { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        @media (max-width: 768px) {
+            .main-content { padding: 60px 24px; }
+            .career-flow-container { padding: 24px; }
+            .flow-stage-label { font-size: 11px; }
+            .flow-node { padding: 12px 14px; }
+            .flow-node-label { font-size: 13px; }
+            .elite-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-container { grid-template-columns: 1fr; gap: 30px; }
+        }
+        
+        /* ===== MODAL STYLES ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.2s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: var(--radius-lg);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 30px;
+            background: var(--um-dark-blue);
+            color: white;
+            position: relative;
+        }
+        .modal-header h3 {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+            flex: 1;
+        }
+        .modal-uni-logo {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 12px;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+        .modal-uni-logo img {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: contain;
+        }
+        .modal-uni-location {
+            font-size: 14px;
+            opacity: 0.8;
+            margin: 4px 0 0 0;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 32px;
+            font-weight: 300;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all var(--transition-fast);
+        }
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+        .modal-body {
+            padding: 30px;
+            max-height: calc(80vh - 120px);
+            overflow-y: auto;
+        }
+        .modal-section {
+            margin-bottom: 24px;
+        }
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+        .modal-section-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--um-gray-600);
+            margin-bottom: 12px;
+        }
+        .modal-examples {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .modal-example {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--um-gray-50);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--um-dark-blue);
+        }
+        .modal-example i {
+            width: 18px;
+            height: 18px;
+            color: var(--um-orange);
+            flex-shrink: 0;
+        }
+        .modal-stat-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .modal-stat-item {
+            flex: 1;
+            text-align: center;
+            padding: 16px;
+            background: var(--um-gray-50);
+            border-radius: 8px;
+        }
+        .modal-stat-number {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            display: block;
+        }
+        .modal-stat-label {
+            font-size: 12px;
+            color: var(--um-gray-600);
+            display: block;
+            margin-top: 4px;
+        }
+        .modal-info-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--um-gray-700);
+        }
+        
+        /* Career Detail Modal Styles */
+        .career-examples-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .career-example-item {
+            padding: 14px;
+            background: var(--um-gray-50);
+            border-left: 3px solid var(--um-light-blue);
+            border-radius: var(--radius-sm);
+        }
+        .career-example-company {
+            font-weight: 600;
+            color: var(--um-dark-blue);
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .career-example-position {
+            font-size: 13px;
+            color: var(--um-gray-700);
+            line-height: 1.4;
+        }
+        .career-modal-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .career-modal-icon i {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+        
+        /* Enhanced Career Cards with Icons */
+        .career-icon-compact i {
+            color: var(--icon-color, white);
+        }
+    </style>
+
+    <script>
+        // Mobile nav toggle
+        function toggleMobileNav(btn) {
+            const nav = document.querySelector('.header-nav');
+            const isOpen = nav.classList.contains('open');
+            btn.classList.toggle('open');
+            nav.classList.toggle('open');
+
+            if (!isOpen) {
+                const backdrop = document.createElement('div');
+                backdrop.className = 'nav-backdrop';
+                backdrop.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);z-index:999;opacity:0;transition:opacity 0.3s ease';
+                document.body.appendChild(backdrop);
+                document.body.style.overflow = 'hidden';
+                requestAnimationFrame(() => backdrop.style.opacity = '1');
+                backdrop.addEventListener('click', () => toggleMobileNav(btn));
+            } else {
+                const backdrop = document.querySelector('.nav-backdrop');
+                if (backdrop) {
+                    backdrop.style.opacity = '0';
+                    setTimeout(() => backdrop.remove(), 300);
+                }
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close mobile nav when a link is clicked
+        document.querySelectorAll('.header-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                const btn = document.querySelector('.menu-toggle');
+                if (btn.classList.contains('open')) {
+                    toggleMobileNav(btn);
+                }
+            });
+        });
+
+        // === DATA FROM data.js ===
+        const data = MSP_DATA.consideringMSP;
+        
+        // Hero journey flow
+        const heroStats = data.heroStats;
+        const journeyHTML = `
+            <div class="journey-node highlight">
+                <div class="journey-number">${heroStats.alumni.toLocaleString()}</div>
+                <div class="journey-label">Alumni</div>
+            </div>
+            <div class="journey-arrow"><i data-lucide="arrow-right"></i></div>
+            <div class="journey-node">
+                <div class="journey-number">${heroStats.nationalities}</div>
+                <div class="journey-label">Nationalities</div>
+            </div>
+            <div class="journey-arrow"><i data-lucide="arrow-right"></i></div>
+            <div class="journey-node">
+                <div class="journey-number">${heroStats.universities}+</div>
+                <div class="journey-label">Universities</div>
+            </div>
+        `;
+        document.getElementById('journeyFlow').innerHTML = journeyHTML;
+        
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.pageYOffset > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Populate career flow visualization
+        const fieldsData = data.fieldToCareer;
+        const careersData = data.careerSectors.slice(0, 10); // Top 10 careers
+        
+        // Render field nodes with data-index for hover tracking
+        const fieldsHTML = fieldsData.map((field, index) => `
+            <div class="flow-node field-node" 
+                 style="border-color: ${field.color};"
+                 data-field-index="${index}"
+                 data-color="${field.color}">
+                <div class="flow-node-label">${field.field}</div>
+                <div class="flow-node-count">
+                    <i data-lucide="users"></i>
+                    <span>${field.count} alumni</span>
+                </div>
+            </div>
+        `).join('');
+        document.getElementById('flowFields').innerHTML = fieldsHTML;
+        
+        // Render career nodes with data-index for hover tracking
+        const careersHTML = careersData.map((career, index) => `
+            <div class="flow-node career-node" 
+                 style="border-color: ${career.color};"
+                 data-career='${JSON.stringify(career)}'
+                 data-career-index="${index}"
+                 data-color="${career.color}"
+                 onclick="showCareerModal(this)">
+                <div class="flow-node-label">${career.name}</div>
+                <div class="flow-node-count">
+                    <i data-lucide="briefcase"></i>
+                    <span>${career.count} alumni</span>
+                </div>
+            </div>
+        `).join('');
+        document.getElementById('flowCareers').innerHTML = careersHTML;
+        
+        // Draw SVG connections after a brief delay to allow DOM to render
+        setTimeout(() => {
+            try {
+                const svg = document.getElementById('flowSvg');
+                const container = document.querySelector('.career-flow-container');
+                const fieldNodes = document.querySelectorAll('.field-node');
+                const careerNodes = document.querySelectorAll('.career-node');
+                
+                if (!container || !svg || fieldNodes.length === 0 || careerNodes.length === 0) {
+                    console.log('Career flow elements not found, skipping SVG rendering');
+                    return;
+                }
+                
+                // Get container dimensions and position
+                const containerRect = container.getBoundingClientRect();
+                const containerPadding = 40; // Match the padding in CSS
+                
+                // Set SVG dimensions to match container
+                svg.setAttribute('width', containerRect.width);
+                svg.setAttribute('height', containerRect.height);
+                svg.setAttribute('viewBox', `0 0 ${containerRect.width} ${containerRect.height}`);
+                
+                // Draw connections with data attributes for hover tracking
+                fieldNodes.forEach((fieldNode, fieldIndex) => {
+                    careerNodes.forEach((careerNode, careerIndex) => {
+                        const fieldRect = fieldNode.getBoundingClientRect();
+                        const careerRect = careerNode.getBoundingClientRect();
+                        
+                        // Calculate positions relative to container
+                        // Start: right edge of field node
+                        const x1 = fieldRect.right - containerRect.left;
+                        const y1 = (fieldRect.top + fieldRect.bottom) / 2 - containerRect.top;
+                        
+                        // End: left edge of career node
+                        const x2 = careerRect.left - containerRect.left;
+                        const y2 = (careerRect.top + careerRect.bottom) / 2 - containerRect.top;
+                        
+                        // Create smooth bezier curve
+                        const controlOffset = Math.abs(x2 - x1) * 0.4; // 40% of horizontal distance
+                        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        const d = `M ${x1} ${y1} C ${x1 + controlOffset} ${y1}, ${x2 - controlOffset} ${y2}, ${x2} ${y2}`;
+                        path.setAttribute('d', d);
+                        path.setAttribute('class', 'flow-path');
+                        
+                        // Add data attributes for hover tracking
+                        path.setAttribute('data-field-index', fieldIndex);
+                        path.setAttribute('data-career-index', careerIndex);
+                        
+                        // Get field and career colors
+                        const fieldColor = fieldsData[fieldIndex]?.color || '#ccc';
+                        const careerColor = careersData[careerIndex]?.color || '#ccc';
+                        
+                        // Create gradient
+                        const gradientId = `gradient-${fieldIndex}-${careerIndex}`;
+                        const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+                        gradient.setAttribute('id', gradientId);
+                        gradient.setAttribute('x1', '0%');
+                        gradient.setAttribute('x2', '100%');
+                        
+                        const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                        stop1.setAttribute('offset', '0%');
+                        stop1.setAttribute('stop-color', fieldColor);
+                        
+                        const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+                        stop2.setAttribute('offset', '100%');
+                        stop2.setAttribute('stop-color', careerColor);
+                        
+                        gradient.appendChild(stop1);
+                        gradient.appendChild(stop2);
+                        svg.appendChild(gradient);
+                        
+                        path.setAttribute('stroke', `url(#${gradientId})`);
+                        svg.appendChild(path);
+                    });
+                });
+                
+                // Add hover interactions to highlight connections
+                fieldNodes.forEach((node, index) => {
+                    node.addEventListener('mouseenter', () => {
+                        // Highlight the node itself
+                        node.classList.add('active-hover');
+                        // Highlight all paths connected to this field
+                        document.querySelectorAll('.flow-path').forEach(path => {
+                            if (parseInt(path.getAttribute('data-field-index')) === index) {
+                                path.classList.add('highlighted');
+                            }
+                        });
+                    });
+                    node.addEventListener('mouseleave', () => {
+                        node.classList.remove('active-hover');
+                        document.querySelectorAll('.flow-path').forEach(path => {
+                            path.classList.remove('highlighted');
+                        });
+                    });
+                });
+                
+                careerNodes.forEach((node, index) => {
+                    node.addEventListener('mouseenter', () => {
+                        // Highlight the node itself
+                        node.classList.add('active-hover');
+                        // Highlight all paths connected to this career
+                        document.querySelectorAll('.flow-path').forEach(path => {
+                            if (parseInt(path.getAttribute('data-career-index')) === index) {
+                                path.classList.add('highlighted');
+                            }
+                        });
+                    });
+                    node.addEventListener('mouseleave', () => {
+                        node.classList.remove('active-hover');
+                        document.querySelectorAll('.flow-path').forEach(path => {
+                            path.classList.remove('highlighted');
+                        });
+                    });
+                });
+            } catch (error) {
+                console.error('Error drawing career flow SVG:', error);
+            }
+        }, 100);
+        
+        // Populate elite universities (top 12 - 2 rows of 6)
+        const worldTop10 = data.universityTiers.worldTop10.universities;
+        const worldTop25 = data.universityTiers.worldTop25.universities;
+        const eliteUnis = [...worldTop10, ...worldTop25].slice(0, 12);
+        const eliteHTML = eliteUnis.map(uni => `
+            <div class="uni-card-compact" onclick="showUniModal('${uni.name}', ${uni.count})" style="cursor: pointer;">
+                <img src="assets/logos/${uni.logo}" alt="${uni.name}" class="uni-logo-compact">
+                <div class="uni-name-compact">${uni.name}</div>
+            </div>
+        `).join('');
+        document.getElementById('eliteGrid').innerHTML = eliteHTML;
+        
+        // Add click handlers to outcome cards
+        document.querySelectorAll('.outcome-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const outcomeType = this.getAttribute('data-outcome');
+                showOutcomeModal(outcomeType);
+            });
+        });
+        
+        // Show career modal with details
+        window.showCareerModal = function(element) {
+            const careerData = JSON.parse(element.getAttribute('data-career'));
+            const modal = document.getElementById('careerModal');
+            
+            document.getElementById('modalCareerTitle').textContent = careerData.name;
+            
+            // Create examples HTML
+            let examplesHTML = '';
+            if (careerData.examples && careerData.examples.length > 0) {
+                examplesHTML = careerData.examples.map(ex => `
+                    <div class="modal-example">
+                        <i data-lucide="arrow-right"></i>
+                        <span>${ex}</span>
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('modalCareerBody').innerHTML = `
+                <div class="modal-section">
+                    <div class="modal-stat-row">
+                        <div class="modal-stat-item">
+                            <span class="modal-stat-number">${careerData.count}</span>
+                            <span class="modal-stat-label">Alumni in this sector</span>
+                        </div>
+                        <div class="modal-stat-item">
+                            <span class="modal-stat-number">${careerData.percent}%</span>
+                            <span class="modal-stat-label">Of all graduates</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <p class="modal-info-text">${careerData.description}</p>
+                </div>
+                ${examplesHTML ? `
+                <div class="modal-section">
+                    <div class="modal-section-title">Example Positions</div>
+                    <div class="modal-examples">${examplesHTML}</div>
+                </div>
+                ` : ''}
+            `;
+            
+            modal.style.display = 'block';
+            lucide.createIcons();
+        }
+        
+        // Show outcome modal
+        window.showOutcomeModal = function(type) {
+            const modal = document.getElementById('outcomeModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            const outcomeData = {
+                masters: {
+                    title: "Master's Programs",
+                    stat: "77% of MSP Graduates",
+                    description: "Most MSP graduates continue their academic journey with master's programs at 233 universities worldwide. Our alumni pursue diverse fields from life sciences to engineering, often at world-class institutions.",
+                    examples: [
+                        "Master's in Biomedical Sciences at Utrecht University",
+                        "MSc Molecular Medicine at Imperial College London",
+                        "Master's in Chemical Engineering at ETH Zurich",
+                        "MSc Bioinformatics at Leiden University",
+                        "Master's in Neuroscience at University of Amsterdam",
+                        "MSc Environmental Sciences at Wageningen University"
+                    ]
+                },
+                phd: {
+                    title: "PhD Research Track",
+                    stat: "10.7% of MSP Graduates",
+                    description: "A significant portion of our alumni pursue doctoral research, with 141 current PhD candidates and 9 postdocs. They conduct cutting-edge research at prestigious institutions worldwide.",
+                    examples: [
+                        "PhD in Systems Biology at Max Planck Institute",
+                        "Doctoral Research in Quantum Physics at ETH Zurich",
+                        "PhD in Cancer Biology at University of Cambridge",
+                        "Research Fellow in Neuroscience at Karolinska Institutet",
+                        "PhD in Materials Science at EPFL",
+                        "Doctoral Candidate in Drug Discovery at University of Oxford"
+                    ]
+                },
+                career: {
+                    title: "Direct to Career",
+                    stat: "22% of MSP Graduates",
+                    description: "Nearly a quarter of our alumni enter the workforce directly after graduation, bringing their interdisciplinary science background to diverse sectors including consulting, technology, pharma, and startups.",
+                    examples: [
+                        "Junior Consultant at McKinsey & Company",
+                        "Data Scientist at Booking.com",
+                        "Research Scientist at AstraZeneca",
+                        "Process Engineer at ASML",
+                        "Sustainability Analyst at Deloitte",
+                        "Biotech Researcher at Novartis"
+                    ]
+                }
+            };
+            
+            const content = outcomeData[type];
+            modalTitle.textContent = content.title;
+            
+            const examplesHTML = content.examples.map(ex => `
+                <div class="modal-example">
+                    <i data-lucide="arrow-right"></i>
+                    <span>${ex}</span>
+                </div>
+            `).join('');
+            
+            modalBody.innerHTML = `
+                <div class="modal-section">
+                    <div class="modal-stat-row">
+                        <div class="modal-stat-item">
+                            <span class="modal-stat-number">${content.stat.split(' ')[0]}</span>
+                            <span class="modal-stat-label">${content.stat.substring(content.stat.indexOf(' ') + 1)}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <p class="modal-info-text">${content.description}</p>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">Example Paths</div>
+                    <div class="modal-examples">${examplesHTML}</div>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+            lucide.createIcons();
+        }
+        
+        // Show university modal
+        window.showUniModal = function(uniName, alumniCount) {
+            console.log('showUniModal called with:', uniName, alumniCount);
+            const modal = document.getElementById('uniModal');
+            
+            if (!modal) {
+                console.error('Modal element not found!');
+                return;
+            }
+            
+            if (!data || !data.consideringMSP || !data.consideringMSP.universityDetails) {
+                console.error('Data structure not found!');
+                return;
+            }
+            
+            const uniDetails = data.consideringMSP.universityDetails[uniName];
+            
+            if (!uniDetails) {
+                console.error('University details not found for:', uniName);
+                console.log('Available universities:', Object.keys(data.consideringMSP.universityDetails));
+                return;
+            }
+            
+            document.getElementById('modalUniName').textContent = uniDetails.fullName;
+            document.getElementById('modalUniLocation').textContent = uniDetails.location;
+            
+            // Find the university in the data to get its logo
+            const allUnis = [...data.universityTiers.worldTop10.universities, ...data.universityTiers.worldTop25.universities];
+            const uni = allUnis.find(u => u.name === uniName);
+            const logoHTML = uni ? `<img src="assets/logos/${uni.logo}" alt="${uniName}">` : '';
+            document.getElementById('modalUniLogo').innerHTML = logoHTML;
+            
+            document.getElementById('modalUniBody').innerHTML = `
+                <div class="modal-section">
+                    <div class="modal-stat-row">
+                        <div class="modal-stat-item">
+                            <span class="modal-stat-number">${uniDetails.ranking || 'N/A'}</span>
+                            <span class="modal-stat-label">QS World Ranking 2025</span>
+                        </div>
+                        <div class="modal-stat-item">
+                            <span class="modal-stat-number">${uniDetails.founded}</span>
+                            <span class="modal-stat-label">Founded</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <div class="modal-section-title">About</div>
+                    <p class="modal-info-text">${uniDetails.info}</p>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+        
+        // Add click handlers to curriculum features
+        document.querySelectorAll('.clickable-feature').forEach(feature => {
+            feature.addEventListener('click', function() {
+                const featureType = this.getAttribute('data-feature');
+                showCurriculumModal(featureType);
+            });
+        });
+        
+        // Curriculum feature data with official evidence
+        const curriculumFeatures = {
+            'y1-core': {
+                title: 'Core Sciences (Bio, Chem, Physics)',
+                year: 'Year 1',
+                description: 'All MSP students begin with four mandatory core courses that establish a strong foundation in the natural sciences and liberal arts thinking.',
+                officialCourses: [
+                    'BIO1101 Introduction to Biology (5 ECTS)',
+                    'CHE1101 Introduction to Chemistry (5 ECTS)',
+                    'PHY1101 Introduction to Physics (5 ECTS)',
+                    'INT1101 Introduction to Liberal Arts and Sciences (5 ECTS)'
+                ],
+                source: 'Education and Examination Regulations 2025-2026, Appendix I'
+            },
+            'y1-pbl': {
+                title: 'Problem-Based Learning',
+                year: 'Year 1',
+                description: 'MSP uses Problem-Based Learning (PBL) as its primary educational method. Students work in small tutorial groups to actively address real-life scientific problems.',
+                details: [
+                    'Work in small discussion groups',
+                    'Formulate learning goals collaboratively',
+                    'Apply theory to real-world situations',
+                    'Develop presentation and argumentation skills',
+                    'Learn from diverse cultural perspectives'
+                ],
+                source: 'Official MSP Programme Information'
+            },
+            'y1-lab': {
+                title: 'Lab Skills Introduction',
+                year: 'Year 1',
+                description: 'First-year students complete two mandatory skills training courses that introduce fundamental laboratory techniques and scientific research methods.',
+                officialCourses: [
+                    'PRA1101 Introduction to Scientific Research I (2.5 ECTS)',
+                    'PRA1102 Introduction to Scientific Research II (2.5 ECTS)',
+                    'PRO1101 Introduction to Project Period (5 ECTS)'
+                ],
+                skills: [
+                    'Safe laboratory practices',
+                    'Accurate weighing and solution preparation',
+                    'Working with pipettes and volumetric glassware',
+                    'Basic data analysis and interpretation',
+                    'Writing lab reports'
+                ],
+                source: 'MSP Course Catalogue 2025-2026'
+            },
+            'y2-elective': {
+                title: 'Elective Curriculum',
+                year: 'Year 2',
+                description: 'Students build their own curriculum by selecting from a wide range of courses across biology, chemistry, physics, mathematics, neuroscience, and interdisciplinary fields.',
+                structure: [
+                    '14 elective courses total (5 ECTS each)',
+                    'Minimum 4 advanced (3000-level) courses required',
+                    'Courses range from introductory (1000) to advanced (3000) levels',
+                    'Maximum 4 introductory-level courses allowed'
+                ],
+                examples: [
+                    'Molecular Biology, Quantum Mechanics, Systems Biology',
+                    'Organic Chemistry, Neuroscience, Biobased Materials',
+                    'Conservation Palaeobiology, Medical Microbiology'
+                ],
+                source: 'Education and Examination Regulations 2025-2026'
+            },
+            'y2-project': {
+                title: 'Project Work',
+                year: 'Year 2',
+                description: 'At the end of each semester, students complete a 3-week intensive research project that integrates knowledge and skills from their courses.',
+                structure: [
+                    '5 total projects throughout the programme (5 ECTS each)',
+                    '1 core project (PRO1101) in first year',
+                    '4 elective projects (maximum 1 introductory, minimum 1 advanced)',
+                    'Work in small multidisciplinary teams'
+                ],
+                projectTypes: [
+                    'Design and conduct experiments',
+                    'Apply theoretical knowledge practically',
+                    'Present findings through oral presentations',
+                    'Write scientific reports collaboratively'
+                ],
+                source: 'MSP Programme Structure, EER 2025-2026'
+            },
+            'y2-skills': {
+                title: 'Advanced Skills',
+                year: 'Year 2',
+                description: 'Students select from specialized skills training courses that provide hands-on experience in advanced laboratory and research techniques.',
+                structure: [
+                    '10 total skills trainings (2.5 ECTS each)',
+                    '2 core skills in Year 1',
+                    '8 elective skills (maximum 2 introductory, minimum 2 advanced)'
+                ],
+                examples: [
+                    'Genetics, Molecular Biology, Organic Chemistry Lab',
+                    'Programming, Electronics, Spectroscopic Methods',
+                    'Field Skills in Biology, Advanced Microscopy',
+                    'Synthetic Biology, Physical Chemistry'
+                ],
+                source: 'MSP Course Catalogue 2025-2026'
+            },
+            'y3-btr': {
+                title: 'Bachelor Thesis Research (30 ECTS)',
+                year: 'Year 3',
+                description: 'The Bachelor Thesis Research (BTR) is the culminating experience of the MSP programme--Ãƒâ€šÃ‚Âa full semester of independent scientific research in your chosen field.',
+                structure: [
+                    'One full semester (30 ECTS)',
+                    'Independent research project',
+                    'Field of your choice',
+                    'Written thesis + video presentation required'
+                ],
+                objectives: [
+                    'Design and plan a research project',
+                    'Apply scientific methods in your field',
+                    'Work independently and professionally',
+                    'Evaluate results in broader scientific context',
+                    'Communicate findings effectively'
+                ],
+                locations: [
+                    'Within Maastricht University',
+                    'External research institutes',
+                    'During academic exchange abroad'
+                ],
+                source: 'MSP Course Catalogue 2025-2026, EER 2025-2026'
+            },
+            'y3-facilities': {
+                title: 'DUB30 & Brightlands Labs',
+                year: 'Year 3',
+                description: 'MSP students have access to state-of-the-art laboratory facilities at two locations for practical coursework and research.',
+                facilities: [
+                    'Dubois Domein 30 (DUB30) - Main MSP lab facility in Maastricht',
+                    'Brightlands Chemelot Campus - Advanced chemistry and materials science labs in Geleen'
+                ],
+                labTypes: [
+                    'Biology and molecular biology laboratories',
+                    'Chemistry and organic synthesis labs',
+                    'Physics and electronics workshops',
+                    'Advanced spectroscopy and analytical equipment'
+                ],
+                note: 'Many advanced chemistry and polymer processing courses require travel to the Brightlands Chemelot Campus.',
+                source: 'Official MSP Programme Information, MSP Course Catalogue 2025-2026'
+            },
+            'y3-research': {
+                title: 'Independent Research Project',
+                year: 'Year 3',
+                description: 'The BTR allows you to demonstrate autonomy, creativity, and critical thinking while conducting original scientific research.',
+                components: [
+                    'Formulate a clear research question',
+                    'Develop and refine a research plan',
+                    'Carry out the research independently',
+                    'Document findings in a written thesis',
+                    'Create a video presentation for broader audiences'
+                ],
+                examples: [
+                    'Atomic force microscopy in nanocrystal solar cells',
+                    'Genetic algorithms in aerospace engineering design',
+                    'Pro-oxidant activity in human cancer cells',
+                    'Synthesis of biobased aromatic building blocks',
+                    'Long non-coding RNAs in heart failure'
+                ],
+                source: 'MSP Bachelor Thesis Research Course Description 2025-2026'
+            }
+        };
+        
+        // Show curriculum modal
+        window.showCurriculumModal = function(featureType) {
+            const modal = document.getElementById('curriculumModal');
+            const feature = curriculumFeatures[featureType];
+            
+            if (!feature) {
+                console.error('Feature not found:', featureType);
+                return;
+            }
+            
+            document.getElementById('modalCurriculumTitle').textContent = feature.title;
+            
+            let bodyHTML = `
+                <div class="modal-section">
+                    <div class="modal-info-text">${feature.description}</div>
+                </div>
+            `;
+            
+            // Add official courses if present
+            if (feature.officialCourses) {
+                bodyHTML += `
+                    <div class="modal-section">
+                        <div class="modal-section-title">Official Courses</div>
+                        <div class="modal-examples">
+                            ${feature.officialCourses.map(course => `
+                                <div class="modal-example">
+                                    <i data-lucide="book-open"></i>
+                                    <span>${course}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add structure if present
+            if (feature.structure) {
+                bodyHTML += `
+                    <div class="modal-section">
+                        <div class="modal-section-title">Structure</div>
+                        <div class="modal-examples">
+                            ${feature.structure.map(item => `
+                                <div class="modal-example">
+                                    <i data-lucide="check-circle"></i>
+                                    <span>${item}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add details if present
+            if (feature.details) {
+                bodyHTML += `
+                    <div class="modal-section">
+                        <div class="modal-section-title">Key Elements</div>
+                        <div class="modal-examples">
+                            ${feature.details.map(item => `
+                                <div class="modal-example">
+                                    <i data-lucide="arrow-right"></i>
+                                    <span>${item}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add skills if present
+            if (feature.skills) {
+                bodyHTML += `
+                    <div class="modal-section">
+                        <div class="modal-section-title">Skills Developed</div>
+                        <div class="modal-examples">
+                            ${feature.skills.map(skill => `
+                                <div class="modal-example">
+                                    <i data-lucide="star"></i>
+                                    <span>${skill}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add objectives if present
+            if (feature.objectives) {
+                bodyHTML += `
+                    <div class="modal-section">
+                        <div class="modal-section-title">Learning Objectives</div>
+                        <div class="modal-examples">
+                            ${feature.objectives.map(obj => `
+                                <div class="modal-example">
+                                    <i data-lucide="target"></i>
+                                    <span>${obj}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add examples if present
+            if (feature.examples) {
+                bodyHTML += `
+                    <div class="modal-section">
+                        <div class="modal-section-title">Examples</div>
+                        <div class="modal-examples">
+                            ${feature.examples.map(ex => `
+                                <div class="modal-example">
+                                    <i data-lucide="lightbulb"></i>
+                                    <span>${ex}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add project types if present
+            if (feature.projectTypes) {
+                bodyHTML += `
+                    <div class="modal-section">
+                        <div class="modal-section-title">Project Activities</div>
+                        <div class="modal-examples">
+                            ${feature.projectTypes.map(type => `
+                                <div class="modal-example">
+                                    <i data-lucide="flask-conical"></i>
+                                    <span>${type}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add facilities if present
+            if (feature.facilities) {
+                bodyHTML += `
+                    <div class="modal-section">
+                        <div class="modal-section-title">Facilities</div>
+                        <div class="modal-examples">
+                            ${feature.facilities.map(fac => `
+                                <div class="modal-example">
+                                    <i data-lucide="building-2"></i>
+                                    <span>${fac}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add lab types if present
+            if (feature.labTypes) {
+                bodyHTML += `
+                    <div class="modal-section">
+                        <div class="modal-section-title">Available Laboratories</div>
+                        <div class="modal-examples">
+                            ${feature.labTypes.map(lab => `
+                                <div class="modal-example">
+                                    <i data-lucide="microscope"></i>
+                                    <span>${lab}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add locations if present
+            if (feature.locations) {
+                bodyHTML += `
+                    <div class="modal-section">
+                        <div class="modal-section-title">Research Locations</div>
+                        <div class="modal-examples">
+                            ${feature.locations.map(loc => `
+                                <div class="modal-example">
+                                    <i data-lucide="map-pin"></i>
+                                    <span>${loc}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add components if present
+            if (feature.components) {
+                bodyHTML += `
+                    <div class="modal-section">
+                        <div class="modal-section-title">Research Components</div>
+                        <div class="modal-examples">
+                            ${feature.components.map(comp => `
+                                <div class="modal-example">
+                                    <i data-lucide="clipboard-list"></i>
+                                    <span>${comp}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add note if present
+            if (feature.note) {
+                bodyHTML += `
+                    <div class="modal-section">
+                        <div class="modal-info-text" style="font-style: italic; color: var(--um-gray-600);">
+                            Note: ${feature.note}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add source
+            bodyHTML += `
+                <div class="modal-section" style="border-top: 1px solid var(--um-gray-200); padding-top: 20px; margin-top: 20px;">
+                    <div style="font-size: 12px; color: var(--um-gray-500); text-align: center;">
+                        <i data-lucide="file-text" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle;"></i>
+                        Source: ${feature.source}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modalCurriculumBody').innerHTML = bodyHTML;
+            modal.style.display = 'block';
+            lucide.createIcons();
+        }
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+    
+    <!-- OUTCOME MODAL -->
+    <div id="outcomeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle"></h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- UNIVERSITY MODAL -->
+    <div id="uniModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-uni-logo" id="modalUniLogo"></div>
+                <div>
+                    <h3 id="modalUniName"></h3>
+                    <p id="modalUniLocation" class="modal-uni-location"></p>
+                </div>
+                <button class="modal-close" onclick="closeUniModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalUniBody"></div>
+        </div>
+    </div>
+
+    <!-- CURRICULUM FEATURE MODAL -->
+    <div id="curriculumModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalCurriculumTitle"></h3>
+                <button class="modal-close" onclick="closeCurriculumModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalCurriculumBody"></div>
+        </div>
+    </div>
+
+    <!-- CAREER DETAIL MODAL -->
+    <div id="careerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalCareerTitle"></h3>
+                <button class="modal-close" onclick="closeCareerModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalCareerBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // === MODAL FUNCTIONS ===
+        window.closeModal = function() {
+            document.getElementById('outcomeModal').style.display = 'none';
+        }
+        
+        window.closeUniModal = function() {
+            document.getElementById('uniModal').style.display = 'none';
+        }
+        
+        window.closeCurriculumModal = function() {
+            document.getElementById('curriculumModal').style.display = 'none';
+        }
+        
+        window.closeCareerModal = function() {
+            document.getElementById('careerModal').style.display = 'none';
+        }
+        
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const outcomeModal = document.getElementById('outcomeModal');
+            const uniModal = document.getElementById('uniModal');
+            const curriculumModal = document.getElementById('curriculumModal');
+            const careerModal = document.getElementById('careerModal');
+            if (event.target == outcomeModal) closeModal();
+            if (event.target == uniModal) closeUniModal();
+            if (event.target == curriculumModal) closeCurriculumModal();
+            if (event.target == careerModal) closeCareerModal();
+        }
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>

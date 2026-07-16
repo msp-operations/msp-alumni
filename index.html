@@ -1,0 +1,3108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#001C3D">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MSP Alumni">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+    <title>MSP Alumni Network | Maastricht Science Programme</title>
+    <link rel="icon" type="image/png" href="assets/logos/maastricht-science-programme-logo.png">
+    <meta name="description" content="Explore where 1,321 MSP alumni from 78 nationalities are now - across 58 countries and 233 universities worldwide." data-stat="totalAlumni-formatted" data-text-template="Explore where {totalAlumni-formatted} MSP alumni from {nationalities} nationalities are now - across {countriesLivingIn} countries and {universitiesAttended} universities worldwide.">
+    
+    <!-- Fonts - Using more distinctive choices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@0.576.0/dist/umd/lucide.js"></script>
+    
+    <style>
+        /* ============================================
+           PREMIUM CSS VARIABLES - REFINED UM BRANDING
+        ============================================ */
+        :root {
+            --um-dark-blue: #001C3D;
+            --um-darker-blue: #00101f;
+            --um-light-blue: #00A2DB;
+            --um-light-blue-glow: rgba(0, 162, 219, 0.4);
+            --um-orange: #E84E10;
+            --um-orange-glow: rgba(232, 78, 16, 0.4);
+            --um-white: #FFFFFF;
+            --um-off-white: #fafbfc;
+            --um-gray-50: #f8fafc;
+            --um-gray-100: #f1f5f9;
+            --um-gray-200: #e2e8f0;
+            --um-gray-300: #cbd5e1;
+            --um-gray-500: #64748b;
+            --um-gray-600: #475569;
+            --um-gray-800: #1e293b;
+            
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.1), 0 16px 48px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.12), 0 30px 60px rgba(0,0,0,0.1);
+            --shadow-glow-blue: 0 0 40px rgba(0, 162, 219, 0.15);
+            --shadow-glow-orange: 0 0 40px rgba(232, 78, 16, 0.15);
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            
+            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        /* ============================================
+           RESET & BASE STYLES
+        ============================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-size: 80%;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--um-dark-blue);
+            background: var(--um-white);
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+        
+        a {
+            color: var(--um-light-blue);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        a:hover {
+            color: var(--um-orange);
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* ============================================
+           PREMIUM HEADER
+        ============================================ */
+        header {
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,28,61,0.06);
+            padding: 0 50px;
+            height: 72px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all var(--transition-smooth);
+        }
+        
+        header.scrolled {
+            background: var(--um-dark-blue);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        header.scrolled .logo-text h1,
+        header.scrolled .logo-text p {
+            color: white;
+        }
+        
+        header.scrolled .logo-text p {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        header.scrolled .header-nav a {
+            color: rgba(255,255,255,0.8);
+        }
+        
+        header.scrolled .header-nav a:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        header.scrolled .header-nav a.active {
+            color: white;
+        }
+        
+        header.scrolled .logo-img {
+            filter: brightness(0) invert(1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+        
+        .logo-img {
+            height: 44px;
+            width: auto;
+            transition: transform var(--transition-smooth);
+        }
+        
+        .logo:hover .logo-img {
+            transform: scale(1.02);
+        }
+        
+        .logo-text h1 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            margin: 0;
+            line-height: 1.2;
+        }
+        
+        .logo-text p {
+            font-size: 11px;
+            color: var(--um-gray-500);
+            margin: 0;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        
+        .header-nav a {
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 18px;
+            border-radius: var(--radius-sm);
+            color: var(--um-gray-600);
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+        
+        .header-nav a:hover {
+            color: var(--um-dark-blue);
+            background: var(--um-gray-50);
+        }
+        
+        .header-nav a.active {
+            color: var(--um-dark-blue);
+            font-weight: 600;
+        }
+        
+        .header-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: var(--um-orange);
+            border-radius: 2px;
+        }
+        
+        .header-nav .btn-cta {
+            background: linear-gradient(135deg, var(--um-orange) 0%, #d94008 100%);
+            color: white;
+            margin-left: 12px;
+            box-shadow: 0 2px 8px rgba(232, 78, 16, 0.25);
+            border: none;
+        }
+        
+        .header-nav .btn-cta:hover {
+            background: linear-gradient(135deg, #ff5a1f 0%, var(--um-orange) 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(232, 78, 16, 0.35);
+            color: white;
+        }
+
+        /* Mobile menu toggle button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1002;
+            width: 32px;
+            height: 32px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--um-dark-blue);
+            border-radius: 2px;
+            position: absolute;
+            left: 5px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .menu-toggle span:nth-child(1) { top: 8px; }
+        .menu-toggle span:nth-child(2) { top: 15px; }
+        .menu-toggle span:nth-child(3) { top: 22px; }
+
+        .menu-toggle.open span:nth-child(1) {
+            top: 15px;
+            transform: rotate(45deg);
+        }
+
+        .menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.open span:nth-child(3) {
+            top: 15px;
+            transform: rotate(-45deg);
+        }
+
+        header.scrolled .menu-toggle span {
+            background: white;
+        }
+
+        /* Mobile nav overlay */
+        @media (max-width: 900px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .header-nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 280px;
+                height: 100vh;
+                height: 100dvh;
+                background: white;
+                flex-direction: column;
+                align-items: stretch;
+                padding: 80px 24px 32px;
+                gap: 0;
+                box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+                transform: translateX(100%);
+                visibility: hidden;
+                transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
+                z-index: 1001;
+                overflow-y: auto;
+            }
+
+            .header-nav.open {
+                transform: translateX(0);
+                visibility: visible;
+            }
+
+            .header-nav a {
+                font-size: 16px;
+                padding: 14px 16px;
+                border-radius: var(--radius-sm);
+                color: var(--um-gray-600);
+                border-bottom: 1px solid var(--um-gray-100);
+            }
+
+            .header-nav a:last-child {
+                border-bottom: none;
+            }
+
+            .header-nav a:hover,
+            .header-nav a.active {
+                background: var(--um-gray-50);
+                color: var(--um-dark-blue);
+            }
+
+            .header-nav .btn-cta {
+                margin-left: 0;
+                margin-top: 12px;
+                text-align: center;
+            }
+        }
+
+        /* ============================================
+           HERO SECTION - COMMANDING & PRESTIGIOUS
+        ============================================ */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(165deg, #000a14 0%, var(--um-dark-blue) 35%, #001a35 70%, #00243d 100%);
+            color: white;
+            padding: 120px 50px 80px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Subtle grid pattern */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(0,162,219,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,162,219,0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 70%);
+        }
+        
+        /* Subtle background depth - static glowing orbs */
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+        }
+        
+        .hero-orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--um-light-blue);
+            top: -200px;
+            left: -200px;
+        }
+        
+        .hero-orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--um-orange);
+            bottom: -150px;
+            right: -150px;
+        }
+        
+
+        /* Hero Content */
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .hero-center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .hero-logo-container {
+            position: relative;
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .hero-logo-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(0,162,219,0.15);
+            border: 1px solid rgba(0,162,219,0.3);
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        
+        .hero-logo-small {
+            width: 120px;
+            height: auto;
+            filter: brightness(0) invert(1);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h2 {
+            font-size: 72px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            margin-bottom: 24px;
+            color: white;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .hero h2 span {
+            color: var(--um-orange);
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 24px;
+            line-height: 1.7;
+            font-weight: 400;
+            max-width: 750px;
+        }
+        
+        /* Hero Stats - Enhanced and Larger */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .hero-stat {
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+        
+        .hero-stat-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(10px);
+            transition: all var(--transition-smooth);
+        }
+        
+        a.hero-stat.clickable .hero-stat-circle {
+            border-color: rgba(232,78,16,0.4);
+            background: rgba(232,78,16,0.05);
+        }
+        
+        a.hero-stat.clickable:hover .hero-stat-circle {
+            border-color: var(--um-orange);
+            background: rgba(232,78,16,0.1);
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(232,78,16,0.2);
+        }
+        
+        .hero-stat:hover .hero-stat-circle {
+            border-color: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+        
+        .hero-stat-number {
+            font-family: var(--font-heading);
+            font-size: 42px;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
+        }
+        
+        a.hero-stat.clickable .hero-stat-number {
+            color: var(--um-orange);
+        }
+        
+        .hero-stat-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.9);
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            font-weight: 700;
+        }
+        
+        .hero-stat-context {
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+            font-weight: 400;
+            max-width: 140px;
+            line-height: 1.4;
+            margin-top: -6px;
+        }
+        
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.4);
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            animation: fadeInUp 1s ease 1s both;
+        }
+        
+        .scroll-indicator-mouse {
+            width: 24px;
+            height: 38px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .scroll-indicator-wheel {
+            width: 4px;
+            height: 8px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 2px;
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scrollWheel 2s ease-in-out infinite;
+        }
+        
+        @keyframes scrollWheel {
+            0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            50% { opacity: 0.3; transform: translateX(-50%) translateY(10px); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        /* ============================================
+           MAP SECTION - ELEVATED
+        ============================================ */
+        .map-section {
+            background: var(--um-white);
+            padding: 60px 50px 100px;
+            position: relative;
+        }
+        
+        .map-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(180deg, var(--um-gray-50) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+        
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--um-light-blue);
+            margin-bottom: 16px;
+        }
+        
+        .section-label::before,
+        .section-label::after {
+            content: '';
+            width: 30px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--um-light-blue));
+        }
+        
+        .section-label::after {
+            background: linear-gradient(90deg, var(--um-light-blue), transparent);
+        }
+        
+        .section-title {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+        
+        .section-subtitle {
+            font-size: 17px;
+            color: var(--um-gray-500);
+            line-height: 1.7;
+            font-weight: 400;
+        }
+        
+        .map-container-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .map-container {
+            height: 580px;
+            background: linear-gradient(135deg, var(--um-gray-50) 0%, var(--um-gray-100) 100%);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl), var(--shadow-glow-blue);
+            border: 1px solid var(--um-gray-200);
+            position: relative;
+        }
+        
+        .map-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 1;
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+        
+        #worldMap {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Premium Map Legend */
+        .map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--um-gray-600);
+            font-weight: 500;
+        }
+        
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .legend-dot.large { 
+            background: var(--um-orange);
+            box-shadow: 0 2px 12px rgba(232, 78, 16, 0.4);
+        }
+        .legend-dot.medium { 
+            background: #8B5CF6;
+            box-shadow: 0 2px 12px rgba(139, 92, 246, 0.4);
+        }
+        .legend-dot.small { 
+            background: rgba(0,162,219,0.5);
+        }
+        
+        /* Leaflet Popup Styling */
+        .leaflet-popup-content-wrapper {
+            border-radius: var(--radius-lg) !important;
+            box-shadow: var(--shadow-lg) !important;
+            padding: 0 !important;
+        }
+        
+        .leaflet-popup-content {
+            margin: 0 !important;
+            min-width: 240px;
+        }
+        
+        .leaflet-popup-tip {
+            box-shadow: var(--shadow-md) !important;
+        }
+        
+        .popup-card {
+            padding: 20px;
+        }
+        
+        .popup-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--um-gray-100);
+        }
+        
+        .popup-flag {
+            width: 48px;
+            height: 32px;
+            object-fit: cover;
+            border-radius: 6px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .popup-country {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+        }
+        
+        .popup-stats {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .popup-stat {
+            flex: 1;
+        }
+        
+        .popup-stat-number {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--um-orange);
+            line-height: 1;
+        }
+        
+        .popup-stat-label {
+            font-size: 12px;
+            color: var(--um-gray-500);
+            margin-top: 4px;
+        }
+        
+        /* ============================================
+           UNIVERSITIES SECTION - PREMIUM
+        ============================================ */
+        .universities-section {
+            background: var(--um-gray-50);
+            padding: 100px 50px;
+            position: relative;
+        }
+        
+        .uni-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        
+        .uni-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .uni-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--um-light-blue), var(--um-light-blue));
+            opacity: 0;
+            transition: opacity var(--transition-smooth);
+        }
+        
+        .uni-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--um-gray-200);
+        }
+        
+        .uni-card:hover::before {
+            opacity: 1;
+        }
+        
+        .uni-logo {
+            width: 56px;
+            height: 56px;
+            background: var(--um-gray-50);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            overflow: hidden;
+            border: 1px solid var(--um-gray-100);
+        }
+        
+        .uni-logo img {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+        }
+        
+        .uni-logo i,
+        .uni-logo svg {
+            width: 26px;
+            height: 26px;
+            color: var(--um-gray-400);
+            stroke: var(--um-gray-400);
+        }
+        
+        .uni-name {
+            font-family: var(--font-heading);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--um-dark-blue);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        
+        .uni-country {
+            font-size: 13px;
+            color: var(--um-gray-500);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .uni-country img {
+            width: 20px;
+            height: 14px;
+            object-fit: cover;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .uni-count {
+            margin-top: auto;
+            font-family: var(--font-heading);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+        
+        .uni-count span {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--um-gray-500);
+        }
+        
+        .view-all-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 36px;
+            background: linear-gradient(135deg, var(--um-dark-blue) 0%, #002b5c 100%);
+            color: white;
+            border-radius: var(--radius-md);
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all var(--transition-smooth);
+            box-shadow: 0 4px 20px rgba(0,28,61,0.25);
+        }
+        
+        .view-all-btn:hover {
+            background: linear-gradient(135deg, #002b5c 0%, var(--um-dark-blue) 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,28,61,0.35);
+        }
+        
+        .view-all-btn i,
+        .view-all-btn svg {
+            width: 18px;
+            height: 18px;
+            transition: transform var(--transition-smooth);
+        }
+        
+        .view-all-btn:hover i,
+        .view-all-btn:hover svg {
+            transform: translateX(4px);
+        }
+        
+        /* ============================================
+           FIELDS OF STUDY - CLEAN INSTITUTIONAL BARS
+        ============================================ */
+        .fields-section {
+            background: white;
+            padding: 100px 50px;
+        }
+        
+        .fields-bars-container {
+            max-width: 900px;
+            margin: 50px auto 0;
+        }
+        
+        .fields-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        
+        .field-bar-row {
+            display: grid;
+            grid-template-columns: 240px 1fr 80px 70px;
+            align-items: center;
+            gap: 20px;
+            padding: 4px 0;
+        }
+        
+        .field-bar-label {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--um-dark-blue);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .field-bar-color {
+            width: 4px;
+            height: 32px;
+            flex-shrink: 0;
+        }
+        
+        .field-bar-track {
+            height: 32px;
+            background: var(--um-gray-100);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .field-bar-fill {
+            height: 100%;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .field-bar-count {
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--um-gray-600);
+            text-align: right;
+        }
+        
+        .field-bar-percent {
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            text-align: right;
+        }
+        
+        /* Field colors - solid, no gradients */
+        .field-color-1 { background: #00A2DB; }
+        .field-color-2 { background: #E84E10; }
+        .field-color-3 { background: #10b981; }
+        .field-color-4 { background: #8b5cf6; }
+        .field-color-5 { background: #f59e0b; }
+        .field-color-6 { background: #3b82f6; }
+        .field-color-7 { background: #06b6d4; }
+        .field-color-8 { background: #22c55e; }
+        .field-color-9 { background: #ec4899; }
+        .field-color-10 { background: #64748b; }
+        
+        /* ============================================
+           GROWTH SECTION - DATA VIZ EXCELLENCE
+        ============================================ */
+        .growth-section {
+            background: linear-gradient(165deg, var(--um-dark-blue) 0%, #001530 50%, #00203d 100%);
+            color: white;
+            padding: 100px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .growth-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(0,162,219,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,162,219,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        
+        .growth-section .section-label {
+            color: var(--um-orange);
+        }
+        
+        .growth-section .section-label::before,
+        .growth-section .section-label::after {
+            background: linear-gradient(90deg, transparent, var(--um-orange));
+        }
+        
+        .growth-section .section-label::after {
+            background: linear-gradient(90deg, var(--um-orange), transparent);
+        }
+        
+        .growth-section .section-title {
+            color: white;
+        }
+        
+        .growth-section .section-subtitle {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .growth-chart-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 0;
+            position: relative;
+        }
+        
+        .growth-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 12px;
+            height: 300px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .growth-bar {
+            flex: 1;
+            max-width: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        
+        .growth-bar-group {
+            width: 100%;
+            display: flex;
+            gap: 4px;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        
+        .growth-bar-yearly {
+            width: 45%;
+            background: linear-gradient(180deg, var(--um-orange) 0%, #c43a08 100%);
+            border-radius: 6px 6px 0 0;
+            min-height: 10px;
+            transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 0 -4px 20px rgba(232, 78, 16, 0.3);
+        }
+        
+        .growth-bar-cumulative {
+            width: 45%;
+            background: linear-gradient(180deg, var(--um-light-blue) 0%, #0077a3 100%);
+            border-radius: 6px 6px 0 0;
+            min-height: 10px;
+            transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 0 -4px 20px rgba(0, 162, 219, 0.3);
+        }
+        
+        .growth-bar-value {
+            position: absolute;
+            top: -26px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-heading);
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        
+        .growth-bar-yearly .growth-bar-value {
+            color: var(--um-orange);
+        }
+        
+        .growth-bar-cumulative .growth-bar-value {
+            color: var(--um-light-blue);
+        }
+        
+        .growth-bar-label {
+            margin-top: 14px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            font-weight: 600;
+            font-family: var(--font-heading);
+        }
+        
+        .growth-legend {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 40px;
+        }
+        
+        .growth-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            font-weight: 500;
+        }
+        
+        .growth-legend-bar {
+            width: 24px;
+            height: 16px;
+            border-radius: 4px;
+        }
+        
+        .growth-legend-bar.yearly {
+            background: linear-gradient(180deg, var(--um-orange) 0%, #c43a08 100%);
+            box-shadow: 0 2px 8px rgba(232, 78, 16, 0.3);
+        }
+        
+        .growth-legend-bar.cumulative {
+            background: linear-gradient(180deg, var(--um-light-blue) 0%, #0077a3 100%);
+            box-shadow: 0 2px 8px rgba(0, 162, 219, 0.3);
+        }
+        
+        /* ============================================
+           CONTINENTAL SECTION
+        ============================================ */
+        .continental-section {
+            background: var(--um-gray-50);
+            padding: 100px 50px;
+        }
+        
+        .continental-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .continental-card {
+            background: white;
+            border: 1px solid var(--um-gray-200);
+            border-radius: var(--radius-lg);
+            padding: 36px 24px;
+            text-align: center;
+            transition: all var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .continental-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+        
+        .continental-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: transparent;
+        }
+        
+        .continental-card.europe::before { background: var(--um-orange); }
+        .continental-card.americas::before { background: var(--um-light-blue); }
+        .continental-card.asia::before { background: #10b981; }
+        .continental-card.africa::before { background: #f59e0b; }
+        
+        .continental-card.europe:hover { box-shadow: var(--shadow-lg), 0 0 30px rgba(232, 78, 16, 0.1); }
+        .continental-card.americas:hover { box-shadow: var(--shadow-lg), 0 0 30px rgba(0, 162, 219, 0.1); }
+        .continental-card.asia:hover { box-shadow: var(--shadow-lg), 0 0 30px rgba(16, 185, 129, 0.1); }
+        .continental-card.africa:hover { box-shadow: var(--shadow-lg), 0 0 30px rgba(245, 158, 11, 0.1); }
+        
+        .continental-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--um-gray-50);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            transition: all var(--transition-smooth);
+        }
+        
+        .continental-card:hover .continental-icon {
+            transform: scale(1.1);
+        }
+        
+        .continental-card.europe .continental-icon { background: rgba(232, 78, 16, 0.1); }
+        .continental-card.americas .continental-icon { background: rgba(0, 162, 219, 0.1); }
+        .continental-card.asia .continental-icon { background: rgba(16, 185, 129, 0.1); }
+        .continental-card.africa .continental-icon { background: rgba(245, 158, 11, 0.1); }
+        
+        .continental-icon i { 
+            width: 28px; 
+            height: 28px; 
+            color: var(--um-dark-blue); 
+        }
+        
+        .continental-name {
+            font-family: var(--font-heading);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--um-gray-600);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .continental-count {
+            font-family: var(--font-heading);
+            font-size: 44px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            line-height: 1;
+        }
+        
+        .continental-percent {
+            font-size: 14px;
+            color: var(--um-gray-500);
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .continental-card.europe .continental-percent { color: var(--um-orange); }
+        .continental-card.americas .continental-percent { color: var(--um-light-blue); }
+        .continental-card.asia .continental-percent { color: #10b981; }
+        .continental-card.africa .continental-percent { color: #f59e0b; }
+        
+        /* Top Destinations Highlight */
+        /* Join Community Card */
+        .join-community-card {
+            max-width: 800px;
+            margin: 60px auto 0;
+            background: linear-gradient(135deg, var(--um-dark-blue) 0%, #002d5c 100%);
+            border-radius: var(--radius-xl);
+            padding: 50px;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .join-community-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 0% 0%, rgba(0, 162, 219, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(232, 78, 16, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .join-community-content {
+            position: relative;
+            text-align: center;
+        }
+        
+        .join-community-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--um-orange) 0%, #d94008 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            box-shadow: 0 8px 30px rgba(232, 78, 16, 0.4);
+        }
+        
+        .join-community-icon i {
+            width: 32px;
+            height: 32px;
+            color: white;
+        }
+        
+        .join-community-title {
+            font-family: var(--font-heading);
+            font-size: 26px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+        }
+        
+        .join-community-text {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            max-width: 550px;
+            margin: 0 auto 32px;
+        }
+        
+        .join-community-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .join-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 24px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            transition: all var(--transition-smooth);
+        }
+        
+        .join-link i, .join-link svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .join-link.whatsapp {
+            background: #25D366;
+        }
+        
+        .join-link.whatsapp:hover {
+            background: #20bd5a;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+        }
+        
+        .join-link.instagram {
+            background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737);
+        }
+        
+        .join-link.instagram:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(131, 58, 180, 0.4);
+        }
+        
+        .join-link.linkedin {
+            background: #0A66C2;
+        }
+        
+        .join-link.linkedin:hover {
+            background: #0958a8;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(10, 102, 194, 0.4);
+        }
+        
+        .join-community-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: white;
+            color: var(--um-dark-blue);
+            border-radius: var(--radius-md);
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all var(--transition-smooth);
+        }
+        
+        .join-community-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.3);
+            color: var(--um-dark-blue);
+        }
+        
+        .join-community-btn i {
+            width: 18px;
+            height: 18px;
+            transition: transform var(--transition-smooth);
+        }
+        
+        .join-community-btn:hover i {
+            transform: translateX(4px);
+        }
+        
+        /* Nationality Diversity Section - Creative Globe Design */
+        
+        /* ============================================
+           COMMUNITY SECTION
+        ============================================ */
+        .community-section {
+            background: white;
+            padding: 100px 50px;
+        }
+        
+        .community-toggle {
+            background: var(--um-gray-50);
+            border: 2px solid var(--um-gray-200);
+            border-radius: var(--radius-xl);
+            padding: 32px 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            max-width: 950px;
+            margin: 0 auto;
+        }
+        
+        .community-toggle:hover {
+            border-color: var(--um-light-blue);
+            box-shadow: var(--shadow-md);
+            background: white;
+        }
+        
+        .community-toggle.active {
+            border-color: var(--um-orange);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom: none;
+            background: white;
+        }
+        
+        .community-toggle-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .community-toggle-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--um-orange) 0%, #d63d0a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 16px rgba(232, 78, 16, 0.3);
+        }
+        
+        .community-toggle-icon i, .community-toggle-icon svg {
+            width: 30px;
+            height: 30px;
+            color: white;
+        }
+        
+        .community-toggle-text h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            margin: 0 0 6px 0;
+        }
+        
+        .community-toggle-text p {
+            font-size: 15px;
+            color: var(--um-gray-500);
+            margin: 0;
+        }
+        
+        .community-toggle-arrow {
+            width: 44px;
+            height: 44px;
+            background: var(--um-gray-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-smooth);
+        }
+        
+        .community-toggle-arrow i, .community-toggle-arrow svg {
+            width: 22px;
+            height: 22px;
+            color: var(--um-gray-500);
+            transition: transform var(--transition-smooth);
+        }
+        
+        .community-toggle.active .community-toggle-arrow {
+            background: var(--um-orange);
+        }
+        
+        .community-toggle.active .community-toggle-arrow i,
+        .community-toggle.active .community-toggle-arrow svg {
+            color: white;
+            transform: rotate(180deg);
+        }
+        
+        .community-expandable {
+            max-width: 950px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid var(--um-orange);
+            border-top: none;
+            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .community-expandable.open {
+            max-height: 1200px;
+            padding: 44px;
+        }
+        
+        .community-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 44px;
+            align-items: start;
+        }
+        
+        .community-text h4 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            margin-bottom: 18px;
+        }
+        
+        .community-text p {
+            font-size: 15px;
+            color: var(--um-gray-600);
+            line-height: 1.8;
+            margin-bottom: 14px;
+        }
+        
+        .community-text p strong {
+            color: var(--um-dark-blue);
+        }
+        
+        .community-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        
+        .community-feature {
+            background: var(--um-gray-50);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            transition: all var(--transition-smooth);
+        }
+        
+        .community-feature:hover {
+            background: rgba(0,162,219,0.08);
+            transform: translateY(-4px);
+        }
+        
+        .community-feature-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--um-light-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 12px rgba(0, 162, 219, 0.2);
+        }
+        
+        .community-feature-icon i, .community-feature-icon svg {
+            width: 22px;
+            height: 22px;
+            color: white;
+        }
+        
+        .community-feature-icon.orange {
+            background: var(--um-orange);
+            box-shadow: 0 4px 12px rgba(232, 78, 16, 0.2);
+        }
+        
+        .community-feature h5 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            margin-bottom: 8px;
+        }
+        
+        .community-feature p {
+            font-size: 13px;
+            color: var(--um-gray-500);
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        /* ============================================
+           FOOTER
+        ============================================ */
+        footer {
+            background: var(--um-dark-blue);
+            color: rgba(255,255,255,0.7);
+            padding: 60px 50px 30px;
+        }
+        .footer-container {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px; padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .footer-brand { padding-right: 20px; }
+        .footer-logo { height: 40px; width: auto; filter: brightness(0) invert(1); margin-bottom: 16px; }
+        .footer-brand h3 { font-size: 16px; font-weight: 700; color: white; margin-bottom: 10px; }
+        .footer-brand p { font-size: 14px; line-height: 1.7; }
+        .footer-links-group h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+        .footer-links-group a { display: block; font-size: 14px; color: rgba(255,255,255,0.65); padding: 5px 0; transition: color var(--transition-fast); }
+        .footer-links-group a:hover { color: white; }
+        .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 24px; font-size: 13px; color: rgba(255,255,255,0.35); }
+        
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (max-width: 1200px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                text-align: center;
+            }
+            
+            .hero-left {
+                order: 2;
+            }
+            
+            .hero-right {
+                order: 1;
+                max-width: 100%;
+            }
+            
+            .hero h2 {
+                font-size: 48px;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+            
+            .hero-logo-large {
+                width: 300px;
+            }
+            
+            .hero-logo-glow {
+                width: 400px;
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            header {
+                padding: 0 24px;
+            }
+            
+            .hero {
+                padding: 120px 24px 100px;
+                min-height: 100vh;
+            }
+            
+            .hero h2 {
+                font-size: 38px;
+            }
+            
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-stat-number {
+                font-size: 34px;
+            }
+            
+            .section {
+                padding: 70px 24px;
+            }
+            
+            .map-section,
+            .universities-section,
+            .fields-section,
+            .growth-section,
+            .continental-section,
+            .community-section {
+                padding: 70px 24px;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+            
+            .continental-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .destinations-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .nationality-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            /* Fields section - responsive */
+            .field-bar-row {
+                grid-template-columns: 200px 1fr 70px 60px;
+                gap: 16px;
+            }
+            
+            /* Nationality globe responsive */
+            .nationality-globe-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .globe-wrapper {
+                width: 350px;
+                height: 350px;
+                order: 1;
+            }
+            
+            .globe-sphere {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .globe-number {
+                font-size: 56px;
+            }
+            
+            .nationality-side-stats {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nationality-side-stats.left {
+                order: 2;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .nationality-side-stats.right {
+                order: 3;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .nationality-side-stats.left .side-stat-icon {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .orbit-ring-1 { width: 280px; height: 280px; }
+            .orbit-ring-2 { width: 320px; height: 320px; }
+            .orbit-ring-3 { width: 350px; height: 350px; }
+            
+            .orbit-flag {
+                width: 26px;
+                height: 18px;
+            }
+            
+            .join-community-card {
+                padding: 40px 30px;
+            }
+            
+            .join-community-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .join-link {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+            
+            .community-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-logo-large {
+                width: 240px;
+            }
+            
+            .hero-logo-glow {
+                width: 320px;
+                height: 320px;
+            }
+            
+            .scroll-indicator {
+                bottom: 20px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .hero {
+                padding: 110px 20px 80px;
+                min-height: 100vh;
+            }
+            
+            .hero h2 {
+                font-size: 30px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            
+            .hero-stat {
+                padding: 20px 12px;
+            }
+            
+            .hero-stat-number {
+                font-size: 28px;
+            }
+            
+            .hero-logo-large {
+                width: 180px;
+            }
+            
+            .hero-logo-glow {
+                width: 240px;
+                height: 240px;
+            }
+            
+            .map-container {
+                height: 350px;
+            }
+            
+            .uni-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .continental-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .destinations-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .nationality-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .nationality-mosaic {
+                padding: 20px;
+            }
+            
+            .nat-flag {
+                width: 32px;
+                height: 22px;
+            }
+            
+            
+            /* Globe mobile styles */
+            .globe-wrapper {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .globe-sphere {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .globe-number {
+                font-size: 42px;
+            }
+            
+            .globe-label {
+                font-size: 11px;
+            }
+            
+            .orbit-ring { 
+                width: 240px !important; 
+                height: 240px !important; 
+            }
+            
+            .orbit-ring-2 { 
+                width: 260px !important; 
+                height: 260px !important; 
+            }
+            
+            .orbit-ring-3 { 
+                width: 280px !important; 
+                height: 280px !important; 
+            }
+            
+            .orbit-flag {
+                width: 22px;
+                height: 15px;
+            }
+            
+            .side-stat-card {
+                padding: 16px 20px;
+            }
+            
+            .side-stat-number {
+                font-size: 24px;
+            }
+            
+            .wave-flag {
+                width: 36px;
+                height: 24px;
+            }
+            
+            .join-community-card {
+                padding: 30px 20px;
+                margin: 40px auto 0;
+            }
+            
+            .join-community-title {
+                font-size: 22px;
+            }
+            
+            .join-community-text {
+                font-size: 14px;
+            }
+            
+            /* Fields mobile */
+            .fields-bars {
+                gap: 14px;
+            }
+            
+            .field-bar-row {
+                grid-template-columns: 1fr 60px 50px;
+                gap: 10px;
+            }
+            
+            .field-bar-label {
+                font-size: 13px;
+                grid-column: 1 / -1;
+                margin-bottom: 4px;
+            }
+            
+            .field-bar-color {
+                width: 3px;
+                height: 24px;
+            }
+            
+            .field-bar-track {
+                height: 28px;
+            }
+            
+            .field-bar-count {
+                font-size: 13px;
+            }
+            
+            .field-bar-percent {
+                font-size: 13px;
+            }
+            
+            .footer-container { grid-template-columns: 1fr; gap: 30px; }
+            
+            .scroll-indicator {
+                display: none;
+            }
+        }
+        
+        /* ============================================
+           UNIVERSITY MODAL
+        ============================================ */
+        .university-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 9999;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .university-modal.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 28, 61, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        
+        .modal-container {
+            position: relative;
+            max-width: 600px;
+            max-height: 90vh;
+            margin: 5vh auto;
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--um-gray-200);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            z-index: 10;
+        }
+        
+        .modal-close:hover {
+            background: var(--um-dark-blue);
+            border-color: var(--um-dark-blue);
+            transform: rotate(90deg);
+        }
+        
+        .modal-close i {
+            width: 20px;
+            height: 20px;
+            color: var(--um-dark-blue);
+        }
+        
+        .modal-close:hover i {
+            color: white;
+        }
+        
+        .modal-content {
+            padding: 40px;
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border: 2px solid var(--um-gray-200);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            flex-shrink: 0;
+        }
+        
+        .modal-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .modal-title-section h2 {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--um-dark-blue);
+            margin: 0 0 8px 0;
+            line-height: 1.2;
+        }
+        
+        .modal-title-section p {
+            font-size: 14px;
+            color: var(--um-gray-500);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .modal-title-section p img {
+            width: 20px;
+            height: 14px;
+            border-radius: 3px;
+        }
+        
+        .modal-alumni-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 162, 219, 0.1);
+            color: var(--um-light-blue);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        
+        .modal-alumni-count i {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .modal-description {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--um-gray-600);
+            margin-bottom: 28px;
+        }
+        
+        .modal-programs h3 {
+            font-family: var(--font-heading);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--um-dark-blue);
+            margin: 0 0 16px 0;
+        }
+        
+        .modal-programs-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+        
+        .modal-program-pill {
+            background: var(--um-gray-100);
+            color: var(--um-dark-blue);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            transition: all var(--transition-smooth);
+        }
+        
+        .modal-program-pill:hover {
+            background: var(--um-dark-blue);
+            color: white;
+        }
+        
+        .modal-website-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #25D366 0%, #20bd5a 100%);
+            color: white;
+            padding: 14px 28px;
+            border-radius: var(--radius-md);
+            font-family: var(--font-heading);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all var(--transition-smooth);
+        }
+        
+        .modal-website-btn:hover {
+            background: linear-gradient(135deg, #20bd5a 0%, #1a9e4d 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+            color: white;
+        }
+        
+        .modal-website-btn i {
+            width: 18px;
+            height: 18px;
+        }
+        
+        @media (max-width: 900px) {
+            .modal-container {
+                margin: 0;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+            }
+            
+            .modal-close {
+                top: 15px;
+                right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <a href="index.html" class="logo">
+            <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" class="logo-img">
+            <div class="logo-text">
+                <h1>MSP Alumni Network</h1>
+                <p>Maastricht Science Programme</p>
+            </div>
+        </a>
+        <nav class="header-nav">
+            <a href="index.html" class="active">Home</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="community.html">Community</a>
+            <a href="events.html">Events</a>
+            <a href="stories.html">Stories</a>
+            <a href="considering-msp.html" class="btn-cta">Considering MSP?</a>
+        </nav>
+        <button class="menu-toggle" onclick="toggleMobileNav(this)" aria-label="Menu"><span></span><span></span><span></span></button>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <!-- Background Elements -->
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        
+        <!-- Content -->
+        <div class="hero-content">
+            <div class="hero-center-content">
+                <div class="hero-logo-container">
+                    <div class="hero-logo-badge">SINCE 2011</div>
+                    <img src="assets/logos/maastricht-science-programme-logo.png" alt="Maastricht Science Programme" class="hero-logo-small">
+                </div>
+                
+                <h2><span>MSP</span> Alumni Community</h2>
+                <p class="hero-subtitle" data-text-template="Explore the global journey of {totalAlumni-formatted} MSP alumni   -   from Maastricht to world-leading universities and careers across six continents.">
+                    Explore the global journey of 1,321 MSP alumni   -   from Maastricht to world-leading universities and careers across six continents.
+                </p>
+                
+                <div class="hero-stats">
+                    <a href="destinations.html" class="hero-stat clickable">
+                        <div class="hero-stat-circle">
+                            <div class="hero-stat-number" id="totalAlumni" data-stat="totalAlumni-formatted">1,321</div>
+                        </div>
+                        <div class="hero-stat-label">Alumni</div>
+                        <div class="hero-stat-context">Graduated since 2011</div>
+                    </a>
+                    <div class="hero-stat">
+                        <div class="hero-stat-circle">
+                            <div class="hero-stat-number" id="totalNationalities" data-stat="nationalities">78</div>
+                        </div>
+                        <div class="hero-stat-label">Nationalities</div>
+                        <div class="hero-stat-context">From six continents</div>
+                    </div>
+                    <a href="destinations.html" class="hero-stat clickable">
+                        <div class="hero-stat-circle">
+                            <div class="hero-stat-number" id="totalCountries" data-stat="countriesLivingIn">58</div>
+                        </div>
+                        <div class="hero-stat-label">Countries</div>
+                        <div class="hero-stat-context">Living & working globally</div>
+                    </a>
+                    <a href="destinations.html" class="hero-stat clickable">
+                        <div class="hero-stat-circle">
+                            <div class="hero-stat-number" id="totalUniversities" data-stat="universitiesAttended">233</div>
+                        </div>
+                        <div class="hero-stat-label">Universities</div>
+                        <div class="hero-stat-context">Master's destinations</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-indicator-mouse">
+                <div class="scroll-indicator-wheel"></div>
+            </div>
+            <span>Explore</span>
+        </div>
+    </section>
+    
+    <!-- World Map Section -->
+    <section class="map-section">
+        <div class="section-header">
+            <div class="section-label">Global Presence</div>
+            <h2 class="section-title">Alumni Around the World</h2>
+            <p class="section-subtitle">
+                From research labs in Zurich to startups in San Francisco, MSP graduates are making their mark globally.
+            </p>
+        </div>
+        
+        <div class="map-container-wrapper">
+            <div class="map-container">
+                <div id="worldMap"></div>
+            </div>
+            
+            <div class="map-legend">
+                <div class="legend-item">
+                    <span class="legend-dot large"></span>
+                    50+ alumni
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot medium"></span>
+                    10-49 alumni
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot small"></span>
+                    1-9 alumni
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Universities Section -->
+    <section class="universities-section section">
+        <div class="section-header">
+            <div class="section-label">Academic Destinations</div>
+            <h2 class="section-title">Where They Continue</h2>
+            <p class="section-subtitle">
+                Our alumni pursue Master's degrees at the world's top universities   -   from Oxford to ETH Zurich.
+            </p>
+        </div>
+        
+        <div class="uni-grid" id="uniGrid"></div>
+        
+        <div style="text-align: center; margin-top: 50px;">
+            <a href="destinations.html" class="view-all-btn">
+                Explore All <span id="statUniversities" data-stat="universitiesAttended">233</span> Universities
+                <i data-lucide="arrow-right"></i>
+            </a>
+        </div>
+    </section>
+    
+    <!-- Fields of Study Section -->
+    <section class="fields-section section">
+        <div class="section-header">
+            <div class="section-label">Academic Paths</div>
+            <h2 class="section-title">Master's Specializations</h2>
+            <p class="section-subtitle">
+                MSP's interdisciplinary foundation enables alumni to pursue diverse graduate fields across sciences, medicine, and engineering.
+            </p>
+        </div>
+        
+        <div class="fields-bars-container">
+            <div class="fields-bars" id="fieldsBars">
+                <!-- Will be populated by JS -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Growth Section -->
+    <section class="growth-section section">
+        <div class="section-header">
+            <div class="section-label">Programme Growth</div>
+            <h2 class="section-title">A Growing Community</h2>
+            <p class="section-subtitle">
+                From 25 graduates in 2014 to over 1,300 alumni worldwide   -   and counting.
+            </p>
+        </div>
+        
+        <div class="growth-chart-container">
+            <div class="growth-chart" id="growthChart"></div>
+            <div class="growth-legend">
+                <div class="growth-legend-item">
+                    <span class="growth-legend-bar yearly"></span>
+                    Yearly Graduates
+                </div>
+                <div class="growth-legend-item">
+                    <span class="growth-legend-bar cumulative"></span>
+                    Cumulative Total
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Continental Distribution -->
+    <section class="continental-section section">
+        <div class="section-header">
+            <div class="section-label">Geographic Distribution</div>
+            <h2 class="section-title">Across Six Continents</h2>
+            <p class="section-subtitle">
+                MSP alumni have established themselves in every corner of the globe.
+            </p>
+        </div>
+        
+        <div class="continental-grid">
+            <div class="continental-card europe">
+                <div class="continental-icon">
+                    <i data-lucide="landmark"></i>
+                </div>
+                <div class="continental-name">Europe</div>
+                <div class="continental-count">987</div>
+                <div class="continental-percent">90%</div>
+            </div>
+            <div class="continental-card americas">
+                <div class="continental-icon">
+                    <i data-lucide="building-2"></i>
+                </div>
+                <div class="continental-name">Americas</div>
+                <div class="continental-count">42</div>
+                <div class="continental-percent">4%</div>
+            </div>
+            <div class="continental-card asia">
+                <div class="continental-icon">
+                    <i data-lucide="mountain"></i>
+                </div>
+                <div class="continental-name">Asia Pacific</div>
+                <div class="continental-count">35</div>
+                <div class="continental-percent">3%</div>
+            </div>
+            <div class="continental-card africa">
+                <div class="continental-icon">
+                    <i data-lucide="sun"></i>
+                </div>
+                <div class="continental-name">Africa & ME</div>
+                <div class="continental-count">29</div>
+                <div class="continental-percent">3%</div>
+            </div>
+        </div>
+        
+        <!-- Join the Community Card -->
+        <div class="join-community-card">
+            <div class="join-community-content">
+                <div class="join-community-icon">
+                    <i data-lucide="users"></i>
+                </div>
+                <h3 class="join-community-title">Join the MSP Alumni Community</h3>
+                <p class="join-community-text">
+                    Help us understand our alumni better! Share your info so we can organize events, 
+                    connect you with fellow graduates, and keep you updated on MSP news.
+                </p>
+                <div class="join-community-links">
+                    <a href="community.html" class="join-link whatsapp">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        WhatsApp Groups
+                    </a>
+                    <a href="https://www.instagram.com/msp_alumni/" target="_blank" class="join-link instagram">
+                        <i data-lucide="instagram"></i>
+                        Instagram
+                    </a>
+                    <a href="https://www.linkedin.com/groups/12893377/" target="_blank" class="join-link linkedin">
+                        <i data-lucide="linkedin"></i>
+                        LinkedIn
+                    </a>
+                </div>
+                <a href="community.html" class="join-community-btn">
+                    Learn More & Connect
+                    <i data-lucide="arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Nationality Diversity Section -->
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" class="footer-logo">
+                <h3>MSP Alumni Network</h3>
+                <p>Connecting MSP graduates from the Maastricht Science Programme across the world. Part of the Faculty of Science and Engineering at Maastricht University.</p>
+            </div>
+            <div class="footer-links-group">
+                <h4>Explore</h4>
+                <a href="index.html">Home</a>
+                <a href="destinations.html">Destinations</a>
+                <a href="community.html">Community</a>
+                <a href="events.html">Events</a>
+                <a href="stories.html">Stories</a>
+            </div>
+            <div class="footer-links-group">
+                <h4>Connect</h4>
+                <a href="considering-msp.html">Considering MSP?</a>
+                <a href="https://www.maastrichtuniversity.nl" target="_blank">Maastricht University</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <div class="footer-links-group">
+                <h4>Follow Us</h4>
+                <a href="https://www.instagram.com/msp_alumni/" target="_blank">Instagram</a>
+                <a href="https://www.linkedin.com/groups/12893377/" target="_blank">LinkedIn (MSP)</a>
+                <a href="https://www.linkedin.com/groups/4689010/" target="_blank">LinkedIn (FSE)</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 MSP Alumni Network. Maastricht University, Faculty of Science and Engineering.</p>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="data-bind.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Mobile nav toggle
+        function toggleMobileNav(btn) {
+            const nav = document.querySelector('.header-nav');
+            const isOpen = nav.classList.contains('open');
+            btn.classList.toggle('open');
+            nav.classList.toggle('open');
+
+            // Create/remove backdrop
+            if (!isOpen) {
+                const backdrop = document.createElement('div');
+                backdrop.className = 'nav-backdrop';
+                backdrop.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);z-index:999;opacity:0;transition:opacity 0.3s ease';
+                document.body.appendChild(backdrop);
+                document.body.style.overflow = 'hidden';
+                requestAnimationFrame(() => backdrop.style.opacity = '1');
+                backdrop.addEventListener('click', () => toggleMobileNav(btn));
+            } else {
+                const backdrop = document.querySelector('.nav-backdrop');
+                if (backdrop) {
+                    backdrop.style.opacity = '0';
+                    setTimeout(() => backdrop.remove(), 300);
+                }
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close mobile nav when a link is clicked
+        document.querySelectorAll('.header-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                const btn = document.querySelector('.menu-toggle');
+                if (btn.classList.contains('open')) {
+                    toggleMobileNav(btn);
+                }
+            });
+        });
+
+        // ==========================================
+        // HEADER SCROLL EFFECT
+        // ==========================================
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // ==========================================
+        // POPULATE FROM DATA.JS
+        // ==========================================
+        document.getElementById('totalAlumni').textContent = MSP_DATA.summary.totalAlumni.toLocaleString();
+        document.getElementById('totalNationalities').textContent = MSP_DATA.summary.nationalities;
+        document.getElementById('totalCountries').textContent = MSP_DATA.summary.countriesLivingIn;
+        document.getElementById('totalUniversities').textContent = MSP_DATA.summary.universitiesAttended + '+';
+        document.getElementById('statUniversities').textContent = MSP_DATA.summary.universitiesAttended;
+        
+        // ==========================================
+        // UNIVERSITIES GRID - With Modal
+        // ==========================================
+        const uniGrid = document.getElementById('uniGrid');
+        
+        MSP_DATA.topUniversities.slice(0, 12).forEach(uni => {
+            const card = document.createElement('div');
+            card.className = uni.prestige ? 'uni-card prestige' : 'uni-card';
+            card.style.cursor = 'pointer';
+            card.onclick = function() {
+                openUniversityModal(uni.name, uni.count, uni.code, uni.country);
+            };
+            card.innerHTML = `
+                <div class="uni-logo">
+                    <img src="assets/logos/${uni.logo}" alt="${uni.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i data-lucide=\\'graduation-cap\\'></i>'; lucide.createIcons();">
+                </div>
+                <div class="uni-name">${uni.name}</div>
+                <div class="uni-country">
+                    <img src="https://flagcdn.com/w20/${uni.code}.png" alt="${uni.country}">
+                    ${uni.country}
+                </div>
+                <div class="uni-count">${uni.count} <span>alumni</span></div>
+            `;
+            uniGrid.appendChild(card);
+        });
+        
+        // ==========================================
+        // ==========================================
+        // FIELDS OF STUDY - CLEAN BAR CHART
+        // ==========================================
+        const fieldsBars = document.getElementById('fieldsBars');
+        const maxCount = Math.max(...MSP_DATA.fieldsOfStudy.map(f => f.count));
+        
+        MSP_DATA.fieldsOfStudy.forEach((field, index) => {
+            const barWidth = (field.count / maxCount) * 100;
+            
+            const row = document.createElement('div');
+            row.className = 'field-bar-row';
+            row.innerHTML = `
+                <div class="field-bar-label">
+                    <div class="field-bar-color field-color-${index + 1}"></div>
+                    ${field.name}
+                </div>
+                <div class="field-bar-track">
+                    <div class="field-bar-fill field-color-${index + 1}" style="width: 0%;" data-width="${barWidth}"></div>
+                </div>
+                <div class="field-bar-count">${field.count}</div>
+                <div class="field-bar-percent">${field.percent}%</div>
+            `;
+            fieldsBars.appendChild(row);
+        });
+        
+        // Animate bars on load
+        setTimeout(() => {
+            document.querySelectorAll('.field-bar-fill').forEach(bar => {
+                bar.style.width = bar.dataset.width + '%';
+            });
+        }, 100);
+        
+        lucide.createIcons();
+        
+        // ==========================================
+        // GROWTH CHART
+        // ==========================================
+        const growthChart = document.getElementById('growthChart');
+        const maxGrad = Math.max(...MSP_DATA.graduationByYear.map(d => d.count));
+        
+        let cumulative = 0;
+        const dataWithCumulative = MSP_DATA.graduationByYear.map(d => {
+            cumulative += d.count;
+            return { ...d, cumulative };
+        });
+        const maxCumulative = Math.max(...dataWithCumulative.map(d => d.cumulative));
+        
+        dataWithCumulative.forEach(d => {
+            const yearlyHeight = (d.count / maxGrad) * 180;
+            const cumulativeHeight = (d.cumulative / maxCumulative) * 220;
+            
+            const bar = document.createElement('div');
+            bar.className = 'growth-bar';
+            bar.innerHTML = `
+                <div class="growth-bar-group">
+                    <div class="growth-bar-yearly" style="height: ${yearlyHeight}px">
+                        <span class="growth-bar-value">${d.count}</span>
+                    </div>
+                    <div class="growth-bar-cumulative" style="height: ${cumulativeHeight}px">
+                        <span class="growth-bar-value">${d.cumulative.toLocaleString()}</span>
+                    </div>
+                </div>
+                <div class="growth-bar-label">'${String(d.year).slice(-2)}</div>
+            `;
+            growthChart.appendChild(bar);
+        });
+        
+        // ==========================================
+        // WORLD MAP
+        // ==========================================
+        const map = L.map('worldMap', {
+            zoomControl: true,
+            scrollWheelZoom: true
+        }).setView([30, 10], 2);
+        
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: 'OpenStreetMap, CartoDB',
+            maxZoom: 18
+        }).addTo(map);
+        
+        MSP_DATA.countriesLiving.forEach(country => {
+            const radius = Math.min(Math.max(country.count / 8, 8), 40);
+            
+            let fillColor = 'rgba(0,162,219,0.6)';
+            if (country.count >= 50) {
+                fillColor = '#E84E10';
+            } else if (country.count >= 10) {
+                fillColor = '#8B5CF6';
+            }
+            
+            const marker = L.circleMarker(country.coords, {
+                radius: radius,
+                fillColor: fillColor,
+                color: '#ffffff',
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.85
+            }).addTo(map);
+            
+            const popupContent = `
+                <div class="popup-card">
+                    <div class="popup-header">
+                        <img src="https://flagcdn.com/w80/${country.code}.png" alt="${country.name}" class="popup-flag">
+                        <div class="popup-country">${country.name}</div>
+                    </div>
+                    <div class="popup-stats">
+                        <div class="popup-stat">
+                            <div class="popup-stat-number">${country.count}</div>
+                            <div class="popup-stat-label">Alumni Living Here</div>
+                        </div>
+                    </div>
+                    <a href="country.html?code=${country.code}" style="display: block; background: linear-gradient(135deg, #E84E10, #d94008); color: white; text-align: center; padding: 12px 18px; border-radius: 10px; font-weight: 600; font-size: 13px; margin-top: 12px; text-decoration: none; box-shadow: 0 4px 12px rgba(232,78,16,0.3);">
+                        Explore ${country.name} &rarr;
+                    </a>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent, { maxWidth: 280 });
+            
+            marker.on('mouseover', function() {
+                this.setStyle({ fillOpacity: 1, radius: radius * 1.2 });
+            });
+            
+            marker.on('mouseout', function() {
+                this.setStyle({ fillOpacity: 0.85, radius: radius });
+            });
+        });
+        
+        // ==========================================
+        // ANIMATED COUNTERS
+        // ==========================================
+        function animateCounter(element, target, duration = 2000, suffix = '') {
+            const start = 0;
+            const startTime = performance.now();
+            const isNumber = typeof target === 'number';
+            const numericTarget = isNumber ? target : parseInt(target);
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(start + (numericTarget - start) * easeOut);
+                
+                element.textContent = current.toLocaleString() + suffix;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    element.textContent = isNumber ? target.toLocaleString() + suffix : target;
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+        
+        // Trigger counters when hero is visible
+        const heroObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(document.getElementById('totalAlumni'), MSP_DATA.summary.totalAlumni);
+                    animateCounter(document.getElementById('totalNationalities'), MSP_DATA.summary.nationalities);
+                    animateCounter(document.getElementById('totalCountries'), MSP_DATA.summary.countriesLivingIn);
+                    animateCounter(document.getElementById('totalUniversities'), MSP_DATA.summary.universitiesAttended, 2000, '+');
+                    heroObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        heroObserver.observe(document.querySelector('.hero'));
+        
+        // ==========================================
+        // HEADER SCROLL EFFECT
+        // ==========================================
+        const header = document.getElementById('header');
+        const hero = document.querySelector('.hero');
+        
+        function updateHeader() {
+            const heroBottom = hero.offsetTop + hero.offsetHeight - 100;
+            if (window.scrollY > heroBottom) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+        
+        window.addEventListener('scroll', updateHeader);
+        updateHeader();
+        
+        // ==========================================
+        // UNIVERSITY MODAL SYSTEM
+        // ==========================================
+        
+        // University data with descriptions and programs
+        const UNIVERSITY_DATA = {
+            'Maastricht University': {
+                description: 'Maastricht University is renowned for its innovative Problem-Based Learning approach and strong international focus. The university excels in interdisciplinary research across health sciences, social sciences, and natural sciences, with particular strengths in cardiovascular research, cognitive neuroscience, and European studies.',
+                programs: ['Biomedical Sciences', 'Data Science & AI', 'Cognitive & Clinical Neuroscience', 'Systems Biology', 'Sustainability Science', 'European Studies'],
+                website: 'https://www.maastrichtuniversity.nl'
+            },
+            'Utrecht University': {
+                description: 'Utrecht University is a leading research university carrying out fundamental and applied research across pathways to sustainability, life sciences, and institutions for open societies. The university combines different disciplines with an integrated approach to tackle major societal challenges including climate change, infectious diseases, and social cohesion.',
+                programs: ['Life Sciences', 'Environmental Sciences', 'Applied Data Science', 'Artificial Intelligence', 'Neuroscience', 'Climate Physics', 'Drug Innovation'],
+                website: 'https://www.uu.nl'
+            },
+            'University of Amsterdam': {
+                description: 'The University of Amsterdam is one of Europe\'s leading research universities, excelling in research and education across sciences and humanities. With a focus on interdisciplinary collaboration, UvA addresses complex societal challenges through cutting-edge research in fields from AI to sustainability.',
+                programs: ['Artificial Intelligence', 'Data Science', 'Physics & Astronomy', 'Chemistry', 'Brain & Cognitive Sciences', 'Computational Science'],
+                website: 'https://www.uva.nl'
+            },
+            'Leiden University': {
+                description: 'Founded in 1575, Leiden University is the Netherlands\' oldest university with a rich tradition in research and education. The university excels in fundamental research across natural sciences, life sciences, and humanities, with particular strengths in astronomy, biomedical sciences, and archaeology.',
+                programs: ['Astronomy', 'Life Science & Technology', 'Bio-Pharmaceutical Sciences', 'Computer Science', 'Statistical Science', 'Mathematics'],
+                website: 'https://www.universiteitleiden.nl'
+            },
+            'Wageningen University': {
+                description: 'Wageningen University is a world leader in the domain of healthy food and living environment. The university focuses on scientific and societal impact in the fields of agriculture, food security, sustainable development, and environmental sciences.',
+                programs: ['Plant Sciences', 'Environmental Sciences', 'Food Technology', 'Molecular Life Sciences', 'Climate Studies', 'Bioinformatics'],
+                website: 'https://www.wur.nl'
+            },
+            'Wageningen University & Research': {
+                description: 'Wageningen University is a world leader in the domain of healthy food and living environment. The university focuses on scientific and societal impact in the fields of agriculture, food security, sustainable development, and environmental sciences.',
+                programs: ['Plant Sciences', 'Environmental Sciences', 'Food Technology', 'Molecular Life Sciences', 'Climate Studies', 'Bioinformatics'],
+                website: 'https://www.wur.nl'
+            },
+            'Radboud University': {
+                description: 'Radboud University is a student-centered research university that stands out for its excellent programmes, ground-breaking research, and strong societal involvement. The university has particular strengths in cognitive neuroscience, particle physics, and molecular sciences.',
+                programs: ['Cognitive Neuroscience', 'Physics & Astronomy', 'Molecular Sciences', 'Medical Biology', 'Computing Science', 'Artificial Intelligence'],
+                website: 'https://www.ru.nl'
+            },
+            'University of Groningen': {
+                description: 'The University of Groningen is a research university with a global outlook, deeply rooted in the city of Groningen. With a focus on sustainability, healthy ageing, and energy, the university tackles major societal challenges through interdisciplinary research.',
+                programs: ['Biomolecular Sciences', 'Astronomy', 'Applied Mathematics', 'Physics', 'Computing Science', 'Energy & Environmental Sciences'],
+                website: 'https://www.rug.nl'
+            },
+            'Imperial College London': {
+                description: 'Imperial College London is a world-leading university for science, technology, engineering, mathematics and business. Ranked #2 globally in QS 2026, Imperial has the highest proportion of world-leading research in the UK and is renowned for tackling global challenges from climate change to disease prevention.',
+                programs: ['Bioengineering', 'Advanced Computing', 'Environmental Technology', 'Synthetic Biology', 'AI & Machine Learning', 'Quantum Engineering'],
+                website: 'https://www.imperial.ac.uk'
+            },
+            'University College London': {
+                description: 'UCL is London\'s leading multidisciplinary university with an international reputation for quality research and teaching. UCL excels in neuroscience, AI, global health, and quantum science, with extensive research collaborations worldwide.',
+                programs: ['Neuroscience', 'Machine Learning', 'Quantum Technologies', 'Global Health', 'Environmental Modelling', 'Advanced Materials'],
+                website: 'https://www.ucl.ac.uk'
+            },
+            'University of Edinburgh': {
+                description: 'The University of Edinburgh is one of the world\'s top universities, consistently ranked in the global top 30. With pioneering research in informatics, genetics, and artificial intelligence, Edinburgh continues to drive innovation and discovery.',
+                programs: ['Artificial Intelligence', 'Bioinformatics', 'Computational Biology', 'Data Science', 'Neuroscience', 'Synthetic Biology'],
+                website: 'https://www.ed.ac.uk'
+            },
+            'University of Oxford': {
+                description: 'The University of Oxford is the oldest university in the English-speaking world and ranks among the very best universities globally. Oxford leads in research across all scientific disciplines, from quantum physics to biomedical sciences.',
+                programs: ['Interdisciplinary Bioscience', 'Mathematical Sciences', 'Physics', 'Computer Science', 'Systems Biology', 'Medical Sciences'],
+                website: 'https://www.ox.ac.uk'
+            },
+            'University of Cambridge': {
+                description: 'The University of Cambridge is one of the world\'s oldest and most prestigious universities. Cambridge excels in research across all scientific disciplines with particular strengths in computational biology, physics, engineering, and mathematics.',
+                programs: ['Computational Biology', 'Machine Learning', 'Physics', 'Engineering', 'Mathematics', 'Medical Sciences'],
+                website: 'https://www.cam.ac.uk'
+            },
+            'ETH Zurich': {
+                description: 'ETH Zurich is one of the world\'s leading universities for science and technology. Founded in 1854, ETH has educated 22 Nobel laureates including Albert Einstein, and ranks #7 globally. ETH excels in engineering, computer science, mathematics, and natural sciences.',
+                programs: ['Computer Science', 'Robotics & Control', 'Biomedical Engineering', 'Computational Biology', 'Data Science', 'Quantum Engineering', 'Energy Science'],
+                website: 'https://ethz.ch'
+            },
+            'EPFL': {
+                description: 'Ecole Polytechnique Federale de Lausanne (EPFL) is Switzerland\'s premier technical university, specializing in physical sciences and engineering. EPFL drives innovation through cutting-edge research in areas from quantum computing to life sciences.',
+                programs: ['Life Sciences Engineering', 'Computational Science', 'Robotics', 'Data Science', 'Photonics', 'Nuclear Engineering'],
+                website: 'https://www.epfl.ch'
+            },
+            'University of Zurich': {
+                description: 'The University of Zurich is Switzerland\'s largest university and one of Europe\'s most prestigious research institutions. UZH excels in life sciences, neuroscience, economics, and social sciences with strong interdisciplinary research programs.',
+                programs: ['Biomedicine', 'Neuroscience', 'Biostatistics', 'Data Science', 'Quantitative Finance', 'Evolution & Ecology'],
+                website: 'https://www.uzh.ch'
+            },
+            'Uppsala University': {
+                description: 'Uppsala University, founded in 1477, is the oldest university in the Nordic countries. A world-class research university, Uppsala excels in life sciences, environmental studies, and pharmaceutical sciences.',
+                programs: ['Molecular Biology', 'Environmental Science', 'Computational Science', 'Applied Biotechnology', 'Bioinformatics', 'Toxicology'],
+                website: 'https://www.uu.se'
+            },
+            'Lund University': {
+                description: 'Lund University is one of Northern Europe\'s oldest and most prestigious universities. With a strong tradition in research and innovation, Lund excels in medical sciences, engineering, environmental studies, and sustainability research.',
+                programs: ['Biotechnology', 'Sustainable Energy Systems', 'Environmental Science', 'Medical Sciences', 'Molecular Biology', 'Data Science'],
+                website: 'https://www.lunduniversity.lu.se'
+            },
+            'Karolinska Institutet': {
+                description: 'Karolinska Institutet is one of the world\'s foremost medical universities, responsible for selecting Nobel Laureates in Physiology or Medicine. KI accounts for over 40% of academic medical research in Sweden.',
+                programs: ['Biomedicine', 'Global Health', 'Toxicology', 'Molecular Medicine', 'Public Health Sciences', 'Health Informatics'],
+                website: 'https://ki.se'
+            },
+            'Stockholm University': {
+                description: 'Stockholm University is a leading European university in the sciences and humanities. The university conducts world-class research in environmental sciences, molecular biosciences, physics, and mathematics.',
+                programs: ['Molecular Life Science', 'Environmental Science', 'Physics', 'Data Science', 'Biochemistry', 'Mathematics'],
+                website: 'https://www.su.se'
+            },
+            'University of Copenhagen': {
+                description: 'The University of Copenhagen is the oldest and largest university in Denmark, consistently ranked among the top universities in Europe. UCPH excels in life sciences, health sciences, and sustainability research.',
+                programs: ['Bioinformatics', 'Molecular Biomedicine', 'Data Science', 'Environmental Science', 'Neuroscience', 'Pharmaceutical Sciences'],
+                website: 'https://www.ku.dk'
+            },
+            'Technical University of Denmark': {
+                description: 'DTU is one of Europe\'s leading engineering institutions with a strong focus on technical and natural sciences. DTU develops technologies that address global challenges in sustainable energy, health technology, and digitalization.',
+                programs: ['Bioengineering', 'Sustainable Energy', 'Bioinformatics', 'Data Science', 'Environmental Engineering', 'Biotechnology'],
+                website: 'https://www.dtu.dk'
+            },
+            'KU Leuven': {
+                description: 'KU Leuven is Belgium\'s largest and highest-ranked university, consistently placed among Europe\'s top universities. KU Leuven excels in biomedical sciences, engineering, and sustainable development research.',
+                programs: ['Bioscience Engineering', 'Bioinformatics', 'Artificial Intelligence', 'Biomedical Sciences', 'Statistics', 'Environmental Sciences'],
+                website: 'https://www.kuleuven.be'
+            },
+            'Delft University of Technology': {
+                description: 'TU Delft is the oldest and largest technical university in the Netherlands, renowned for its engineering education and research. TU Delft excels in sustainable technology, aerospace engineering, and applied sciences.',
+                programs: ['Applied Physics', 'Computer Science', 'Systems Engineering', 'Biomedical Engineering', 'Applied Mathematics', 'Green Energy'],
+                website: 'https://www.tudelft.nl'
+            },
+            'TU Delft': {
+                description: 'TU Delft is the oldest and largest technical university in the Netherlands, renowned for its engineering education and research. TU Delft excels in sustainable technology, aerospace engineering, and applied sciences.',
+                programs: ['Applied Physics', 'Computer Science', 'Systems Engineering', 'Biomedical Engineering', 'Applied Mathematics', 'Green Energy'],
+                website: 'https://www.tudelft.nl'
+            }
+        };
+        
+        // Function to open university modal
+        function openUniversityModal(universityName, alumniCount, countryCode, countryName) {
+            const modal = document.getElementById('universityModal');
+            const uniData = UNIVERSITY_DATA[universityName];
+            
+            if (!uniData) {
+                console.warn('No data found for:', universityName);
+                return;
+            }
+            
+            // Set modal content
+            document.getElementById('modalTitle').textContent = universityName;
+            document.getElementById('modalLocation').innerHTML = `
+                <img src="https://flagcdn.com/w40/${countryCode}.png" alt="${countryName}">
+                ${countryName}
+            `;
+            document.getElementById('modalAlumniCount').innerHTML = `
+                <i data-lucide="users"></i>
+                ${alumniCount} MSP Alumni
+            `;
+            document.getElementById('modalDescription').textContent = uniData.description;
+            
+            // Set programs
+            const programsList = document.getElementById('modalProgramsList');
+            programsList.innerHTML = '';
+            uniData.programs.forEach(program => {
+                const pill = document.createElement('div');
+                pill.className = 'modal-program-pill';
+                pill.textContent = program;
+                programsList.appendChild(pill);
+            });
+            
+            // Set website link
+            document.getElementById('modalWebsiteLink').href = uniData.website;
+            
+            // Set logo
+            const logoPath = UNI_LOGO_FILES[universityName];
+            const modalLogo = document.getElementById('modalLogo');
+            if (logoPath) {
+                modalLogo.innerHTML = `<img src="assets/logos/${logoPath}" alt="${universityName}" onerror="this.style.display='none'">`;
+            } else {
+                modalLogo.innerHTML = '<i data-lucide="graduation-cap"></i>';
+            }
+            
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Refresh Lucide icons
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+        
+        // Function to close university modal
+        function closeUniversityModal() {
+            const modal = document.getElementById('universityModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Close modal when clicking overlay
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                closeUniversityModal();
+            }
+        });
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeUniversityModal();
+            }
+        });
+        
+        // ==========================================
+        
+    </script>
+    
+    <!-- University Modal -->
+    <div id="universityModal" class="university-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeUniversityModal()">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-logo" id="modalLogo"></div>
+                    <div class="modal-title-section">
+                        <h2 id="modalTitle"></h2>
+                        <p id="modalLocation"></p>
+                    </div>
+                </div>
+                <div class="modal-alumni-count" id="modalAlumniCount"></div>
+                <div class="modal-description" id="modalDescription"></div>
+                <div class="modal-programs">
+                    <h3>RELEVANT PROGRAMMES FOR MSP GRADUATES</h3>
+                    <div class="modal-programs-list" id="modalProgramsList"></div>
+                </div>
+                <a id="modalWebsiteLink" href="#" target="_blank" class="modal-website-btn">
+                    Visit University Website
+                    <i data-lucide="external-link"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+<script data-goatcounter="https://mspalumni.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
