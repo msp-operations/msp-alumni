@@ -316,6 +316,7 @@
         .ev-list { max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
 
         .ev-row {
+            position: relative; cursor: pointer;
             display: grid; grid-template-columns: 210px 1fr; gap: 20px;
             background: var(--um-white); border: 1px solid var(--um-gray-200);
             border-radius: var(--radius-md); padding: 14px;
@@ -358,6 +359,13 @@
         .ev-btn.ghost { background: var(--um-gray-100); color: var(--um-gray-700); }
         .ev-btn.ghost:hover { background: var(--um-gray-200); }
         .ev-btn.soon { background: var(--um-gray-100); color: var(--um-gray-400); cursor: default; }
+
+        .ev-chev { position: absolute; top: 14px; right: 14px; width: 18px; height: 18px; color: var(--um-gray-300); transition: transform var(--transition-fast), color var(--transition-fast); }
+        .ev-row:hover .ev-chev { color: var(--um-gray-400); }
+        .ev-row.expanded .ev-chev { transform: rotate(180deg); color: var(--um-light-blue); }
+        .ev-details { max-height: 0; overflow: hidden; opacity: 0; transition: max-height var(--transition-smooth), opacity var(--transition-smooth), margin-top var(--transition-smooth); }
+        .ev-details p { font-size: 13.5px; color: var(--um-gray-600); line-height: 1.6; margin: 0; padding-top: 12px; border-top: 1px solid var(--um-gray-100); }
+        .ev-row.expanded .ev-details { max-height: 340px; opacity: 1; margin-top: 8px; }
 
         @media (max-width: 620px) {
             .ev-row { grid-template-columns: 1fr; gap: 12px; }
@@ -827,6 +835,7 @@
         </div>
         <div class="ev-list">
             <article class="ev-row">
+                <i data-lucide="chevron-down" class="ev-chev"></i>
                 <div class="ev-thumb" onclick="openLightbox('assets/images/msp-15-year.png')">
                     <span class="ev-badge upcoming">Date TBC</span>
                     <span class="ev-ph"><i data-lucide="graduation-cap"></i></span>
@@ -839,9 +848,11 @@
                         <span><i data-lucide="calendar"></i> Late November 2026</span>
                         <span><i data-lucide="map-pin"></i> FSE, Maastricht University</span>
                     </div>
-                    <p class="ev-desc">MSP turns 15, and we are marking it with an alumni conference at the faculty. More on the programme and registration soon.</p>
                     <div class="ev-actions">
                         <a href="community.html" class="ev-btn ghost"><i data-lucide="bell"></i> Get notified</a>
+                    </div>
+                    <div class="ev-details">
+                        <p>The Maastricht Science Programme turns 15, and we are marking the occasion with an alumni conference right here at the faculty. A chance to reconnect with fellow MSP graduates, reflect on where the programme has come from, and celebrate the community we have built together. More on the programme and registration coming soon.</p>
                     </div>
                 </div>
             </article>
@@ -852,11 +863,12 @@
         <div class="ev-header">
             <div class="section-label">Archive</div>
             <h2 class="ev-title-lg">Past Events</h2>
-            <p class="ev-sub">Talks, reunions and gatherings. Watch the recordings back.</p>
+            <p class="ev-sub">Talks, reunions and gatherings. Click any event for details, and watch the recordings back.</p>
         </div>
         <div class="ev-list">
 
             <article class="ev-row">
+                <i data-lucide="chevron-down" class="ev-chev"></i>
                 <div class="ev-thumb" onclick="openLightbox('assets/images/UM50.png')">
                     <span class="ev-badge past">Past</span>
                     <span class="ev-ph"><i data-lucide="party-popper"></i></span>
@@ -872,10 +884,14 @@
                     <div class="ev-actions">
                         <a href="https://surfdrive.surf.nl/s/E7y7yz23FKm2rSp" target="_blank" class="ev-btn ghost"><i data-lucide="image"></i> View photos</a>
                     </div>
+                    <div class="ev-details">
+                        <p>Maastricht University turned 50, and we celebrated together. MSP alumni joined a festive reunion day with a Back to the Future pub quiz and a light lunch from food trucks at the University College Maastricht building, before walking together to the university-wide celebration at Tapijnkazerne.</p>
+                    </div>
                 </div>
             </article>
 
             <article class="ev-row" id="talk-mark">
+                <i data-lucide="chevron-down" class="ev-chev"></i>
                 <div class="ev-thumb" onclick="openLightbox('assets/images/mark-fingerhuth-talk.png')">
                     <span class="ev-badge past">Past</span>
                     <span class="ev-ph"><i data-lucide="atom"></i></span>
@@ -895,10 +911,14 @@
                         <span class="ev-btn soon"><i data-lucide="clock"></i> Recording soon</span>
                         <a href="https://www.proteinqure.com" target="_blank" class="ev-btn ghost"><i data-lucide="globe"></i> ProteinQure</a>
                     </div>
+                    <div class="ev-details">
+                        <p>MSP alumnus Mark Fingerhuth shared his work at ProteinQure, where machine learning and computational methods are used to design proteins and accelerate drug discovery, and reflected on his path from MSP into deep tech.</p>
+                    </div>
                 </div>
             </article>
 
             <article class="ev-row" id="talk-kai-brecht">
+                <i data-lucide="chevron-down" class="ev-chev"></i>
                 <div class="ev-thumb" onclick="openLightbox('assets/images/kai-brecht-talk.png')">
                     <span class="ev-badge past">Past</span>
                     <span class="ev-ph"><i data-lucide="orbit"></i></span>
@@ -912,17 +932,21 @@
                         <span><i data-lucide="map-pin"></i> ETPathfinder, Maastricht + online</span>
                     </div>
                     <div class="ev-speakers">
-                        <span class="ev-spk"><span class="av">KH</span> Kai Hendriks</span>
-                        <span class="ev-spk"><span class="av">BS</span> Brecht Slootmaekers</span>
+                        <span class="ev-spk"><span class="av">KH</span> Kai Hendriks <em>Niels Bohr Institute</em></span>
+                        <span class="ev-spk"><span class="av">BS</span> Brecht Slootmaekers <em>GWFP, Maastricht &amp; Nikhef</em></span>
                     </div>
                     <div class="ev-actions">
                         <span class="ev-btn soon"><i data-lucide="clock"></i> Recording soon</span>
                         <a href="https://www.kaihendriks.com/" target="_blank" class="ev-btn ghost"><i data-lucide="globe"></i> Kai's site</a>
                     </div>
+                    <div class="ev-details">
+                        <p>Two MSP alumni returned to talk gravitational waves and the next generation of detectors. Kai Hendriks shared his work on how binary black holes form by reading the imprint their environment leaves on the gravitational-wave signal, and what the Einstein Telescope could reveal. Brecht Slootmaekers followed with his research at the GWFP group. Q&amp;A moderated by Gideon Koekoek.</p>
+                    </div>
                 </div>
             </article>
 
             <article class="ev-row" id="talk-aliya-thomas">
+                <i data-lucide="chevron-down" class="ev-chev"></i>
                 <div class="ev-thumb" onclick="openLightbox('assets/images/foto for website.png')">
                     <span class="ev-badge past">Past</span>
                     <span class="ev-ph"><i data-lucide="brain"></i></span>
@@ -936,18 +960,22 @@
                         <span><i data-lucide="video"></i> Online</span>
                     </div>
                     <div class="ev-speakers">
-                        <span class="ev-spk"><span class="av">AS</span> Aliya Shah</span>
-                        <span class="ev-spk"><span class="av">TR</span> Thomas von Rein</span>
+                        <span class="ev-spk"><span class="av">AS</span> Aliya Shah <em>Psychotherapist, Nairobi</em></span>
+                        <span class="ev-spk"><span class="av">TR</span> Thomas von Rein <em>Neuroscience, Cologne</em></span>
                     </div>
                     <div class="ev-actions">
                         <a href="https://surfdrive.surf.nl/s/GJHAmneP8wHJoB7" target="_blank" class="ev-btn primary"><i data-lucide="play-circle"></i> Watch</a>
                         <a href="mailto:msp-alumni@maastrichtuniversity.nl?subject=Alumni%20Talk%20Recording%20Access%20Code" class="ev-btn ghost"><i data-lucide="mail"></i> Access code</a>
                         <button class="ev-btn ghost" onclick="openBurnoutSummaryModal(); return false;"><i data-lucide="file-text"></i> Summary</button>
                     </div>
+                    <div class="ev-details">
+                        <p>A psychotherapist in Nairobi and a neuroscience researcher in Cologne unpacked what chronic stress and burnout really do to the brain and body, and what actually helps in recovery. Polyvagal theory, vagal tone, somatic practices, co-regulation, and cross-cultural perspectives on stress.</p>
+                    </div>
                 </div>
             </article>
 
             <article class="ev-row" id="talk-jordi">
+                <i data-lucide="chevron-down" class="ev-chev"></i>
                 <div class="ev-thumb" onclick="openLightbox('assets/images/Jordi Alumnbi Talk.png')">
                     <span class="ev-badge past">Past</span>
                     <span class="ev-ph"><i data-lucide="rocket"></i></span>
@@ -961,12 +989,15 @@
                         <span><i data-lucide="video"></i> Online</span>
                     </div>
                     <div class="ev-speakers">
-                        <span class="ev-spk"><span class="av">JF</span> Jordi Ferrer Orri</span>
+                        <span class="ev-spk"><span class="av">JF</span> Jordi Ferrer Orri <em>Entrepreneur, Materials &amp; Sustainability</em></span>
                     </div>
                     <div class="ev-actions">
                         <a href="https://surfdrive.surf.nl/s/LQ8MTzsMJNog3xb" target="_blank" class="ev-btn primary"><i data-lucide="play-circle"></i> Watch</a>
                         <a href="mailto:msp-alumni@maastrichtuniversity.nl?subject=Alumni%20Talk%20Recording%20Access%20Code" class="ev-btn ghost"><i data-lucide="mail"></i> Access code</a>
                         <button class="ev-btn ghost" onclick="openSummaryModal(); return false;"><i data-lucide="file-text"></i> Summary</button>
+                    </div>
+                    <div class="ev-details">
+                        <p>MSP alumnus Jordi Ferrer Orri shared his entrepreneurial journey in the materials and sustainability space: the key lessons, the challenges, and how his MSP experience translated into real-world entrepreneurial paths. The first talk in the MSP Alumni Talk series.</p>
                     </div>
                 </div>
             </article>
@@ -1385,6 +1416,14 @@
                 document.body.style.overflow = '';
             }
         }
+
+        // Click an event row to expand/collapse its details
+        document.querySelectorAll('.ev-row').forEach(function(row){
+            row.addEventListener('click', function(e){
+                if (e.target.closest('a, button, .ev-thumb')) return;
+                this.classList.toggle('expanded');
+            });
+        });
 
         // Close mobile nav when a link is clicked
         document.querySelectorAll('.header-nav a').forEach(link => {
