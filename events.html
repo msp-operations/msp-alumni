@@ -367,6 +367,22 @@
         .ev-details p { font-size: 13.5px; color: var(--um-gray-600); line-height: 1.6; margin: 0; padding-top: 12px; border-top: 1px solid var(--um-gray-100); }
         .ev-row.expanded .ev-details { max-height: 340px; opacity: 1; margin-top: 8px; }
 
+        /* Event detail modal */
+        .event-modal { position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(0,16,31,0.72); backdrop-filter: blur(3px); }
+        .event-modal.active { display: flex; }
+        .event-modal-card { position: relative; background: var(--um-white); border-radius: var(--radius-lg); max-width: 640px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-xl); }
+        .event-modal-img { width: 100%; aspect-ratio: 16 / 9; background-size: cover; background-position: center; background-color: var(--um-dark-blue); border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+        .event-modal-body { display: flex; flex-direction: column; padding: 22px 26px 26px; }
+        .event-modal-body .ev-tag { font-size: 12px; }
+        .event-modal-body h3.ev-title { font-size: 22px; margin: 2px 0; }
+        .event-modal-body .ev-meta { font-size: 13.5px; margin-top: 4px; }
+        .event-modal-body .ev-speakers { margin-top: 12px; }
+        .event-modal-body .ev-details { order: 1; max-height: none; opacity: 1; margin-top: 14px; }
+        .event-modal-body .ev-details p { font-size: 14.5px; padding-top: 14px; }
+        .event-modal-body .ev-actions { order: 2; margin-top: 18px; }
+        .event-modal-close { position: absolute; top: 12px; right: 12px; z-index: 2; width: 34px; height: 34px; border-radius: 50%; border: none; background: rgba(0,0,0,0.45); color: #fff; font-size: 22px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background var(--transition-fast); }
+        .event-modal-close:hover { background: rgba(0,0,0,0.7); }
+
         @media (max-width: 620px) {
             .ev-row { grid-template-columns: 1fr; gap: 12px; }
             .ev-thumb { max-width: 260px; }
@@ -835,8 +851,8 @@
         </div>
         <div class="ev-list">
             <article class="ev-row">
-                <i data-lucide="chevron-down" class="ev-chev"></i>
-                <div class="ev-thumb" onclick="openLightbox('assets/images/msp-15-year.png')">
+                <i data-lucide="maximize-2" class="ev-chev"></i>
+                <div class="ev-thumb">
                     <span class="ev-badge upcoming">Date TBC</span>
                     <span class="ev-ph"><i data-lucide="graduation-cap"></i></span>
                     <img src="assets/images/msp-15-year.png" alt="MSP 15th Anniversary Alumni Conference" onerror="this.remove()">
@@ -868,8 +884,8 @@
         <div class="ev-list">
 
             <article class="ev-row">
-                <i data-lucide="chevron-down" class="ev-chev"></i>
-                <div class="ev-thumb" onclick="openLightbox('assets/images/UM50.png')">
+                <i data-lucide="maximize-2" class="ev-chev"></i>
+                <div class="ev-thumb">
                     <span class="ev-badge past">Past</span>
                     <span class="ev-ph"><i data-lucide="party-popper"></i></span>
                     <img src="assets/images/UM50.png" alt="UM 50 Alumni Homecoming" onerror="this.remove()">
@@ -891,8 +907,8 @@
             </article>
 
             <article class="ev-row" id="talk-mark">
-                <i data-lucide="chevron-down" class="ev-chev"></i>
-                <div class="ev-thumb" onclick="openLightbox('assets/images/mark-fingerhuth-talk.png')">
+                <i data-lucide="maximize-2" class="ev-chev"></i>
+                <div class="ev-thumb">
                     <span class="ev-badge past">Past</span>
                     <span class="ev-ph"><i data-lucide="atom"></i></span>
                     <img src="assets/images/mark-fingerhuth-talk.png" alt="Computational Drug Discovery with Mark Fingerhuth" onerror="this.remove()">
@@ -919,8 +935,8 @@
             </article>
 
             <article class="ev-row" id="talk-kai-brecht">
-                <i data-lucide="chevron-down" class="ev-chev"></i>
-                <div class="ev-thumb" onclick="openLightbox('assets/images/kai-brecht-talk.png')">
+                <i data-lucide="maximize-2" class="ev-chev"></i>
+                <div class="ev-thumb">
                     <span class="ev-badge past">Past</span>
                     <span class="ev-ph"><i data-lucide="orbit"></i></span>
                     <img src="assets/images/kai-brecht-talk.png" alt="Binary Black Holes, Gravitational Waves and ETPathfinder" onerror="this.remove()">
@@ -948,8 +964,8 @@
             </article>
 
             <article class="ev-row" id="talk-aliya-thomas">
-                <i data-lucide="chevron-down" class="ev-chev"></i>
-                <div class="ev-thumb" onclick="openLightbox('assets/images/foto for website.png')">
+                <i data-lucide="maximize-2" class="ev-chev"></i>
+                <div class="ev-thumb">
                     <span class="ev-badge past">Past</span>
                     <span class="ev-ph"><i data-lucide="brain"></i></span>
                     <img src="assets/images/foto for website.png" alt="Understanding Chronic Stress and Burnout" onerror="this.remove()">
@@ -977,8 +993,8 @@
             </article>
 
             <article class="ev-row" id="talk-jordi">
-                <i data-lucide="chevron-down" class="ev-chev"></i>
-                <div class="ev-thumb" onclick="openLightbox('assets/images/Jordi Alumnbi Talk.png')">
+                <i data-lucide="maximize-2" class="ev-chev"></i>
+                <div class="ev-thumb">
                     <span class="ev-badge past">Past</span>
                     <span class="ev-ph"><i data-lucide="rocket"></i></span>
                     <img src="assets/images/Jordi Alumnbi Talk.png" alt="Entrepreneurship and Sustainability with Jordi Ferrer Orri" onerror="this.remove()">
@@ -1006,6 +1022,15 @@
 
         </div>
     </section>
+
+    <!-- Event detail modal -->
+    <div class="event-modal" id="eventModal" onclick="closeEventModal(event)">
+        <div class="event-modal-card" onclick="event.stopPropagation()">
+            <button class="event-modal-close" onclick="closeEventModal()" aria-label="Close">&times;</button>
+            <div class="event-modal-img" id="eventModalImg"></div>
+            <div class="event-modal-body" id="eventModalBody"></div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -1419,13 +1444,32 @@
             }
         }
 
-        // Click an event row to expand/collapse its details
+        // Click an event row to open its detail card
         document.querySelectorAll('.ev-row').forEach(function(row){
             row.addEventListener('click', function(e){
-                if (e.target.closest('a, button, .ev-thumb')) return;
-                this.classList.toggle('expanded');
+                if (e.target.closest('a, button')) return;
+                openEventModal(this);
             });
         });
+        function openEventModal(row){
+            var modal = document.getElementById('eventModal');
+            var img = row.querySelector('.ev-thumb img');
+            var imgWrap = document.getElementById('eventModalImg');
+            if (img && img.getAttribute('src')) {
+                imgWrap.style.backgroundImage = 'url("' + img.getAttribute('src') + '")';
+                imgWrap.style.display = 'block';
+            } else { imgWrap.style.display = 'none'; }
+            document.getElementById('eventModalBody').innerHTML = row.querySelector('.ev-body').innerHTML;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function closeEventModal(e){
+            if (e && e.target !== e.currentTarget && !(e.target.classList && e.target.classList.contains('event-modal-close'))) return;
+            document.getElementById('eventModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeEventModal(); });
 
         // Close mobile nav when a link is clicked
         document.querySelectorAll('.header-nav a').forEach(link => {
