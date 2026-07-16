@@ -1,96 +1,96 @@
 // MSP Alumni Data - Complete Dataset
 // Last updated: March 2026
-// Total alumni: 1397 across 78 nationalities
+// Total alumni: 1527 across 78 nationalities
 // Universities: 262 (verified from cleaned database)
 
 const COUNTRY_DETAILS = {
     "nl": {
-        name: "Netherlands", code: "nl", count: 483,
+        name: "Netherlands", code: "nl", count: 533,
         gender: { Female: 278, Male: 184 },
         graduationYears: { "2014": 5, "2015": 9, "2016": 22, "2017": 25, "2018": 20, "2019": 26, "2020": 40, "2021": 52, "2022": 56, "2023": 62, "2024": 73, "2025": 72 },
         cities: [{ name: "Maastricht", count: 112 }, { name: "Amsterdam", count: 95 }, { name: "Utrecht", count: 72 }, { name: "Leiden", count: 38 }, { name: "Wageningen", count: 20 }, { name: "Groningen", count: 18 }],
-        nationalities: [{ name: "Dutch", code: "nl", count: 158 }, { name: "German", code: "de", count: 45 }, { name: "Belgian", code: "be", count: 36 }, { name: "Italian", code: "it", count: 28 }],
+        nationalities: [{ name: "Dutch", code: "nl", count: 208 }, { name: "German", code: "de", count: 50 }, { name: "Belgian", code: "be", count: 40 }, { name: "Italian", code: "it", count: 31 }],
         universities: [{ name: "Maastricht University", count: 143 }, { name: "Utrecht University", count: 99 }, { name: "University of Amsterdam", count: 75 }, { name: "Leiden University", count: 45 }, { name: "Wageningen University & Research", count: 43 }],
         coords: [52.1326, 5.2913]
     },
     "de": {
-        name: "Germany", code: "de", count: 100,
+        name: "Germany", code: "de", count: 105,
         gender: { Female: 64, Male: 29 },
         graduationYears: { "2014": 3, "2015": 12, "2016": 8, "2017": 5, "2018": 10, "2019": 6, "2020": 5, "2021": 9, "2022": 8, "2023": 12, "2024": 6, "2025": 9 },
         cities: [{ name: "Munich", count: 22 }, { name: "Berlin", count: 21 }, { name: "Hamburg", count: 7 }, { name: "Cologne", count: 4 }],
-        nationalities: [{ name: "German", code: "de", count: 48 }, { name: "Dutch", code: "nl", count: 8 }, { name: "Belgian", code: "be", count: 6 }],
+        nationalities: [{ name: "German", code: "de", count: 53 }, { name: "Dutch", code: "nl", count: 58 }, { name: "Belgian", code: "be", count: 10 }],
         universities: [{ name: "Technical University of Munich", count: 10 }, { name: "Humboldt University Berlin", count: 5 }, { name: "LMU Munich", count: 4 }],
         coords: [51.1657, 10.4515]
     },
     "gb": {
-        name: "United Kingdom", code: "gb", count: 86,
+        name: "United Kingdom", code: "gb", count: 92,
         gender: { Female: 50, Male: 33 },
         graduationYears: { "2015": 5, "2016": 7, "2017": 8, "2018": 8, "2019": 10, "2020": 9, "2021": 9, "2022": 5, "2023": 10, "2024": 8, "2025": 4 },
         cities: [{ name: "London", count: 38 }, { name: "Oxford", count: 8 }, { name: "Edinburgh", count: 7 }, { name: "Cambridge", count: 5 }],
-        nationalities: [{ name: "British", code: "gb", count: 26 }, { name: "German", code: "de", count: 12 }, { name: "Dutch", code: "nl", count: 10 }],
+        nationalities: [{ name: "British", code: "gb", count: 32 }, { name: "German", code: "de", count: 17 }, { name: "Dutch", code: "nl", count: 60 }],
         universities: [{ name: "Imperial College London", count: 19 }, { name: "University College London", count: 14 }, { name: "University of Edinburgh", count: 7 }, { name: "University of Oxford", count: 7 }, { name: "University of Cambridge", count: 8 }],
         coords: [55.3781, -3.4360]
     },
     "be": {
-        name: "Belgium", code: "be", count: 77,
+        name: "Belgium", code: "be", count: 81,
         gender: { Female: 39, Male: 31 },
         graduationYears: { "2014": 3, "2015": 2, "2016": 5, "2017": 7, "2018": 3, "2019": 5, "2020": 6, "2021": 14, "2022": 6, "2023": 7, "2024": 6, "2025": 6 },
         cities: [{ name: "Brussels", count: 34 }, { name: "Leuven", count: 16 }, { name: "Antwerp", count: 5 }, { name: "Ghent", count: 5 }],
-        nationalities: [{ name: "Belgian", code: "be", count: 33 }, { name: "Italian", code: "it", count: 6 }, { name: "Spanish", code: "es", count: 5 }],
+        nationalities: [{ name: "Belgian", code: "be", count: 37 }, { name: "Italian", code: "it", count: 9 }, { name: "Spanish", code: "es", count: 6 }],
         universities: [{ name: "KU Leuven", count: 21 }, { name: "Vrije Universiteit Brussel", count: 5 }, { name: "Ghent University", count: 4 }],
         coords: [50.5039, 4.4699]
     },
     "se": {
-        name: "Sweden", code: "se", count: 50,
+        name: "Sweden", code: "se", count: 53,
         gender: { Female: 26, Male: 23 },
         graduationYears: { "2019": 2, "2020": 6, "2021": 4, "2022": 9, "2023": 4, "2024": 12, "2025": 12 },
         cities: [{ name: "Stockholm", count: 18 }, { name: "Uppsala", count: 15 }, { name: "Lund", count: 10 }],
-        nationalities: [{ name: "German", code: "de", count: 12 }, { name: "Belgian", code: "be", count: 8 }, { name: "Dutch", code: "nl", count: 7 }],
+        nationalities: [{ name: "German", code: "de", count: 17 }, { name: "Belgian", code: "be", count: 12 }, { name: "Dutch", code: "nl", count: 57 }],
         universities: [{ name: "Uppsala University", count: 19 }, { name: "Lund University", count: 14 }, { name: "Karolinska Institutet", count: 11 }, { name: "Stockholm University", count: 9 }],
         coords: [60.1282, 18.6435]
     },
     "ch": {
-        name: "Switzerland", code: "ch", count: 43,
+        name: "Switzerland", code: "ch", count: 44,
         gender: { Female: 27, Male: 10 },
         graduationYears: { "2017": 4, "2019": 5, "2021": 4, "2022": 2, "2023": 3, "2024": 8, "2025": 11 },
         cities: [{ name: "Zurich", count: 20 }, { name: "Lausanne", count: 6 }, { name: "Basel", count: 4 }, { name: "Geneva", count: 3 }],
-        nationalities: [{ name: "German", code: "de", count: 8 }, { name: "Italian", code: "it", count: 6 }, { name: "Swiss", code: "ch", count: 5 }],
+        nationalities: [{ name: "German", code: "de", count: 13 }, { name: "Italian", code: "it", count: 9 }, { name: "Swiss", code: "ch", count: 6 }],
         universities: [{ name: "ETH Zurich", count: 14 }, { name: "University of Zurich", count: 4 }, { name: "EPFL", count: 3 }],
         coords: [46.8182, 8.2275]
     },
     "it": {
-        name: "Italy", code: "it", count: 34,
+        name: "Italy", code: "it", count: 37,
         gender: { Female: 24, Male: 8 },
         graduationYears: { "2019": 3, "2020": 6, "2021": 2, "2022": 5, "2024": 6, "2025": 10 },
         cities: [{ name: "Milan", count: 12 }, { name: "Bologna", count: 6 }, { name: "Rome", count: 4 }],
-        nationalities: [{ name: "Italian", code: "it", count: 20 }, { name: "Dutch", code: "nl", count: 3 }],
+        nationalities: [{ name: "Italian", code: "it", count: 23 }, { name: "Dutch", code: "nl", count: 53 }],
         universities: [{ name: "Universita di Bologna", count: 6 }, { name: "Bocconi University", count: 3 }],
         coords: [41.8719, 12.5674]
     },
     "fr": {
-        name: "France", code: "fr", count: 30,
+        name: "France", code: "fr", count: 35,
         gender: { Female: 22, Male: 8 },
         graduationYears: { "2020": 6, "2021": 3, "2022": 4, "2023": 4, "2024": 8, "2025": 5 },
         cities: [{ name: "Paris", count: 22 }, { name: "Lyon", count: 3 }],
-        nationalities: [{ name: "French", code: "fr", count: 12 }, { name: "German", code: "de", count: 4 }],
+        nationalities: [{ name: "French", code: "fr", count: 17 }, { name: "German", code: "de", count: 9 }],
         universities: [{ name: "Ecole Polytechnique", count: 5 }, { name: "Sorbonne University", count: 3 }],
         coords: [46.2276, 2.2137]
     },
     "es": {
-        name: "Spain", code: "es", count: 34,
+        name: "Spain", code: "es", count: 35,
         gender: { Male: 15, Female: 14 },
         graduationYears: { "2017": 5, "2018": 3, "2019": 3, "2020": 4, "2024": 6, "2025": 8 },
         cities: [{ name: "Barcelona", count: 20 }, { name: "Madrid", count: 6 }],
-        nationalities: [{ name: "Spanish", code: "es", count: 14 }, { name: "Italian", code: "it", count: 7 }],
+        nationalities: [{ name: "Spanish", code: "es", count: 15 }, { name: "Italian", code: "it", count: 10 }],
         universities: [{ name: "University of Barcelona", count: 5 }],
         coords: [40.4637, -3.7492]
     },
     "dk": {
-        name: "Denmark", code: "dk", count: 24,
+        name: "Denmark", code: "dk", count: 28,
         gender: { Female: 15, Male: 9 },
         graduationYears: { "2020": 4, "2023": 7, "2024": 3, "2025": 10 },
         cities: [{ name: "Copenhagen", count: 22 }],
-        nationalities: [{ name: "Dutch", code: "nl", count: 7 }, { name: "German", code: "de", count: 6 }, { name: "Belgian", code: "be", count: 4 }],
+        nationalities: [{ name: "Dutch", code: "nl", count: 57 }, { name: "German", code: "de", count: 11 }, { name: "Belgian", code: "be", count: 8 }],
         universities: [{ name: "University of Copenhagen", count: 14 }, { name: "Technical University of Denmark", count: 5 }],
         coords: [56.2639, 9.5018]
     },
@@ -99,34 +99,34 @@ const COUNTRY_DETAILS = {
         gender: { Female: 12, Male: 11 },
         graduationYears: { "2019": 2, "2020": 3, "2022": 3, "2023": 9, "2024": 3, "2025": 3 },
         cities: [{ name: "Boston", count: 5 }, { name: "San Francisco", count: 3 }, { name: "New York", count: 3 }],
-        nationalities: [{ name: "American", code: "us", count: 5 }, { name: "German", code: "de", count: 4 }, { name: "Indian", code: "in", count: 3 }],
+        nationalities: [{ name: "American", code: "us", count: 5 }, { name: "German", code: "de", count: 9 }, { name: "Indian", code: "in", count: 3 }],
         universities: [{ name: "Harvard University", count: 2 }, { name: "Johns Hopkins University", count: 2 }],
         coords: [37.0902, -95.7129]
     },
     "fi": {
-        name: "Finland", code: "fi", count: 18,
+        name: "Finland", code: "fi", count: 19,
         gender: { Female: 12, Male: 6 },
         graduationYears: { "2017": 3, "2018": 2, "2021": 3, "2022": 4, "2024": 3, "2025": 3 },
         cities: [{ name: "Helsinki", count: 17 }],
-        nationalities: [{ name: "Finnish", code: "fi", count: 8 }, { name: "Dutch", code: "nl", count: 5 }],
+        nationalities: [{ name: "Finnish", code: "fi", count: 9 }, { name: "Dutch", code: "nl", count: 55 }],
         universities: [{ name: "University of Helsinki", count: 5 }, { name: "Aalto University", count: 4 }],
         coords: [61.9241, 25.7482]
     },
     "at": {
-        name: "Austria", code: "at", count: 19,
+        name: "Austria", code: "at", count: 22,
         gender: { Female: 10, Male: 7 },
         graduationYears: { "2018": 2, "2020": 2, "2022": 3, "2023": 4, "2024": 6 },
         cities: [{ name: "Vienna", count: 14 }],
-        nationalities: [{ name: "German", code: "de", count: 7 }, { name: "Austrian", code: "at", count: 3 }],
+        nationalities: [{ name: "German", code: "de", count: 12 }, { name: "Austrian", code: "at", count: 6 }],
         universities: [{ name: "University of Vienna", count: 3 }, { name: "TU Wien", count: 2 }],
         coords: [47.5162, 14.5501]
     },
     "ie": {
-        name: "Ireland", code: "ie", count: 10,
+        name: "Ireland", code: "ie", count: 13,
         gender: { Female: 8, Male: 2 },
         graduationYears: { "2020": 3, "2021": 2, "2023": 2, "2024": 1, "2025": 2 },
         cities: [{ name: "Dublin", count: 8 }],
-        nationalities: [{ name: "Belgian", code: "be", count: 3 }, { name: "Irish", code: "ie", count: 2 }],
+        nationalities: [{ name: "Belgian", code: "be", count: 7 }, { name: "Irish", code: "ie", count: 5 }],
         universities: [{ name: "University College Dublin", count: 4 }, { name: "Trinity College Dublin", count: 3 }],
         coords: [53.1424, -7.6921]
     },
@@ -144,34 +144,34 @@ const COUNTRY_DETAILS = {
         gender: { Female: 6, Male: 2 },
         graduationYears: { "2014": 1, "2017": 2, "2018": 1, "2019": 1, "2022": 2, "2025": 1 },
         cities: [{ name: "Toronto", count: 5 }, { name: "Montreal", count: 2 }],
-        nationalities: [{ name: "Dutch", code: "nl", count: 3 }, { name: "British", code: "gb", count: 2 }],
+        nationalities: [{ name: "Dutch", code: "nl", count: 53 }, { name: "British", code: "gb", count: 8 }],
         universities: [{ name: "McGill University", count: 2 }, { name: "University of Toronto", count: 2 }],
         coords: [56.1304, -106.3468]
     },
     "pt": {
-        name: "Portugal", code: "pt", count: 8,
+        name: "Portugal", code: "pt", count: 10,
         gender: { Female: 4, Male: 4 },
         graduationYears: { "2020": 1, "2021": 2, "2022": 1, "2023": 2, "2025": 2 },
         cities: [{ name: "Lisbon", count: 6 }],
-        nationalities: [{ name: "Belgian", code: "be", count: 2 }, { name: "Portuguese", code: "pt", count: 2 }],
+        nationalities: [{ name: "Belgian", code: "be", count: 6 }, { name: "Portuguese", code: "pt", count: 4 }],
         universities: [{ name: "University of Lisbon", count: 2 }],
         coords: [39.3999, -8.2245]
     },
     "no": {
-        name: "Norway", code: "no", count: 6,
+        name: "Norway", code: "no", count: 8,
         gender: { Female: 5, Male: 1 },
         graduationYears: { "2015": 1, "2018": 1, "2019": 1, "2023": 3 },
         cities: [{ name: "Oslo", count: 5 }],
-        nationalities: [{ name: "Dutch", code: "nl", count: 2 }, { name: "Norwegian", code: "no", count: 2 }],
+        nationalities: [{ name: "Dutch", code: "nl", count: 52 }, { name: "Norwegian", code: "no", count: 4 }],
         universities: [{ name: "University of Oslo", count: 2 }],
         coords: [60.4720, 8.4689]
     },
     "au": {
-        name: "Australia", code: "au", count: 7,
+        name: "Australia", code: "au", count: 8,
         gender: { Male: 4, Female: 3 },
         graduationYears: { "2017": 2, "2021": 2, "2024": 1, "2025": 2 },
         cities: [{ name: "Sydney", count: 3 }, { name: "Melbourne", count: 2 }],
-        nationalities: [{ name: "Australian", code: "au", count: 3 }],
+        nationalities: [{ name: "Australian", code: "au", count: 4 }],
         universities: [{ name: "University of Melbourne", count: 2 }],
         coords: [-25.2744, 133.7751]
     },
@@ -305,12 +305,12 @@ const COUNTRY_DETAILS = {
 // MSP_DATA - Main data object used by most pages
 const MSP_DATA = {
     summary: {
-        totalAlumni: 1397,
+        totalAlumni: 1527,
         nationalities: 78,
         countriesLivingIn: 59,
         universitiesAttended: 262
     },
-    lastUpdated: "March 2026",
+    lastUpdated: "July 2026",
     
     graduationByYear: [
         { year: 2014, count: 25 },
@@ -325,29 +325,29 @@ const MSP_DATA = {
         { year: 2023, count: 170 },
         { year: 2024, count: 193 },
         { year: 2025, count: 240 },
-        { year: 2026, count: 76 }
+        { year: 2026, count: 206 }
     ],
     
     countriesLiving: [
-        { name: "Netherlands", code: "nl", count: 483, coords: [52.1326, 5.2913] },
-        { name: "Germany", code: "de", count: 100, coords: [51.1657, 10.4515] },
-        { name: "United Kingdom", code: "gb", count: 86, coords: [55.3781, -3.4360] },
-        { name: "Belgium", code: "be", count: 77, coords: [50.5039, 4.4699] },
-        { name: "Sweden", code: "se", count: 50, coords: [60.1282, 18.6435] },
-        { name: "Switzerland", code: "ch", count: 43, coords: [46.8182, 8.2275] },
-        { name: "Italy", code: "it", count: 34, coords: [41.8719, 12.5674] },
-        { name: "Spain", code: "es", count: 34, coords: [40.4637, -3.7492] },
-        { name: "France", code: "fr", count: 33, coords: [46.2276, 2.2137] },
-        { name: "Denmark", code: "dk", count: 25, coords: [56.2639, 9.5018] },
+        { name: "Netherlands", code: "nl", count: 533, coords: [52.1326, 5.2913] },
+        { name: "Germany", code: "de", count: 105, coords: [51.1657, 10.4515] },
+        { name: "United Kingdom", code: "gb", count: 92, coords: [55.3781, -3.4360] },
+        { name: "Belgium", code: "be", count: 81, coords: [50.5039, 4.4699] },
+        { name: "Sweden", code: "se", count: 53, coords: [60.1282, 18.6435] },
+        { name: "Switzerland", code: "ch", count: 44, coords: [46.8182, 8.2275] },
+        { name: "Italy", code: "it", count: 37, coords: [41.8719, 12.5674] },
+        { name: "Spain", code: "es", count: 35, coords: [40.4637, -3.7492] },
+        { name: "France", code: "fr", count: 38, coords: [46.2276, 2.2137] },
+        { name: "Denmark", code: "dk", count: 29, coords: [56.2639, 9.5018] },
         { name: "United States", code: "us", count: 24, coords: [37.0902, -95.7129] },
-        { name: "Austria", code: "at", count: 19, coords: [47.5162, 14.5501] },
-        { name: "Finland", code: "fi", count: 17, coords: [61.9241, 25.7482] },
-        { name: "Ireland", code: "ie", count: 11, coords: [53.1424, -7.6921] },
-        { name: "Portugal", code: "pt", count: 9, coords: [39.3999, -8.2245] },
+        { name: "Austria", code: "at", count: 22, coords: [47.5162, 14.5501] },
+        { name: "Finland", code: "fi", count: 18, coords: [61.9241, 25.7482] },
+        { name: "Ireland", code: "ie", count: 14, coords: [53.1424, -7.6921] },
+        { name: "Portugal", code: "pt", count: 11, coords: [39.3999, -8.2245] },
         { name: "Luxembourg", code: "lu", count: 9, coords: [49.8153, 6.1296] },
-        { name: "Australia", code: "au", count: 9, coords: [-25.2744, 133.7751] },
+        { name: "Australia", code: "au", count: 10, coords: [-25.2744, 133.7751] },
         { name: "Canada", code: "ca", count: 8, coords: [56.1304, -106.3468] },
-        { name: "Norway", code: "no", count: 7, coords: [60.4720, 8.4689] },
+        { name: "Norway", code: "no", count: 9, coords: [60.4720, 8.4689] },
         { name: "Japan", code: "jp", count: 4, coords: [36.2048, 138.2529] },
         { name: "Greece", code: "gr", count: 4, coords: [39.0742, 21.8243] },
         { name: "Poland", code: "pl", count: 4, coords: [51.9194, 19.1451] },
@@ -393,27 +393,27 @@ const MSP_DATA = {
     // FIXED: Logo filenames now match actual files in assets/logos/
     // UPDATED: February 2026 - counts corrected from cleaned database
     topUniversities: [
-        { name: "Maastricht University", count: 149, code: "nl", country: "Netherlands", logo: "maastricht-university.png", prestige: false },
-        { name: "Utrecht University", count: 101, code: "nl", country: "Netherlands", logo: "utrecht-university.png", prestige: false },
-        { name: "University of Amsterdam", count: 75, code: "nl", country: "Netherlands", logo: "university-of-amsterdam.png", prestige: false },
-        { name: "Leiden University", count: 47, code: "nl", country: "Netherlands", logo: "leiden-university.png", prestige: true },
-        { name: "Wageningen University & Research", count: 43, code: "nl", country: "Netherlands", logo: "wageningen-university.png", prestige: true },
-        { name: "Radboud University", count: 39, code: "nl", country: "Netherlands", logo: "radboud-university.png", prestige: false },
-        { name: "University of Groningen", count: 26, code: "nl", country: "Netherlands", logo: "university-of-groningen.png", prestige: false },
-        { name: "KU Leuven", count: 21, code: "be", country: "Belgium", logo: "ku-leuven.png", prestige: true },
+        { name: "Maastricht University", count: 159, code: "nl", country: "Netherlands", logo: "maastricht-university.png", prestige: false },
+        { name: "Utrecht University", count: 109, code: "nl", country: "Netherlands", logo: "utrecht-university.png", prestige: false },
+        { name: "University of Amsterdam", count: 78, code: "nl", country: "Netherlands", logo: "university-of-amsterdam.png", prestige: false },
+        { name: "Leiden University", count: 53, code: "nl", country: "Netherlands", logo: "leiden-university.png", prestige: true },
+        { name: "Wageningen University & Research", count: 44, code: "nl", country: "Netherlands", logo: "wageningen-university.png", prestige: true },
+        { name: "Radboud University", count: 42, code: "nl", country: "Netherlands", logo: "radboud-university.png", prestige: false },
+        { name: "University of Groningen", count: 27, code: "nl", country: "Netherlands", logo: "university-of-groningen.png", prestige: false },
+        { name: "KU Leuven", count: 23, code: "be", country: "Belgium", logo: "ku-leuven.png", prestige: true },
+        { name: "University of Copenhagen", count: 21, code: "dk", country: "Denmark", logo: "university-of-copenhagen.png", prestige: true },
         { name: "Delft University of Technology", count: 20, code: "nl", country: "Netherlands", logo: "tu-delft.png", prestige: true },
         { name: "Imperial College London", count: 19, code: "gb", country: "United Kingdom", logo: "imperial-college-london.png", prestige: true },
         { name: "Uppsala University", count: 19, code: "se", country: "Sweden", logo: "uppsala-university.png", prestige: true },
-        { name: "University of Copenhagen", count: 18, code: "dk", country: "Denmark", logo: "university-of-copenhagen.png", prestige: true },
+        { name: "University College London", count: 16, code: "gb", country: "United Kingdom", logo: "ucl.png", prestige: true },
         { name: "Vrije Universiteit Amsterdam", count: 16, code: "nl", country: "Netherlands", logo: "vrije-universiteit-amsterdam.png", prestige: false },
+        { name: "Lund University", count: 16, code: "se", country: "Sweden", logo: "lund-university.png", prestige: true },
         { name: "ETH Zurich", count: 15, code: "ch", country: "Switzerland", logo: "eth-zurich.png", prestige: true },
-        { name: "University College London", count: 14, code: "gb", country: "United Kingdom", logo: "ucl.png", prestige: true },
-        { name: "Lund University", count: 14, code: "se", country: "Sweden", logo: "lund-university.png", prestige: true },
+        { name: "Eindhoven University of Technology", count: 12, code: "nl", country: "Netherlands", logo: "eindhoven-university.png", prestige: true },
         { name: "Karolinska Institutet", count: 11, code: "se", country: "Sweden", logo: "karolinska-institutet.png", prestige: true },
         { name: "Technical University of Munich", count: 10, code: "de", country: "Germany", logo: "tu-munich.png", prestige: true },
         { name: "Stockholm University", count: 9, code: "se", country: "Sweden", logo: "stockholm-university.png", prestige: false },
-        { name: "Eindhoven University of Technology", count: 9, code: "nl", country: "Netherlands", logo: "eindhoven-university.png", prestige: true },
-        { name: "University of Cambridge", count: 8, code: "gb", country: "United Kingdom", logo: "university-of-cambridge.png", prestige: true }
+        { name: "University of Cambridge", count: 9, code: "gb", country: "United Kingdom", logo: "university-of-cambridge.png", prestige: true }
     ],
     
     fieldsOfStudy: [
@@ -453,7 +453,7 @@ const MSP_DATA = {
     recruitment: {
         heroStat: "78 nationalities. 59 countries. 262 universities.",
         proofStats: [
-            { number: 1397, label: "MSP Alumni", highlight: true },
+            { number: 1527, label: "MSP Alumni", highlight: true },
             { number: 78, label: "Nationalities" },
             { number: 262, label: "Master's Universities" },
             { number: "10.1%", label: "Pursuing PhDs", subtext: "At world-leading institutions" }
@@ -467,7 +467,7 @@ const MSP_DATA = {
     
     consideringMSP: {
         heroStats: {
-            alumni: 1397,
+            alumni: 1527,
             nationalities: 78,
             universities: 262,
             countries: 59
@@ -545,14 +545,14 @@ const MSP_DATA = {
                 { year: 2014, count: 25 }, { year: 2015, count: 44 }, { year: 2016, count: 57 }, { year: 2017, count: 66 },
                 { year: 2018, count: 65 }, { year: 2019, count: 76 }, { year: 2020, count: 108 }, { year: 2021, count: 132 },
                 { year: 2022, count: 145 }, { year: 2023, count: 170 }, { year: 2024, count: 193 }, { year: 2025, count: 240 },
-                { year: 2026, count: 76 }
+                { year: 2026, count: 206 }
             ]
         },
         
         regionalImpact: { inNetherlands: 483, netherlandsPercent: 34.6, fromEuregio: 390, euregioPercent: 27.9, euregioRetention: 21.5 },
         
         quickFacts: [
-            { number: "60%", label: "Female Students", sublabel: "832 of 1,397 alumni", icon: "users" },
+            { number: "60%", label: "Female Students", sublabel: "832 of 1,397 on record", icon: "users" },
             { number: "35%", label: "Stay in Netherlands", sublabel: "483 alumni currently", icon: "map-pin" },
             { number: "82", label: "At Elite Universities", sublabel: "World Top 25 institutions", icon: "award" },
             { number: "3.9x", label: "Programme Growth", sublabel: "Since 2014", icon: "trending-up" }
@@ -575,38 +575,38 @@ const MSP_DATA = {
         universityTiers: {
             worldTop10: {
                 label: "World Top 10",
-                count: 31,
+                count: 32,
                 universities: [
                     { name: "ETH Zurich", code: "ch", count: 15, logo: "eth-zurich.png" },
-                    { name: "Cambridge", code: "gb", count: 8, logo: "university-of-cambridge.png" },
+                    { name: "Cambridge", code: "gb", count: 9, logo: "university-of-cambridge.png" },
                     { name: "Oxford", code: "gb", count: 7, logo: "university-of-oxford.png" },
                     { name: "Harvard", code: "us", count: 1, logo: "harvard.png" }
                 ]
             },
             worldTop25: {
                 label: "World Top 25",
-                count: 83,
+                count: 85,
                 universities: [
                     { name: "Imperial College", code: "gb", count: 19, logo: "imperial-college-london.png" },
-                    { name: "UCL", code: "gb", count: 14, logo: "ucl.png" },
+                    { name: "UCL", code: "gb", count: 16, logo: "ucl.png" },
                     { name: "Karolinska Institutet", code: "se", count: 11, logo: "karolinska-institutet.png" },
                     { name: "EPFL", code: "ch", count: 2, logo: "epfl.png" },
                     { name: "Princeton", code: "us", count: 1, logo: "princeton.png" },
                     { name: "Columbia", code: "us", count: 1, logo: "columbia.png" },
                     { name: "Uppsala University", code: "se", count: 19, logo: "uppsala-university.png" },
-                    { name: "Lund University", code: "se", count: 14, logo: "lund-university.png" }
+                    { name: "Lund University", code: "se", count: 16, logo: "lund-university.png" }
                 ]
             },
             topDutch: {
                 label: "Top Dutch Universities",
-                count: 443,
+                count: 485,
                 universities: [
-                    { name: "Maastricht University", code: "nl", count: 149, logo: "maastricht-university.png" },
-                    { name: "Utrecht University", code: "nl", count: 101, logo: "utrecht-university.png" },
-                    { name: "University of Amsterdam", code: "nl", count: 75, logo: "university-of-amsterdam.png" },
-                    { name: "Leiden University", code: "nl", count: 47, logo: "leiden-university.png" },
-                    { name: "Wageningen University & Research", code: "nl", count: 43, logo: "wageningen-university.png" },
-                    { name: "Radboud University", code: "nl", count: 39, logo: "radboud-university.png" }
+                    { name: "Maastricht University", code: "nl", count: 159, logo: "maastricht-university.png" },
+                    { name: "Utrecht University", code: "nl", count: 109, logo: "utrecht-university.png" },
+                    { name: "University of Amsterdam", code: "nl", count: 78, logo: "university-of-amsterdam.png" },
+                    { name: "Leiden University", code: "nl", count: 53, logo: "leiden-university.png" },
+                    { name: "Wageningen University & Research", code: "nl", count: 44, logo: "wageningen-university.png" },
+                    { name: "Radboud University", code: "nl", count: 42, logo: "radboud-university.png" }
                 ]
             }
         },
