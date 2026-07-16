@@ -636,6 +636,40 @@
             padding: 100px 50px;
         }
 
+        /* Alumni Talks quick index */
+        .talks-index {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            padding: 20px 24px;
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(0,28,61,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .talks-index-head {
+            display: flex; align-items: center; gap: 8px;
+            width: 100%; margin-bottom: 4px;
+            font-size: 13px; font-weight: 700; letter-spacing: 1.2px;
+            text-transform: uppercase; color: var(--um-blue, #00a2db);
+        }
+        .talks-index-head i { width: 16px; height: 16px; }
+        .talks-index-item {
+            display: flex; flex-direction: column; gap: 3px;
+            flex: 1 1 220px; min-width: 200px;
+            padding: 11px 15px; border-radius: 11px;
+            text-decoration: none;
+            background: rgba(0,162,219,0.06);
+            border: 1px solid rgba(0,162,219,0.16);
+            transition: transform .15s ease, background .15s ease;
+        }
+        .talks-index-item:hover { background: rgba(0,162,219,0.13); transform: translateY(-2px); }
+        .talks-index-name { font-size: 14px; font-weight: 600; color: var(--um-dark-blue, #001c3d); line-height: 1.25; }
+        .talks-index-sub { font-size: 12px; color: #667085; }
+        .talk-soon { opacity: .55; cursor: default; }
+
         /* ============================================
            FOOTER
         ============================================ */
@@ -1112,118 +1146,6 @@
 
         <div class="events-list">
 
-            <!-- EVENT: Alumni x Academic Committee Talk — Binary Black Holes, Gravitational Waves & ETPathfinder -->
-            <div class="event-card">
-                <div class="event-status-ribbon upcoming">Today</div>
-                <div class="event-image">
-                    <div class="event-image-placeholder">
-                        <i data-lucide="orbit"></i>
-                        <span>Binary Black Holes, Gravitational Waves &amp; ETPathfinder</span>
-                    </div>
-                </div>
-                <div class="event-body">
-                    <div class="event-type-tag">
-                        <i data-lucide="mic"></i>
-                        Alumni &times; Academic Committee Talk
-                    </div>
-                    <h2 class="event-title">Binary Black Holes, Gravitational Waves &amp; ETPathfinder with Kai Hendriks &amp; Brecht Slootmaekers</h2>
-                    <div class="event-meta">
-                        <div class="event-meta-item">
-                            <i data-lucide="calendar"></i>
-                            Tuesday, 28 April 2026
-                        </div>
-                        <div class="event-meta-item">
-                            <i data-lucide="clock"></i>
-                            14:00 – 15:30 &nbsp;·&nbsp; Europe/Amsterdam
-                        </div>
-                        <div class="event-meta-item">
-                            <i data-lucide="map-pin"></i>
-                            ETPathfinder Visitor Gallery (DUB30), Maastricht &nbsp;·&nbsp; also online via MS Teams
-                        </div>
-                    </div>
-                    <div class="event-speaker">
-                        <div class="event-speaker-avatar">KH</div>
-                        <div class="event-speaker-info">
-                            <div class="event-speaker-name">Dr Kai Hendriks</div>
-                            <div class="event-speaker-role">MSP class of 2019 &middot; PhD, Niels Bohr Institute, Copenhagen 🇩🇰</div>
-                        </div>
-                        <div class="event-speaker-badge">MSP Alumnus</div>
-                    </div>
-                    <div class="event-speaker">
-                        <div class="event-speaker-avatar">BS</div>
-                        <div class="event-speaker-info">
-                            <div class="event-speaker-name">Brecht Slootmaekers</div>
-                            <div class="event-speaker-role">MSP class of 2022 &middot; PhD candidate, GWFP &mdash; Maastricht University &amp; Nikhef 🇳🇱</div>
-                        </div>
-                        <div class="event-speaker-badge">MSP Alumnus</div>
-                    </div>
-                    <p class="event-description">
-                        Two MSP alumni return to talk gravitational waves and the next generation of detectors.
-                        Kai Hendriks shares his work on probing how binary black holes form by reading the imprint
-                        their environment leaves on the gravitational-wave signal &mdash; and what the Einstein Telescope
-                        could reveal. Brecht Slootmaekers follows with his research at the GWFP group.
-                        Q&amp;A moderated by Gideon Koekoek. A rare chance to step inside the ETPathfinder Visitor Gallery.
-                    </p>
-                    <div class="event-actions">
-                        <a href="https://indico.nikhef.nl/event/7983/" target="_blank" class="event-btn primary">
-                            Register / Join
-                            <i data-lucide="arrow-right"></i>
-                        </a>
-                        <a href="https://www.kaihendriks.com/" target="_blank" class="event-btn secondary">
-                            <i data-lucide="globe"></i>
-                            Kai's Website
-                        </a>
-                        <a href="https://www.linkedin.com/in/kai-hendriks/" target="_blank" class="event-btn secondary">
-                            <i data-lucide="linkedin"></i>
-                            Kai on LinkedIn
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- EVENT: UM 50 Homecoming -->
-            <div class="event-card">
-                <div class="event-status-ribbon upcoming">Upcoming</div>
-                <div class="event-image event-image-dark clickable" onclick="openLightbox('assets/images/UM50.png')">
-                    <img src="assets/images/UM50.png" alt="UM 50 Alumni Homecoming" class="img-um50">
-                    <div class="zoom-hint"><i data-lucide="zoom-in"></i> View full image</div>
-                </div>
-                <div class="event-body">
-                    <div class="event-type-tag">
-                        <i data-lucide="party-popper"></i>
-                        Reunion · University Event
-                    </div>
-                    <h2 class="event-title">UM 50 Alumni Homecoming</h2>
-                    <div class="event-meta">
-                        <div class="event-meta-item">
-                            <i data-lucide="calendar"></i>
-                            Saturday, 23 May 2026
-                        </div>
-                        <div class="event-meta-item">
-                            <i data-lucide="clock"></i>
-                            11:45 – 19:00 &nbsp;·&nbsp; FSE programme: 11:45–14:30
-                        </div>
-                        <div class="event-meta-item">
-                            <i data-lucide="map-pin"></i>
-                            Zwingelput 4 + Tapijnkazerne, Maastricht
-                        </div>
-                    </div>
-                    <p class="event-description">
-                        Maastricht University turns 50 — and we're celebrating together.
-                        Join fellow MSP alumni for a festive reunion day filled with good food, great company,
-                        and memories old and new. The day kicks off with the FSE faculty programme:
-                        a Back to the Future-themed pub quiz and lunch at Zwingelput 4, before we all walk
-                        together to the main university-wide celebration at Tapijnkazerne.
-                    </p>
-                    <div class="event-actions">
-                        <a href="https://www.aanmelder.nl/alumnihomecoming/home" target="_blank" class="event-btn primary">
-                            Register Now
-                            <i data-lucide="arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
             <!-- EVENT 3: MSP 15th Anniversary Alumni Conference -->
             <div class="event-card">
                 <div class="event-status-ribbon announced">Date TBC</div>
@@ -1279,10 +1201,155 @@
             <p class="events-section-subtitle">Missed it? Watch it back.</p>
         </div>
 
+        <!-- Alumni Talks quick index -->
+        <nav class="talks-index" aria-label="Alumni Talks">
+            <div class="talks-index-head"><i data-lucide="mic"></i> Alumni Talks</div>
+            <a class="talks-index-item" href="#talk-mark">
+                <span class="talks-index-name">Mark Fingerhuth</span>
+                <span class="talks-index-sub">ProteinQure &middot; 8 May 2026</span>
+            </a>
+            <a class="talks-index-item" href="#talk-kai-brecht">
+                <span class="talks-index-name">Kai Hendriks &amp; Brecht Slootmaekers</span>
+                <span class="talks-index-sub">Gravitational waves &amp; ETPathfinder &middot; 28 Apr 2026</span>
+            </a>
+            <a class="talks-index-item" href="#talk-aliya-thomas">
+                <span class="talks-index-name">Aliya Shah &amp; Thomas von Rein</span>
+                <span class="talks-index-sub">Chronic stress &amp; burnout &middot; 26 Mar 2026</span>
+            </a>
+            <a class="talks-index-item" href="#talk-jordi">
+                <span class="talks-index-name">Jordi Ferrer Orri</span>
+                <span class="talks-index-sub">Entrepreneurship &amp; sustainability &middot; 26 Feb 2026</span>
+            </a>
+        </nav>
+
         <div class="events-list">
 
-            <!-- Past Event: Aliya Shah & Thomas von Rein -->
+            <!-- Past Event: UM 50 Homecoming -->
             <div class="event-card past-card">
+                <div class="event-status-ribbon past">Past Event</div>
+                <div class="event-image event-image-dark clickable" onclick="openLightbox('assets/images/UM50.png')">
+                    <img src="assets/images/UM50.png" alt="UM 50 Alumni Homecoming" class="img-um50">
+                    <div class="zoom-hint"><i data-lucide="zoom-in"></i> View full image</div>
+                </div>
+                <div class="event-body">
+                    <div class="event-type-tag">
+                        <i data-lucide="party-popper"></i>
+                        Reunion · University Event
+                    </div>
+                    <h2 class="event-title">UM 50 Alumni Homecoming</h2>
+                    <div class="event-meta">
+                        <div class="event-meta-item"><i data-lucide="calendar"></i> Saturday, 23 May 2026</div>
+                        <div class="event-meta-item"><i data-lucide="clock"></i> 11:45 – 19:00 &nbsp;·&nbsp; FSE programme: 11:45–14:30</div>
+                        <div class="event-meta-item"><i data-lucide="map-pin"></i> Zwingelput 4 + Tapijnkazerne, Maastricht</div>
+                    </div>
+                    <p class="event-description">
+                        Maastricht University turned 50, and we celebrated together. MSP alumni joined a festive reunion day with a Back to the Future pub quiz and lunch at Zwingelput 4, followed by the university-wide celebration at Tapijnkazerne.
+                    </p>
+                    <div class="event-actions">
+                        <a href="https://surfdrive.surf.nl/s/E7y7yz23FKm2rSp" target="_blank" class="event-btn secondary">
+                            <i data-lucide="image"></i>
+                            View Photos
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Past Event: Mark Fingerhuth -->
+            <div class="event-card past-card" id="talk-mark">
+                <div class="event-status-ribbon past">Past Event</div>
+                <div class="event-image">
+                    <div class="event-image-placeholder">
+                        <i data-lucide="atom"></i>
+                        <span>Computational Drug Discovery with ProteinQure</span>
+                    </div>
+                </div>
+                <div class="event-body">
+                    <div class="event-type-tag">
+                        <i data-lucide="mic"></i>
+                        MSP Alumni Talk
+                    </div>
+                    <h2 class="event-title">Computational Drug Discovery with Mark Fingerhuth</h2>
+                    <div class="event-meta">
+                        <div class="event-meta-item"><i data-lucide="calendar"></i> 8 May 2026</div>
+                        <div class="event-meta-item"><i data-lucide="clock"></i> 16:00</div>
+                        <div class="event-meta-item"><i data-lucide="video"></i> Online via Microsoft Teams</div>
+                    </div>
+                    <div class="event-speaker">
+                        <div class="event-speaker-avatar">MF</div>
+                        <div class="event-speaker-info">
+                            <div class="event-speaker-name">Mark Fingerhuth</div>
+                            <div class="event-speaker-role">MSP Alumnus &middot; ProteinQure</div>
+                        </div>
+                        <div class="event-speaker-badge">MSP Alumnus</div>
+                    </div>
+                    <p class="event-description">
+                        MSP alumnus Mark Fingerhuth shared his work at ProteinQure, where machine learning and computational methods are used to design proteins and accelerate drug discovery, and reflected on his path from MSP into deep tech.
+                    </p>
+                    <div class="event-actions">
+                        <span class="event-btn secondary talk-soon"><i data-lucide="play-circle"></i> Recording coming soon</span>
+                        <a href="https://www.proteinqure.com" target="_blank" class="event-btn secondary">
+                            <i data-lucide="globe"></i>
+                            ProteinQure
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Past Event: Kai Hendriks & Brecht Slootmaekers -->
+            <div class="event-card past-card" id="talk-kai-brecht">
+                <div class="event-status-ribbon past">Past Event</div>
+                <div class="event-image">
+                    <div class="event-image-placeholder">
+                        <i data-lucide="orbit"></i>
+                        <span>Binary Black Holes, Gravitational Waves &amp; ETPathfinder</span>
+                    </div>
+                </div>
+                <div class="event-body">
+                    <div class="event-type-tag">
+                        <i data-lucide="mic"></i>
+                        Alumni &times; Academic Committee Talk
+                    </div>
+                    <h2 class="event-title">Binary Black Holes, Gravitational Waves &amp; ETPathfinder with Kai Hendriks &amp; Brecht Slootmaekers</h2>
+                    <div class="event-meta">
+                        <div class="event-meta-item"><i data-lucide="calendar"></i> Tuesday, 28 April 2026</div>
+                        <div class="event-meta-item"><i data-lucide="clock"></i> 14:00 – 15:30 &nbsp;·&nbsp; Europe/Amsterdam</div>
+                        <div class="event-meta-item"><i data-lucide="map-pin"></i> ETPathfinder Visitor Gallery (DUB30), Maastricht &nbsp;·&nbsp; also online via MS Teams</div>
+                    </div>
+                    <div class="event-speaker">
+                        <div class="event-speaker-avatar">KH</div>
+                        <div class="event-speaker-info">
+                            <div class="event-speaker-name">Dr Kai Hendriks</div>
+                            <div class="event-speaker-role">MSP class of 2019 &middot; PhD, Niels Bohr Institute, Copenhagen 🇩🇰</div>
+                        </div>
+                        <div class="event-speaker-badge">MSP Alumnus</div>
+                    </div>
+                    <div class="event-speaker">
+                        <div class="event-speaker-avatar">BS</div>
+                        <div class="event-speaker-info">
+                            <div class="event-speaker-name">Brecht Slootmaekers</div>
+                            <div class="event-speaker-role">MSP class of 2022 &middot; PhD candidate, GWFP, Maastricht University &amp; Nikhef 🇳🇱</div>
+                        </div>
+                        <div class="event-speaker-badge">MSP Alumnus</div>
+                    </div>
+                    <p class="event-description">
+                        Two MSP alumni returned to talk gravitational waves and the next generation of detectors. Kai Hendriks shared his work on probing how binary black holes form by reading the imprint their environment leaves on the gravitational-wave signal, and what the Einstein Telescope could reveal. Brecht Slootmaekers followed with his research at the GWFP group. Q&amp;A moderated by Gideon Koekoek.
+                    </p>
+                    <div class="event-actions">
+                        <span class="event-btn secondary talk-soon"><i data-lucide="play-circle"></i> Recording coming soon</span>
+                        <a href="https://www.kaihendriks.com/" target="_blank" class="event-btn secondary">
+                            <i data-lucide="globe"></i>
+                            Kai's Website
+                        </a>
+                        <a href="https://www.linkedin.com/in/kai-hendriks/" target="_blank" class="event-btn secondary">
+                            <i data-lucide="linkedin"></i>
+                            Kai on LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Past Event: Aliya Shah & Thomas von Rein -->
+            <div class="event-card past-card" id="talk-aliya-thomas">
                 <div class="event-status-ribbon past">Past Event</div>
                 <div class="event-image event-image-dark clickable" onclick="openLightbox('assets/images/foto for website.png')">
                     <img src="assets/images/foto for website.png" alt="Understanding Chronic Stress & Burnout with Aliya Shah & Thomas von Rein" class="img-burnout">
@@ -1345,7 +1412,7 @@
             </div>
 
             <!-- Past Event: Jordi Ferrer Orri -->
-            <div class="event-card past-card">
+            <div class="event-card past-card" id="talk-jordi">
                 <div class="event-status-ribbon past">Past Event</div>
                 <div class="event-image clickable" style="background:#2a1f6e;" onclick="openLightbox('assets/images/Jordi Alumnbi Talk.png')">
                     <img src="assets/images/Jordi Alumnbi Talk.png" alt="Entrepreneurship & Sustainability with Jordi Ferrer Orri" class="img-jordi">
