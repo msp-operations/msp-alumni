@@ -305,370 +305,64 @@
         .section-label::after { background: linear-gradient(90deg, var(--um-light-blue), transparent); }
 
         /* ============================================
-           UPCOMING EVENTS
+           EVENTS — compact rows (redesign)
         ============================================ */
-        .events-upcoming {
-            background: var(--um-gray-50);
-            padding: 100px 50px;
-        }
-        .events-section-header {
-            max-width: 1200px; margin: 0 auto 60px;
-        }
-        .events-section-title {
-            font-size: 42px; font-weight: 700;
-            color: var(--um-dark-blue); margin-bottom: 12px;
-        }
-        .events-section-subtitle {
-            font-size: 17px; color: var(--um-gray-500); line-height: 1.7;
-        }
-        .events-list {
-            max-width: 1200px; margin: 0 auto;
-            display: flex; flex-direction: column; gap: 0;
-        }
+        .events-upcoming { background: var(--um-white); padding: 72px 24px 40px; }
+        .events-past     { background: var(--um-gray-50); padding: 40px 24px 90px; }
+        .ev-header { max-width: 880px; margin: 0 auto 24px; }
+        .ev-title-lg { font-family: var(--font-heading); font-size: 30px; font-weight: 700; color: var(--um-dark-blue); margin: 8px 0 6px; letter-spacing: -0.5px; }
+        .ev-sub { font-size: 15px; color: var(--um-gray-500); }
 
-        /* ============================================
-           EVENT CARD — unified split layout (upcoming + past)
-        ============================================ */
-        .event-card {
-            background: white;
-            border-radius: var(--radius-xl);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--um-gray-200);
-            display: grid;
-            grid-template-columns: 480px 1fr;
-            margin-bottom: 40px;
-            transition: all var(--transition-smooth);
-            position: relative;
-        }
-        .event-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-xl);
-            border-color: var(--um-gray-300);
-        }
-        .event-card.reverse {
-            grid-template-columns: 1fr 480px;
-        }
-        .event-card.reverse .event-image { order: 2; }
-        .event-card.reverse .event-body { order: 1; }
+        .ev-list { max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
 
-        /* Past cards are slightly muted */
-        .event-card.past-card {
-            opacity: 0.92;
+        .ev-row {
+            display: grid; grid-template-columns: 210px 1fr; gap: 20px;
+            background: var(--um-white); border: 1px solid var(--um-gray-200);
+            border-radius: var(--radius-md); padding: 14px;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow var(--transition-fast), transform var(--transition-fast);
         }
-        .event-card.past-card:hover {
-            opacity: 1;
-        }
+        .ev-row:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 
-        /* Status badge */
-        .event-status-ribbon {
-            position: absolute;
-            top: 24px; left: 24px;
-            z-index: 10;
-            padding: 6px 14px;
-            border-radius: 100px;
-            font-size: 11px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 1.2px;
+        .ev-thumb {
+            position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-sm);
+            overflow: hidden; cursor: pointer;
+            background: linear-gradient(135deg, var(--um-dark-blue), var(--um-light-blue));
         }
-        .event-status-ribbon.upcoming {
-            background: rgba(0,162,219,0.15);
-            border: 1px solid rgba(0,162,219,0.4);
-            color: var(--um-light-blue);
-            backdrop-filter: blur(8px);
-        }
-        .event-status-ribbon.announced {
-            background: rgba(232,78,16,0.15);
-            border: 1px solid rgba(232,78,16,0.4);
-            color: var(--um-orange);
-            backdrop-filter: blur(8px);
-        }
-        .event-status-ribbon.past {
-            background: rgba(100,116,139,0.12);
-            border: 1px solid rgba(100,116,139,0.25);
-            color: var(--um-gray-500);
-        }
+        .ev-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+        .ev-ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.85); }
+        .ev-ph i { width: 34px; height: 34px; }
+        .ev-badge { position: absolute; top: 8px; left: 8px; z-index: 2; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 999px; color: #fff; }
+        .ev-badge.past { background: rgba(0,28,61,0.72); }
+        .ev-badge.upcoming { background: var(--um-orange); }
 
-        /* Image side */
-        .event-image {
-            position: relative;
-            overflow: hidden;
-            min-height: 360px;
-        }
-        .event-image img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            object-position: center center;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .event-card:hover .event-image img { transform: scale(1.04); }
+        .ev-body { min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+        .ev-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--um-light-blue); }
+        .ev-tag.alt { color: var(--um-orange); }
+        .ev-tag i { width: 13px; height: 13px; }
+        h3.ev-title { font-family: var(--font-heading); font-size: 17px; font-weight: 600; color: var(--um-dark-blue); line-height: 1.25; margin: 0; }
+        .ev-meta { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: var(--um-gray-500); }
+        .ev-meta span { display: inline-flex; align-items: center; gap: 5px; }
+        .ev-meta i { width: 13px; height: 13px; }
+        .ev-desc { font-size: 13px; color: var(--um-gray-500); line-height: 1.55; margin: 2px 0 0; }
+        .ev-speakers { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 2px; }
+        .ev-spk { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 500; color: var(--um-gray-700); }
+        .ev-spk em { font-style: normal; color: var(--um-gray-400); }
+        .ev-spk .av { width: 22px; height: 22px; border-radius: 50%; background: var(--um-light-blue); color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
 
-        .event-image-dark {
-            background: #001226;
-        }
-        .event-image img.img-um50 {
-            object-fit: contain;
-            object-position: center center;
-            background: #001226;
-        }
-        .event-image img.img-jordi {
-            object-fit: contain;
-            object-position: center center;
-            background: #2a1f6e;
-        }
-        .event-image img.img-msp15 {
-            object-fit: contain;
-            object-position: center center;
-            padding: 20px;
-            background: var(--um-dark-blue);
-        }
-        .event-image img.img-burnout {
-            object-fit: contain;
-            object-position: center center;
-            background: #001226;
-        }
-        .event-image-placeholder {
-            width: 100%; height: 100%;
-            min-height: 360px;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            gap: 16px;
-            background: linear-gradient(135deg, var(--um-dark-blue) 0%, #002550 100%);
-            color: rgba(255,255,255,0.3);
-        }
-        .event-image-placeholder i { width: 48px; height: 48px; }
-        .event-image-placeholder span {
-            font-size: 13px; font-weight: 500;
-            text-align: center; max-width: 180px; line-height: 1.5;
-        }
-        .event-image::after {
-            content: '';
-            position: absolute; inset: 0;
-            background: linear-gradient(to right, transparent 60%, rgba(255,255,255,0.08) 100%);
-            pointer-events: none;
-        }
+        .ev-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+        .ev-btn { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-body); font-size: 12.5px; font-weight: 600; padding: 7px 13px; border-radius: 8px; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: background var(--transition-fast); }
+        .ev-btn i { width: 15px; height: 15px; }
+        .ev-btn.primary { background: var(--um-dark-blue); color: #fff; }
+        .ev-btn.primary:hover { background: var(--um-darker-blue); }
+        .ev-btn.ghost { background: var(--um-gray-100); color: var(--um-gray-700); }
+        .ev-btn.ghost:hover { background: var(--um-gray-200); }
+        .ev-btn.soon { background: var(--um-gray-100); color: var(--um-gray-400); cursor: default; }
 
-        /* Clickable image hint */
-        .event-image.clickable {
-            cursor: zoom-in;
+        @media (max-width: 620px) {
+            .ev-row { grid-template-columns: 1fr; gap: 12px; }
+            .ev-thumb { max-width: 260px; }
         }
-        .event-image.clickable::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: rgba(0,0,0,0);
-            transition: background var(--transition-smooth);
-            z-index: 2;
-            pointer-events: none;
-        }
-        .event-image.clickable:hover::before {
-            background: rgba(0,0,0,0.15);
-        }
-        .zoom-hint {
-            position: absolute;
-            bottom: 14px; right: 14px;
-            z-index: 3;
-            background: rgba(0,0,0,0.5);
-            color: white;
-            border-radius: 100px;
-            padding: 5px 12px;
-            font-size: 11px; font-weight: 600;
-            display: flex; align-items: center; gap: 5px;
-            opacity: 0;
-            transition: opacity var(--transition-smooth);
-            pointer-events: none;
-            backdrop-filter: blur(8px);
-        }
-        .zoom-hint i { width: 12px; height: 12px; }
-        .event-image.clickable:hover .zoom-hint { opacity: 1; }
-
-        /* Lightbox */
-        .lightbox {
-            display: none;
-            position: fixed; inset: 0;
-            z-index: 9999;
-            background: rgba(0,0,0,0.92);
-            align-items: center; justify-content: center;
-            cursor: zoom-out;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-        .lightbox.active { display: flex; }
-        .lightbox img {
-            max-width: 90vw;
-            max-height: 90vh;
-            object-fit: contain;
-            border-radius: var(--radius-md);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-            animation: lightbox-in 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .lightbox-close {
-            position: absolute;
-            top: 24px; right: 28px;
-            color: white; font-size: 32px;
-            cursor: pointer; line-height: 1;
-            opacity: 0.7; transition: opacity var(--transition-fast);
-            background: none; border: none;
-            font-family: var(--font-heading);
-        }
-        .lightbox-close:hover { opacity: 1; }
-        @keyframes lightbox-in {
-            from { opacity: 0; transform: scale(0.95); }
-            to   { opacity: 1; transform: scale(1); }
-        }
-
-        /* Body side */
-        .event-body {
-            padding: 48px 52px;
-            display: flex; flex-direction: column;
-            justify-content: center;
-        }
-        .event-type-tag {
-            display: inline-flex; align-items: center; gap: 8px;
-            font-size: 11px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 1.5px;
-            color: var(--um-light-blue); margin-bottom: 18px;
-        }
-        .event-type-tag i { width: 14px; height: 14px; }
-        .event-title {
-            font-family: var(--font-heading);
-            font-size: 28px; font-weight: 700;
-            color: var(--um-dark-blue);
-            line-height: 1.2; margin-bottom: 16px;
-        }
-        .event-meta {
-            display: flex; flex-direction: column; gap: 10px;
-            margin-bottom: 24px;
-        }
-        .event-meta-item {
-            display: flex; align-items: center; gap: 10px;
-            font-size: 14px; color: var(--um-gray-600); font-weight: 500;
-        }
-        .event-meta-item i { width: 16px; height: 16px; color: var(--um-orange); flex-shrink: 0; }
-        .event-description {
-            font-size: 15px; color: var(--um-gray-600);
-            line-height: 1.75; margin-bottom: 32px;
-        }
-        .event-actions {
-            display: flex; gap: 12px; flex-wrap: wrap;
-        }
-        .event-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 14px 28px;
-            border: none;
-            border-radius: var(--radius-md);
-            font-family: var(--font-heading);
-            font-size: 14px; font-weight: 600;
-            text-decoration: none;
-            transition: all var(--transition-smooth);
-        }
-        .event-btn i { width: 16px; height: 16px; transition: transform var(--transition-smooth); }
-        .event-btn:hover i { transform: translateX(3px); }
-        .event-btn.primary {
-            background: linear-gradient(135deg, var(--um-orange) 0%, #d94008 100%);
-            color: white;
-            box-shadow: 0 4px 16px rgba(232,78,16,0.3);
-        }
-        .event-btn.primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(232,78,16,0.4);
-            color: white;
-        }
-        .event-btn.secondary {
-            background: var(--um-gray-100);
-            color: var(--um-dark-blue);
-            border: 1px solid var(--um-gray-200);
-        }
-        .event-btn.secondary:hover {
-            background: var(--um-dark-blue);
-            color: white;
-            border-color: var(--um-dark-blue);
-            transform: translateY(-2px);
-        }
-        .event-btn.video {
-            background: linear-gradient(135deg, var(--um-dark-blue) 0%, #002b5c 100%);
-            color: white;
-            box-shadow: 0 4px 16px rgba(0,28,61,0.2);
-        }
-        .event-btn.video:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0,28,61,0.3);
-            color: white;
-        }
-
-        /* Speaker highlight */
-        .event-speaker {
-            display: flex; align-items: center; gap: 14px;
-            margin-bottom: 24px;
-            padding: 16px 20px;
-            background: var(--um-gray-50);
-            border-radius: var(--radius-md);
-            border-left: 3px solid var(--um-orange);
-        }
-        .event-speaker-avatar {
-            width: 44px; height: 44px;
-            background: linear-gradient(135deg, var(--um-light-blue), var(--um-dark-blue));
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-            color: white; font-family: var(--font-heading);
-            font-size: 16px; font-weight: 700;
-        }
-        .event-speaker-info { flex: 1; }
-        .event-speaker-name {
-            font-family: var(--font-heading);
-            font-size: 14px; font-weight: 700;
-            color: var(--um-dark-blue); line-height: 1.2;
-        }
-        .event-speaker-role {
-            font-size: 12px; color: var(--um-gray-500); margin-top: 2px;
-        }
-        .event-speaker-badge {
-            font-size: 10px; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 1px; color: var(--um-orange);
-            background: rgba(232,78,16,0.1);
-            padding: 3px 8px; border-radius: 100px;
-        }
-
-        /* ============================================
-           PAST EVENTS SECTION
-        ============================================ */
-        .events-past {
-            background: white;
-            padding: 100px 50px;
-        }
-
-        /* Alumni Talks quick index */
-        .talks-index {
-            max-width: 1200px;
-            margin: 0 auto 50px;
-            padding: 20px 24px;
-            background: #fff;
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: 16px;
-            box-shadow: 0 4px 18px rgba(0,28,61,0.05);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .talks-index-head {
-            display: flex; align-items: center; gap: 8px;
-            width: 100%; margin-bottom: 4px;
-            font-size: 13px; font-weight: 700; letter-spacing: 1.2px;
-            text-transform: uppercase; color: var(--um-blue, #00a2db);
-        }
-        .talks-index-head i { width: 16px; height: 16px; }
-        .talks-index-item {
-            display: flex; flex-direction: column; gap: 3px;
-            flex: 1 1 220px; min-width: 200px;
-            padding: 11px 15px; border-radius: 11px;
-            text-decoration: none;
-            background: rgba(0,162,219,0.06);
-            border: 1px solid rgba(0,162,219,0.16);
-            transition: transform .15s ease, background .15s ease;
-        }
-        .talks-index-item:hover { background: rgba(0,162,219,0.13); transform: translateY(-2px); }
-        .talks-index-name { font-size: 14px; font-weight: 600; color: var(--um-dark-blue, #001c3d); line-height: 1.25; }
-        .talks-index-sub { font-size: 12px; color: #667085; }
-        .talk-soon { opacity: .55; cursor: default; }
 
         /* ============================================
            FOOTER
@@ -1063,14 +757,6 @@
         /* ============================================
            RESPONSIVE
         ============================================ */
-        @media (max-width: 1100px) {
-            .event-card { grid-template-columns: 1fr; }
-            .event-card.reverse { grid-template-columns: 1fr; }
-            .event-card.reverse .event-image { order: 1; }
-            .event-card.reverse .event-body { order: 2; }
-            .event-image { min-height: 280px; }
-            .event-image-placeholder { min-height: 280px; }
-        }
         @media (max-width: 900px) {
             header { padding: 0 24px; }
             .hero { padding: 120px 24px 80px; }
@@ -1134,339 +820,156 @@
         </div>
     </section>
 
-    <!-- ================================================
-         UPCOMING EVENTS
-    ================================================ -->
     <section class="events-upcoming">
-        <div class="events-section-header">
+        <div class="ev-header">
             <div class="section-label">On the calendar</div>
-            <h2 class="events-section-title">Upcoming Events</h2>
-            <p class="events-section-subtitle">Don't miss what's coming — register early.</p>
+            <h2 class="ev-title-lg">Upcoming</h2>
         </div>
-
-        <div class="events-list">
-
-            <!-- EVENT 3: MSP 15th Anniversary Alumni Conference -->
-            <div class="event-card">
-                <div class="event-status-ribbon announced">Date TBC</div>
-                <div class="event-image event-image-dark clickable" onclick="openLightbox('assets/images/msp-15-year.png')">
-                    <img src="assets/images/msp-15-year.png" alt="MSP 15th Anniversary Alumni Conference" class="img-msp15">
-                    <div class="zoom-hint"><i data-lucide="zoom-in"></i> View full image</div>
+        <div class="ev-list">
+            <article class="ev-row">
+                <div class="ev-thumb" onclick="openLightbox('assets/images/msp-15-year.png')">
+                    <span class="ev-badge upcoming">Date TBC</span>
+                    <span class="ev-ph"><i data-lucide="graduation-cap"></i></span>
+                    <img src="assets/images/msp-15-year.png" alt="MSP 15th Anniversary Alumni Conference" onerror="this.remove()">
                 </div>
-                <div class="event-body">
-                    <div class="event-type-tag">
-                        <i data-lucide="graduation-cap"></i>
-                        MSP Alumni Conference · 15th Anniversary
+                <div class="ev-body">
+                    <div class="ev-tag"><i data-lucide="graduation-cap"></i> MSP Alumni Conference, 15th Anniversary</div>
+                    <h3 class="ev-title">MSP 15th Anniversary Alumni Conference</h3>
+                    <div class="ev-meta">
+                        <span><i data-lucide="calendar"></i> Late November 2026</span>
+                        <span><i data-lucide="map-pin"></i> FSE, Maastricht University</span>
                     </div>
-                    <h2 class="event-title">MSP 15th Anniversary Alumni Conference</h2>
-                    <div class="event-meta">
-                        <div class="event-meta-item">
-                            <i data-lucide="calendar"></i>
-                            Late November 2026 (around 28 November)
-                        </div>
-                        <div class="event-meta-item">
-                            <i data-lucide="clock"></i>
-                            Time TBC
-                        </div>
-                        <div class="event-meta-item">
-                            <i data-lucide="map-pin"></i>
-                            Faculty of Science and Engineering, Maastricht University
-                        </div>
-                    </div>
-                    <p class="event-description">
-                        The Maastricht Science Programme turns 15 — and we're marking the occasion with an alumni 
-                        conference right here at the faculty. A chance to reconnect with fellow MSP graduates, 
-                        reflect on where the programme has come from, and celebrate the community we've built 
-                        together. More details on programme and registration coming soon.
-                    </p>
-                    <div class="event-actions">
-                        <a href="community.html" class="event-btn secondary">
-                            Get Notified
-                            <i data-lucide="bell"></i>
-                        </a>
+                    <p class="ev-desc">MSP turns 15, and we are marking it with an alumni conference at the faculty. More on the programme and registration soon.</p>
+                    <div class="ev-actions">
+                        <a href="community.html" class="ev-btn ghost"><i data-lucide="bell"></i> Get notified</a>
                     </div>
                 </div>
-            </div>
-
+            </article>
         </div>
     </section>
 
-    <!-- ================================================
-         PAST EVENTS — same full card layout as upcoming
-    ================================================ -->
     <section class="events-past">
-        <div class="events-section-header" style="max-width: 1200px; margin: 0 auto 50px;">
+        <div class="ev-header">
             <div class="section-label">Archive</div>
-            <h2 class="events-section-title">Past Events</h2>
-            <p class="events-section-subtitle">Missed it? Watch it back.</p>
+            <h2 class="ev-title-lg">Past Events</h2>
+            <p class="ev-sub">Talks, reunions and gatherings. Watch the recordings back.</p>
         </div>
+        <div class="ev-list">
 
-        <!-- Alumni Talks quick index -->
-        <nav class="talks-index" aria-label="Alumni Talks">
-            <div class="talks-index-head"><i data-lucide="mic"></i> Alumni Talks</div>
-            <a class="talks-index-item" href="#talk-mark">
-                <span class="talks-index-name">Mark Fingerhuth</span>
-                <span class="talks-index-sub">ProteinQure &middot; 8 May 2026</span>
-            </a>
-            <a class="talks-index-item" href="#talk-kai-brecht">
-                <span class="talks-index-name">Kai Hendriks &amp; Brecht Slootmaekers</span>
-                <span class="talks-index-sub">Gravitational waves &amp; ETPathfinder &middot; 28 Apr 2026</span>
-            </a>
-            <a class="talks-index-item" href="#talk-aliya-thomas">
-                <span class="talks-index-name">Aliya Shah &amp; Thomas von Rein</span>
-                <span class="talks-index-sub">Chronic stress &amp; burnout &middot; 26 Mar 2026</span>
-            </a>
-            <a class="talks-index-item" href="#talk-jordi">
-                <span class="talks-index-name">Jordi Ferrer Orri</span>
-                <span class="talks-index-sub">Entrepreneurship &amp; sustainability &middot; 26 Feb 2026</span>
-            </a>
-        </nav>
+            <article class="ev-row">
+                <div class="ev-thumb" onclick="openLightbox('assets/images/UM50.png')">
+                    <span class="ev-badge past">Past</span>
+                    <span class="ev-ph"><i data-lucide="party-popper"></i></span>
+                    <img src="assets/images/UM50.png" alt="UM 50 Alumni Homecoming" onerror="this.remove()">
+                </div>
+                <div class="ev-body">
+                    <div class="ev-tag alt"><i data-lucide="party-popper"></i> Reunion</div>
+                    <h3 class="ev-title">UM 50 Alumni Homecoming</h3>
+                    <div class="ev-meta">
+                        <span><i data-lucide="calendar"></i> 23 May 2026</span>
+                        <span><i data-lucide="map-pin"></i> UCM + Tapijn, Maastricht</span>
+                    </div>
+                    <div class="ev-actions">
+                        <a href="https://surfdrive.surf.nl/s/E7y7yz23FKm2rSp" target="_blank" class="ev-btn ghost"><i data-lucide="image"></i> View photos</a>
+                    </div>
+                </div>
+            </article>
 
-        <div class="events-list">
+            <article class="ev-row" id="talk-mark">
+                <div class="ev-thumb" onclick="openLightbox('assets/images/mark-fingerhuth-talk.png')">
+                    <span class="ev-badge past">Past</span>
+                    <span class="ev-ph"><i data-lucide="atom"></i></span>
+                    <img src="assets/images/mark-fingerhuth-talk.png" alt="Computational Drug Discovery with Mark Fingerhuth" onerror="this.remove()">
+                </div>
+                <div class="ev-body">
+                    <div class="ev-tag"><i data-lucide="mic"></i> MSP Alumni Talk</div>
+                    <h3 class="ev-title">Computational Drug Discovery with Mark Fingerhuth</h3>
+                    <div class="ev-meta">
+                        <span><i data-lucide="calendar"></i> 8 May 2026</span>
+                        <span><i data-lucide="video"></i> Online</span>
+                    </div>
+                    <div class="ev-speakers">
+                        <span class="ev-spk"><span class="av">MF</span> Mark Fingerhuth <em>ProteinQure</em></span>
+                    </div>
+                    <div class="ev-actions">
+                        <span class="ev-btn soon"><i data-lucide="clock"></i> Recording soon</span>
+                        <a href="https://www.proteinqure.com" target="_blank" class="ev-btn ghost"><i data-lucide="globe"></i> ProteinQure</a>
+                    </div>
+                </div>
+            </article>
 
-            <!-- Past Event: UM 50 Homecoming -->
-            <div class="event-card past-card">
-                <div class="event-status-ribbon past">Past Event</div>
-                <div class="event-image event-image-dark clickable" onclick="openLightbox('assets/images/UM50.png')">
-                    <img src="assets/images/UM50.png" alt="UM 50 Alumni Homecoming" class="img-um50">
-                    <div class="zoom-hint"><i data-lucide="zoom-in"></i> View full image</div>
+            <article class="ev-row" id="talk-kai-brecht">
+                <div class="ev-thumb" onclick="openLightbox('assets/images/kai-brecht-talk.png')">
+                    <span class="ev-badge past">Past</span>
+                    <span class="ev-ph"><i data-lucide="orbit"></i></span>
+                    <img src="assets/images/kai-brecht-talk.png" alt="Binary Black Holes, Gravitational Waves and ETPathfinder" onerror="this.remove()">
                 </div>
-                <div class="event-body">
-                    <div class="event-type-tag">
-                        <i data-lucide="party-popper"></i>
-                        Reunion · University Event
+                <div class="ev-body">
+                    <div class="ev-tag"><i data-lucide="mic"></i> Alumni x Academic Committee Talk</div>
+                    <h3 class="ev-title">Binary Black Holes, Gravitational Waves &amp; ETPathfinder</h3>
+                    <div class="ev-meta">
+                        <span><i data-lucide="calendar"></i> 28 Apr 2026</span>
+                        <span><i data-lucide="map-pin"></i> ETPathfinder, Maastricht + online</span>
                     </div>
-                    <h2 class="event-title">UM 50 Alumni Homecoming</h2>
-                    <div class="event-meta">
-                        <div class="event-meta-item"><i data-lucide="calendar"></i> Saturday, 23 May 2026</div>
-                        <div class="event-meta-item"><i data-lucide="clock"></i> 11:45 – 19:00 &nbsp;·&nbsp; FSE programme: 11:45–14:30</div>
-                        <div class="event-meta-item"><i data-lucide="map-pin"></i> Zwingelput 4 + Tapijnkazerne, Maastricht</div>
+                    <div class="ev-speakers">
+                        <span class="ev-spk"><span class="av">KH</span> Kai Hendriks</span>
+                        <span class="ev-spk"><span class="av">BS</span> Brecht Slootmaekers</span>
                     </div>
-                    <p class="event-description">
-                        Maastricht University turned 50, and we celebrated together. MSP alumni joined a festive reunion day with a Back to the Future pub quiz and lunch at Zwingelput 4, followed by the university-wide celebration at Tapijnkazerne.
-                    </p>
-                    <div class="event-actions">
-                        <a href="https://surfdrive.surf.nl/s/E7y7yz23FKm2rSp" target="_blank" class="event-btn secondary">
-                            <i data-lucide="image"></i>
-                            View Photos
-                        </a>
+                    <div class="ev-actions">
+                        <span class="ev-btn soon"><i data-lucide="clock"></i> Recording soon</span>
+                        <a href="https://www.kaihendriks.com/" target="_blank" class="ev-btn ghost"><i data-lucide="globe"></i> Kai's site</a>
                     </div>
                 </div>
-            </div>
+            </article>
 
-            <!-- Past Event: Mark Fingerhuth -->
-            <div class="event-card past-card" id="talk-mark">
-                <div class="event-status-ribbon past">Past Event</div>
-                <div class="event-image">
-                    <div class="event-image-placeholder">
-                        <i data-lucide="atom"></i>
-                        <span>Computational Drug Discovery with ProteinQure</span>
+            <article class="ev-row" id="talk-aliya-thomas">
+                <div class="ev-thumb" onclick="openLightbox('assets/images/foto for website.png')">
+                    <span class="ev-badge past">Past</span>
+                    <span class="ev-ph"><i data-lucide="brain"></i></span>
+                    <img src="assets/images/foto for website.png" alt="Understanding Chronic Stress and Burnout" onerror="this.remove()">
+                </div>
+                <div class="ev-body">
+                    <div class="ev-tag"><i data-lucide="mic"></i> MSP Alumni Talk</div>
+                    <h3 class="ev-title">Understanding Chronic Stress &amp; Burnout</h3>
+                    <div class="ev-meta">
+                        <span><i data-lucide="calendar"></i> 26 Mar 2026</span>
+                        <span><i data-lucide="video"></i> Online</span>
+                    </div>
+                    <div class="ev-speakers">
+                        <span class="ev-spk"><span class="av">AS</span> Aliya Shah</span>
+                        <span class="ev-spk"><span class="av">TR</span> Thomas von Rein</span>
+                    </div>
+                    <div class="ev-actions">
+                        <a href="https://surfdrive.surf.nl/s/GJHAmneP8wHJoB7" target="_blank" class="ev-btn primary"><i data-lucide="play-circle"></i> Watch</a>
+                        <a href="mailto:msp-alumni@maastrichtuniversity.nl?subject=Alumni%20Talk%20Recording%20Access%20Code" class="ev-btn ghost"><i data-lucide="mail"></i> Access code</a>
+                        <button class="ev-btn ghost" onclick="openBurnoutSummaryModal(); return false;"><i data-lucide="file-text"></i> Summary</button>
                     </div>
                 </div>
-                <div class="event-body">
-                    <div class="event-type-tag">
-                        <i data-lucide="mic"></i>
-                        MSP Alumni Talk
-                    </div>
-                    <h2 class="event-title">Computational Drug Discovery with Mark Fingerhuth</h2>
-                    <div class="event-meta">
-                        <div class="event-meta-item"><i data-lucide="calendar"></i> 8 May 2026</div>
-                        <div class="event-meta-item"><i data-lucide="clock"></i> 16:00</div>
-                        <div class="event-meta-item"><i data-lucide="video"></i> Online via Microsoft Teams</div>
-                    </div>
-                    <div class="event-speaker">
-                        <div class="event-speaker-avatar">MF</div>
-                        <div class="event-speaker-info">
-                            <div class="event-speaker-name">Mark Fingerhuth</div>
-                            <div class="event-speaker-role">MSP Alumnus &middot; ProteinQure</div>
-                        </div>
-                        <div class="event-speaker-badge">MSP Alumnus</div>
-                    </div>
-                    <p class="event-description">
-                        MSP alumnus Mark Fingerhuth shared his work at ProteinQure, where machine learning and computational methods are used to design proteins and accelerate drug discovery, and reflected on his path from MSP into deep tech.
-                    </p>
-                    <div class="event-actions">
-                        <span class="event-btn secondary talk-soon"><i data-lucide="play-circle"></i> Recording coming soon</span>
-                        <a href="https://www.proteinqure.com" target="_blank" class="event-btn secondary">
-                            <i data-lucide="globe"></i>
-                            ProteinQure
-                        </a>
-                    </div>
-                </div>
-            </div>
+            </article>
 
-            <!-- Past Event: Kai Hendriks & Brecht Slootmaekers -->
-            <div class="event-card past-card" id="talk-kai-brecht">
-                <div class="event-status-ribbon past">Past Event</div>
-                <div class="event-image">
-                    <div class="event-image-placeholder">
-                        <i data-lucide="orbit"></i>
-                        <span>Binary Black Holes, Gravitational Waves &amp; ETPathfinder</span>
+            <article class="ev-row" id="talk-jordi">
+                <div class="ev-thumb" onclick="openLightbox('assets/images/Jordi Alumnbi Talk.png')">
+                    <span class="ev-badge past">Past</span>
+                    <span class="ev-ph"><i data-lucide="rocket"></i></span>
+                    <img src="assets/images/Jordi Alumnbi Talk.png" alt="Entrepreneurship and Sustainability with Jordi Ferrer Orri" onerror="this.remove()">
+                </div>
+                <div class="ev-body">
+                    <div class="ev-tag"><i data-lucide="mic"></i> MSP Alumni Talk</div>
+                    <h3 class="ev-title">Entrepreneurship &amp; Sustainability with Jordi Ferrer Orri</h3>
+                    <div class="ev-meta">
+                        <span><i data-lucide="calendar"></i> 26 Feb 2026</span>
+                        <span><i data-lucide="video"></i> Online</span>
+                    </div>
+                    <div class="ev-speakers">
+                        <span class="ev-spk"><span class="av">JF</span> Jordi Ferrer Orri</span>
+                    </div>
+                    <div class="ev-actions">
+                        <a href="https://surfdrive.surf.nl/s/LQ8MTzsMJNog3xb" target="_blank" class="ev-btn primary"><i data-lucide="play-circle"></i> Watch</a>
+                        <a href="mailto:msp-alumni@maastrichtuniversity.nl?subject=Alumni%20Talk%20Recording%20Access%20Code" class="ev-btn ghost"><i data-lucide="mail"></i> Access code</a>
+                        <button class="ev-btn ghost" onclick="openSummaryModal(); return false;"><i data-lucide="file-text"></i> Summary</button>
                     </div>
                 </div>
-                <div class="event-body">
-                    <div class="event-type-tag">
-                        <i data-lucide="mic"></i>
-                        Alumni &times; Academic Committee Talk
-                    </div>
-                    <h2 class="event-title">Binary Black Holes, Gravitational Waves &amp; ETPathfinder with Kai Hendriks &amp; Brecht Slootmaekers</h2>
-                    <div class="event-meta">
-                        <div class="event-meta-item"><i data-lucide="calendar"></i> Tuesday, 28 April 2026</div>
-                        <div class="event-meta-item"><i data-lucide="clock"></i> 14:00 – 15:30 &nbsp;·&nbsp; Europe/Amsterdam</div>
-                        <div class="event-meta-item"><i data-lucide="map-pin"></i> ETPathfinder Visitor Gallery (DUB30), Maastricht &nbsp;·&nbsp; also online via MS Teams</div>
-                    </div>
-                    <div class="event-speaker">
-                        <div class="event-speaker-avatar">KH</div>
-                        <div class="event-speaker-info">
-                            <div class="event-speaker-name">Dr Kai Hendriks</div>
-                            <div class="event-speaker-role">MSP class of 2019 &middot; PhD, Niels Bohr Institute, Copenhagen 🇩🇰</div>
-                        </div>
-                        <div class="event-speaker-badge">MSP Alumnus</div>
-                    </div>
-                    <div class="event-speaker">
-                        <div class="event-speaker-avatar">BS</div>
-                        <div class="event-speaker-info">
-                            <div class="event-speaker-name">Brecht Slootmaekers</div>
-                            <div class="event-speaker-role">MSP class of 2022 &middot; PhD candidate, GWFP, Maastricht University &amp; Nikhef 🇳🇱</div>
-                        </div>
-                        <div class="event-speaker-badge">MSP Alumnus</div>
-                    </div>
-                    <p class="event-description">
-                        Two MSP alumni returned to talk gravitational waves and the next generation of detectors. Kai Hendriks shared his work on probing how binary black holes form by reading the imprint their environment leaves on the gravitational-wave signal, and what the Einstein Telescope could reveal. Brecht Slootmaekers followed with his research at the GWFP group. Q&amp;A moderated by Gideon Koekoek.
-                    </p>
-                    <div class="event-actions">
-                        <span class="event-btn secondary talk-soon"><i data-lucide="play-circle"></i> Recording coming soon</span>
-                        <a href="https://www.kaihendriks.com/" target="_blank" class="event-btn secondary">
-                            <i data-lucide="globe"></i>
-                            Kai's Website
-                        </a>
-                        <a href="https://www.linkedin.com/in/kai-hendriks/" target="_blank" class="event-btn secondary">
-                            <i data-lucide="linkedin"></i>
-                            Kai on LinkedIn
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Past Event: Aliya Shah & Thomas von Rein -->
-            <div class="event-card past-card" id="talk-aliya-thomas">
-                <div class="event-status-ribbon past">Past Event</div>
-                <div class="event-image event-image-dark clickable" onclick="openLightbox('assets/images/foto for website.png')">
-                    <img src="assets/images/foto for website.png" alt="Understanding Chronic Stress & Burnout with Aliya Shah & Thomas von Rein" class="img-burnout">
-                    <div class="zoom-hint"><i data-lucide="zoom-in"></i> View full image</div>
-                </div>
-                <div class="event-body">
-                    <div class="event-type-tag">
-                        <i data-lucide="mic"></i>
-                        MSP Alumni Talk
-                    </div>
-                    <h2 class="event-title">Understanding Chronic Stress &amp; Burnout with Aliya Shah &amp; Thomas von Rein</h2>
-                    <div class="event-meta">
-                        <div class="event-meta-item">
-                            <i data-lucide="calendar"></i>
-                            26 March 2026
-                        </div>
-                        <div class="event-meta-item">
-                            <i data-lucide="clock"></i>
-                            17:00
-                        </div>
-                        <div class="event-meta-item">
-                            <i data-lucide="video"></i>
-                            Online via Microsoft Teams
-                        </div>
-                    </div>
-                    <div class="event-speaker">
-                        <div class="event-speaker-avatar">AS</div>
-                        <div class="event-speaker-info">
-                            <div class="event-speaker-name">Aliya Shah</div>
-                            <div class="event-speaker-role">MSP Alumna · Psychotherapist, Nairobi 🇰🇪</div>
-                        </div>
-                        <div class="event-speaker-badge">MSP Alumna</div>
-                    </div>
-                    <div class="event-speaker">
-                        <div class="event-speaker-avatar">TR</div>
-                        <div class="event-speaker-info">
-                            <div class="event-speaker-name">Thomas von Rein</div>
-                            <div class="event-speaker-role">MSP Alumnus · Neuroscience researcher, Cologne 🇩🇪</div>
-                        </div>
-                        <div class="event-speaker-badge">MSP Alumnus</div>
-                    </div>
-                    <p class="event-description">
-                        Two MSP alumni — a psychotherapist in Nairobi and a neuroscience researcher in Cologne — joined forces to unpack what chronic stress and burnout really do to the brain and body, and what actually helps in recovery. Polyvagal theory, vagal tone, somatic practices, co-regulation, and cross-cultural perspectives on stress.
-                    </p>
-                    <div class="event-actions">
-                        <a href="https://surfdrive.surf.nl/s/GJHAmneP8wHJoB7" target="_blank" class="event-btn video">
-                            <i data-lucide="play-circle"></i>
-                            Watch Recording
-                        </a>
-                        <a href="mailto:msp-alumni@maastrichtuniversity.nl?subject=Alumni%20Talk%20Recording%20Access%20Code&body=Hi%2C%0A%0ACan%20I%20have%20the%20password%20for%20the%20alumni%20talk%20on%20chronic%20stress%20and%20burnout%3F%0A%0AThank%20you!" class="event-btn secondary">
-                            <i data-lucide="mail"></i>
-                            Request Access Code
-                        </a>
-                        <a href="#" class="event-btn secondary" onclick="openBurnoutSummaryModal(); return false;">
-                            <i data-lucide="file-text"></i>
-                            Read Summary
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Past Event: Jordi Ferrer Orri -->
-            <div class="event-card past-card" id="talk-jordi">
-                <div class="event-status-ribbon past">Past Event</div>
-                <div class="event-image clickable" style="background:#2a1f6e;" onclick="openLightbox('assets/images/Jordi Alumnbi Talk.png')">
-                    <img src="assets/images/Jordi Alumnbi Talk.png" alt="Entrepreneurship & Sustainability with Jordi Ferrer Orri" class="img-jordi">
-                    <div class="zoom-hint"><i data-lucide="zoom-in"></i> View full image</div>
-                </div>
-                <div class="event-body">
-                    <div class="event-type-tag">
-                        <i data-lucide="mic"></i>
-                        MSP Alumni Talk
-                    </div>
-                    <h2 class="event-title">Entrepreneurship & Sustainability with Jordi Ferrer Orri</h2>
-                    <div class="event-meta">
-                        <div class="event-meta-item">
-                            <i data-lucide="calendar"></i>
-                            26 February 2026
-                        </div>
-                        <div class="event-meta-item">
-                            <i data-lucide="clock"></i>
-                            17:00 – 18:00
-                        </div>
-                        <div class="event-meta-item">
-                            <i data-lucide="video"></i>
-                            Online via Microsoft Teams
-                        </div>
-                    </div>
-                    <div class="event-speaker">
-                        <div class="event-speaker-avatar">JF</div>
-                        <div class="event-speaker-info">
-                            <div class="event-speaker-name">Jordi Ferrer Orri</div>
-                            <div class="event-speaker-role">MSP Alumnus · Entrepreneur, Materials & Sustainability</div>
-                        </div>
-                        <div class="event-speaker-badge">MSP Alumnus</div>
-                    </div>
-                    <p class="event-description">
-                        MSP alumnus Jordi Ferrer Orri shared his entrepreneurial journey in the materials and 
-                        sustainability space — key lessons, challenges, and how his MSP experience translated 
-                        into real-world entrepreneurial paths.
-                    </p>
-                    <div class="event-actions">
-                        <a href="https://surfdrive.surf.nl/s/LQ8MTzsMJNog3xb" target="_blank" class="event-btn video">
-                            <i data-lucide="play-circle"></i>
-                            Watch Recording
-                        </a>
-                        <a href="mailto:msp-alumni@maastrichtuniversity.nl?subject=Alumni%20Talk%20Recording%20Access%20Code&body=Hi%2C%0A%0ACan%20I%20have%20the%20password%20for%20the%20alumni%20talk%3F%0A%0AThank%20you!" class="event-btn secondary">
-                            <i data-lucide="mail"></i>
-                            Request Access Code
-                        </a>
-                        <a href="#" class="event-btn secondary" onclick="openSummaryModal(); return false;">
-                            <i data-lucide="file-text"></i>
-                            Read Summary
-                        </a>
-                    </div>
-                </div>
-            </div>
+            </article>
 
         </div>
     </section>
