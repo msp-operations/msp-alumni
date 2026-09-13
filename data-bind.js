@@ -27,13 +27,13 @@
             'universitiesAttended': MSP_DATA.summary.universitiesAttended,
             
             // Formatted versions (with commas)
-            'totalAlumni-formatted': MSP_DATA.summary.totalAlumni.toLocaleString(),
-            'universitiesAttended-formatted': MSP_DATA.summary.universitiesAttended.toLocaleString(),
+            'totalAlumni-formatted': MSP_DATA.summary.totalAlumni.toLocaleString('en-US'),
+            'universitiesAttended-formatted': MSP_DATA.summary.universitiesAttended.toLocaleString('en-US'),
             
             // Common combinations for natural language
-            'alumni-nationalities': `${MSP_DATA.summary.totalAlumni.toLocaleString()} MSP alumni from ${MSP_DATA.summary.nationalities} nationalities`,
+            'alumni-nationalities': `${MSP_DATA.summary.totalAlumni.toLocaleString('en-US')} MSP alumni from ${MSP_DATA.summary.nationalities} nationalities`,
             'countries-universities': `${MSP_DATA.summary.countriesLivingIn} countries and ${MSP_DATA.summary.universitiesAttended} universities`,
-            'alumni-countries': `${MSP_DATA.summary.totalAlumni.toLocaleString()} graduates across ${MSP_DATA.summary.countriesLivingIn} countries`,
+            'alumni-countries': `${MSP_DATA.summary.totalAlumni.toLocaleString('en-US')} graduates across ${MSP_DATA.summary.countriesLivingIn} countries`,
             
             // WhatsApp community stats (if available)
             'whatsapp-members': '400+', // Update this manually or add to MSP_DATA
