@@ -15,6 +15,9 @@
     --um-white: #FFFFFF;
     --um-off-white: #fafbfc;
     --um-gray-50: #f8fafc;
+    /* Redesign tokens, matching the homepage */
+    --paper: #F6F5F1;
+    --hair: rgba(0, 28, 61, 0.09);
     --um-gray-100: #f1f5f9;
     --um-gray-200: #e2e8f0;
     --um-gray-300: #cbd5e1;
@@ -24,20 +27,22 @@
     --um-gray-700: #334155;
     --um-gray-800: #1e293b;
 
-    --font-heading: 'Space Grotesk', sans-serif;
+    --font-display: 'Instrument Serif', Georgia, serif;
+    --font-heading: var(--font-display);
     --font-body: 'Plus Jakarta Sans', sans-serif;
 
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.06);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.08);
-    --shadow-lg: 0 8px 24px rgba(0,0,0,0.1), 0 16px 48px rgba(0,0,0,0.1);
-    --shadow-xl: 0 20px 40px rgba(0,0,0,0.12), 0 30px 60px rgba(0,0,0,0.1);
-    --shadow-glow-blue: 0 0 40px rgba(0, 162, 219, 0.15);
-    --shadow-glow-orange: 0 0 40px rgba(232, 78, 16, 0.15);
+    /* Flattened: the redesign uses hairlines and one soft lift, not stacked glows */
+    --shadow-sm: 0 1px 2px rgba(0, 28, 61, 0.04);
+    --shadow-md: 0 2px 6px rgba(0, 28, 61, 0.05);
+    --shadow-lg: 0 6px 20px rgba(0, 28, 61, 0.07);
+    --shadow-xl: 0 14px 40px rgba(0, 28, 61, 0.08);
+    --shadow-glow-blue: 0 6px 20px rgba(0, 28, 61, 0.07);
+    --shadow-glow-orange: 0 6px 20px rgba(0, 28, 61, 0.07);
 
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 20px;
-    --radius-xl: 28px;
+    --radius-sm: 7px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 16px;
 
     --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -270,4 +275,147 @@ header.scrolled .menu-toggle span,
     .back-link {
         font-size: 13px !important;
     }
+}
+
+/* ============================================
+   REDESIGN LAYER
+   Brings the sub-pages in line with the homepage:
+   serif display type, the navy header bar, flat
+   surfaces instead of glows and starfields.
+
+   Note on specificity: each page's inline <style>
+   block is parsed after this file, so plain element
+   and class selectors here lose. Rules below are
+   deliberately scoped through header#header or
+   carry !important where a page would otherwise win.
+   ============================================ */
+
+body {
+    background: var(--paper);
+}
+
+/* Instrument Serif ships in a single weight. A rule asking for 600 or 700
+   gets a synthesised faux-bold, which looks smeared, so every heading is
+   pinned to 400. The logo lockup stays on the sans face. */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 400 !important;
+    letter-spacing: -0.02em;
+}
+
+.logo-text h1,
+.logo-text p {
+    font-family: var(--font-body);
+    font-weight: 600 !important;
+}
+
+/* ---- Header: the homepage bar, on every page ---- */
+header#header {
+    position: sticky;
+    left: auto;
+    right: auto;
+    height: auto;
+    padding: 14px 32px;
+    gap: 24px;
+    background: rgba(0, 28, 61, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    z-index: 50;
+}
+
+header#header .logo {
+    gap: 12px;
+}
+
+header#header .logo-img {
+    height: 30px;
+    filter: brightness(0) invert(1);
+}
+
+header#header .logo-text h1 {
+    font-size: 14px;
+    color: #fff;
+    letter-spacing: -0.01em;
+}
+
+/* The homepage carries one line here, not a name plus a strapline */
+header#header .logo-text p {
+    display: none;
+}
+
+header#header .header-nav a {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.72);
+    padding: 8px 12px;
+    border-radius: 7px;
+}
+
+header#header .header-nav a:hover,
+header#header .header-nav a.active {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.09);
+}
+
+header#header .header-nav .btn-cta {
+    background: var(--um-orange);
+    color: #fff;
+    font-weight: 600;
+    padding: 9px 16px;
+    margin-left: 8px;
+    border-radius: 7px;
+    box-shadow: none;
+    transform: none;
+}
+
+header#header .header-nav .btn-cta:hover {
+    background: #ff5f24;
+    color: #fff;
+    box-shadow: none;
+    transform: none;
+}
+
+header#header .menu-toggle span {
+    background: #fff;
+}
+
+/* ---- Drop the decorative hero layers ----
+   Starfields, particle constellations, dot grids and mesh overlays.
+   The soft radial .hero-glow elements stay: the homepage hero uses the
+   same treatment. */
+#starCanvas,
+#particleCanvas,
+.particle-canvas,
+.hero-mesh,
+.hero-pattern,
+.hero-fullpage .hero-grid {
+    display: none !important;
+}
+
+/* ---- Keep UI text on the sans face ----
+   --font-heading used to be Space Grotesk, a sans, so pages reached for it
+   on buttons and small labels as well as headings. Now that it resolves to
+   Instrument Serif, those uses have to come back: on the homepage only
+   display-size text is serif, everything functional is Plus Jakarta Sans. */
+.career-count,
+.city-name,
+.city-rank,
+.cta-btn,
+.ev-title,
+.field-name,
+.hero-btn,
+.phd-detail-title,
+.sector-name,
+.testimonial-year-badge,
+.uni-name,
+.fact-value,
+.careers-display-title,
+.popup-city,
+.uni-count-badge,
+button,
+input,
+select,
+textarea {
+    font-family: var(--font-body) !important;
 }
