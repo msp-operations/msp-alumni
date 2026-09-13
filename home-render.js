@@ -78,8 +78,9 @@
             var band = i < 4 ? 'bar-navy' : (i < 11 ? 'bar-blue' : 'bar-orange');
             return '' +
                 '<div class="row">' +
+                  flagImg(c.code) +
                   '<span class="row-name">' + esc(c.name) + '</span>' +
-                  '<span class="track"><span class="fill ' + band + '" style="width: ' +
+                  '<span class="track row-track"><span class="fill ' + band + '" style="width: ' +
                       Math.max(1, Math.round((c.count / countryMax) * 100)) + '%"></span></span>' +
                   '<span class="row-num">' + fmt(c.count) + '</span>' +
                 '</div>';
@@ -117,6 +118,7 @@
             return '' +
                 '<div class="uni">' +
                   '<span class="uni-rank">' + String(i + 1).padStart(2, '0') + '</span>' +
+                  '<span class="uni-logo">' + uniLogo(u) + '</span>' +
                   '<span class="uni-main">' +
                     '<span class="uni-name">' + esc(u.name) + '</span>' +
                     '<span class="uni-country">' + esc(u.country) + '</span>' +
@@ -217,6 +219,22 @@
         return String(s).replace(/[&<>"]/g, function (c) {
             return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
         });
+    }
+
+    // Flags come from flagcdn, the same source the rest of the site already
+    // uses. Decorative only, so it is aria-hidden and the name carries meaning.
+    function flagImg(code) {
+        if (!code) return '';
+        return '<img class="row-flag" src="https://flagcdn.com/w160/' + esc(code.toLowerCase()) +
+               '.png" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()" />';
+    }
+
+    // Logos are local files in assets/logos. A missing file removes just the
+    // image, leaving the row intact rather than showing a broken-image icon.
+    function uniLogo(u) {
+        if (!u.logo) return '';
+        return '<img src="assets/logos/' + esc(u.logo) + '" alt="" aria-hidden="true" ' +
+               'loading="lazy" onerror="this.remove()" />';
     }
 
     function article(name) {

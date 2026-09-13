@@ -115,8 +115,17 @@
 
   /* Countries */
   .country-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px 40px; }
-  .row { display: grid; grid-template-columns: 1fr 96px 46px; align-items: center; gap: 14px; padding: 11px 0; border-bottom: 1px solid rgba(0,28,61,0.08); }
-  .row-name { font-size: 14.5px; font-weight: 500; }
+  .row { position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr 96px 46px; align-items: center; gap: 14px; padding: 11px 0; border-bottom: 1px solid rgba(0,28,61,0.08); }
+  /* The flag runs the full height of the row at its own aspect ratio, anchored
+     left, and dissolves to the right so the country name sits over its fading
+     tail. Cropping it into the short row instead would just show one stripe. */
+  .row-flag { position: absolute; left: 0; top: 0; height: 100%; width: auto; opacity: 0.28; pointer-events: none; z-index: 0;
+    -webkit-mask-image: linear-gradient(to right, #000 0%, rgba(0,0,0,0.6) 40%, transparent 92%);
+            mask-image: linear-gradient(to right, #000 0%, rgba(0,0,0,0.6) 40%, transparent 92%); }
+  /* Indented so the label begins over the flag's faded tail, not its solid
+     end, which keeps the name readable at this opacity. */
+  .row-name { position: relative; z-index: 1; padding-left: 34px; font-size: 14.5px; font-weight: 500; min-width: 0; }
+  .row-track, .row-num { position: relative; z-index: 1; }
   .row-num { font-size: 13.5px; font-weight: 600; text-align: right; color: rgba(0,28,61,0.7); font-variant-numeric: tabular-nums; }
   .note { margin-top: 22px; font-size: 13.5px; color: rgba(0,28,61,0.5); }
 
@@ -124,8 +133,12 @@
   .panel { background: #fff; border: 1px solid var(--hair); border-radius: 18px; padding: 44px 40px; }
   .panel h2 { font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; }
   .panel-note { font-size: 13.5px; color: rgba(0,28,61,0.55); max-width: 22em; }
-  .uni { display: grid; grid-template-columns: 26px minmax(0, 1fr) 120px 54px; align-items: center; gap: 16px; padding: 13px 0; border-top: 1px solid rgba(0,28,61,0.07); }
+  .uni { display: grid; grid-template-columns: 26px 34px minmax(0, 1fr) 120px 54px; align-items: center; gap: 16px; padding: 13px 0; border-top: 1px solid rgba(0,28,61,0.07); }
   .uni-rank { font-size: 12px; font-weight: 600; color: rgba(0,28,61,0.32); font-variant-numeric: tabular-nums; }
+  /* Logos arrive as a mix of square marks and wide wordmarks, so the cell is
+     fixed and the image is contained rather than cropped. */
+  .uni-logo { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; }
+  .uni-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
   .uni-main { min-width: 0; }
   .uni-name { display: block; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
   .uni-country { display: block; font-size: 12.5px; color: rgba(0,28,61,0.5); margin-top: 2px; }
