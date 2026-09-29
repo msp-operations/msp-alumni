@@ -59,8 +59,7 @@
     }
     if (el('map-coverage')) {
         el('map-coverage').textContent =
-            'Current location known for ' + fmt(located) + ' of ' +
-            fmt(MSP_DATA.summary.totalAlumni) + ' alumni.';
+            'Current location known for ' + fmt(located) + ' alumni.';
     }
 
     /* ----------------------------------------------------------------
@@ -209,8 +208,7 @@
        ---------------------------------------------------------------- */
     if (el('data-note')) {
         el('data-note').textContent =
-            'Data current as of ' + MSP_DATA.lastUpdated + '. ' +
-            fmt(MSP_DATA.summary.totalAlumni) + ' records.';
+            'Data current as of ' + MSP_DATA.lastUpdated + '.';
     }
 
     /* ---- helpers ---- */
