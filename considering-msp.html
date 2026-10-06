@@ -5,39 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Considering MSP? | MSP Alumni Network</title>
 <meta name="description" content="Where MSP graduates go: 262 master’s universities, a 10.1% PhD track, and what MSP alumni did after an interdisciplinary science bachelor." />
-<meta name="theme-color" content="#001C3D" />
+<meta name="theme-color" content="#011B3C" />
 <link rel="icon" type="image/png" href="assets/logos/maastricht-science-programme-logo.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin" />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/msp-ui/msp-ui.css" />
 <link rel="stylesheet" href="msp-redesign.css" />
 </head>
 <body>
+<main class="msp-main wide">
 
-<header>
-  <a class="logo" href="index.html">
-    <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" />
-    <span>MSP Alumni Network</span>
-  </a>
-  <nav>
-    <a href="destinations.html">Destinations</a>
-    <a href="community.html">Community</a>
-    <a href="events.html">Events</a>
-    <a href="stories.html">Stories</a>
-    <a class="cta" href="considering-msp.html">Considering MSP?</a>
-  </nav>
-</header>
-<section class="hero">
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
+<section class="msp-hero">
   <div class="hero-grid">
     <div class="hero-copy">
-      <div class="hero-eyebrow">For prospective students</div>
+      <div class="msp-hero-kicker">For prospective students</div>
       <h1>Where MSP graduates <em>go</em>.</h1>
       <p>Fifteen years of graduates have left the Maastricht Science Programme since 2011. This is what they did next — the universities, the PhDs, the jobs — drawn from the alumni database rather than a brochure.</p>
       <div class="btn-row">
-        <a class="btn btn-primary" href="#journey">See the journey</a>
-        <a class="btn btn-ghost" href="https://www.maastrichtuniversity.nl/education/bachelor/maastricht-science-programme" target="_blank" rel="noopener">Visit official MSP</a>
+        <a class="msp-btn msp-btn-or" href="#journey">See the journey</a>
+        <a class="msp-btn btn-ghost" href="https://www.maastrichtuniversity.nl/education/bachelor/maastricht-science-programme" target="_blank" rel="noopener">Visit official MSP</a>
       </div>
     </div>
     <div class="figure-card" style="animation: riseIn 0.9s var(--ease) both;">
@@ -68,29 +52,27 @@
   </div>
 </section>
 
-<section class="stat-strip">
-  <div class="stat-card">
-        <div class="stat">
-          <div class="stat-num">262</div>
-          <div class="stat-label">Universities</div>
-          <div class="stat-note">Including Oxford, Cambridge, ETH Zürich, Imperial</div>
+<section class="msp-stats">
+        <div class="msp-stat">
+          <div class="msp-stat-val">262</div>
+          <div class="msp-stat-label">Universities</div>
+          <div class="msp-stat-sub">Including Oxford, Cambridge, ETH Zürich, Imperial</div>
         </div>
-        <div class="stat">
-          <div class="stat-num">83</div>
-          <div class="stat-label">At World Top 25</div>
-          <div class="stat-note">Alumni enrolled at top-25 institutions</div>
+        <div class="msp-stat">
+          <div class="msp-stat-val">83</div>
+          <div class="msp-stat-label">At World Top 25</div>
+          <div class="msp-stat-sub">Alumni enrolled at top-25 institutions</div>
         </div>
-        <div class="stat">
-          <div class="stat-num">10.1%</div>
-          <div class="stat-label">PhD track</div>
-          <div class="stat-note">141 candidates, plus nine postdocs</div>
+        <div class="msp-stat">
+          <div class="msp-stat-val">10.1%</div>
+          <div class="msp-stat-label">PhD track</div>
+          <div class="msp-stat-sub">141 candidates, plus nine postdocs</div>
         </div>
-        <div class="stat">
-          <div class="stat-num">78</div>
-          <div class="stat-label">Nationalities</div>
-          <div class="stat-note">Across all our graduates</div>
+        <div class="msp-stat">
+          <div class="msp-stat-val">78</div>
+          <div class="msp-stat-label">Nationalities</div>
+          <div class="msp-stat-sub">Across all our graduates</div>
         </div>
-  </div>
 </section>
 
 <section class="section wrap" id="journey">
@@ -261,7 +243,7 @@
 
 <section class="band">
   <div class="wrap">
-    <div class="sec-head" style="margin-bottom: 40px;">
+    <div class="sec-head">
       <div>
         <div class="eyebrow eyebrow-blue">The PhD pipeline</div>
         <h2>One in ten graduates ends up in doctoral research.</h2>
@@ -282,7 +264,7 @@
       </div>
       <div>
         <div class="eyebrow eyebrow-blue">Where alumni work</div>
-        <div style="background: #fff; border: 1px solid var(--hair); border-radius: 18px; padding: 26px 24px;">
+        <div class="card" style="padding: 16px 20px;">
         <div class="field">
           <div class="field-head"><span class="field-name">Academia & Research</span><span class="field-val">222 · 15.9%</span></div>
           <span class="track track-full"><span class="fill bar-navy" style="width: 100%"></span></span>
@@ -414,48 +396,32 @@
     <div class="cta-card">
       <h3>Apply to MSP</h3>
       <p>Admission requirements, deadlines and the enrolment process, all on the university site.</p>
-      <a class="btn btn-navy" href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/maastricht-science-programme/admission-and-enrolment" target="_blank" rel="noopener">Admission &amp; enrolment →</a>
+      <a class="msp-btn msp-btn-navy" href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/maastricht-science-programme/admission-and-enrolment" target="_blank" rel="noopener">Admission &amp; enrolment →</a>
     </div>
     <div class="cta-card">
       <h3>Questions about life after?</h3>
       <p>Ask the alumni office what graduates from a specific field went on to do. We have the records.</p>
-      <a class="btn btn-outline" href="mailto:msp-alumni@maastrichtuniversity.nl?subject=Question%20about%20MSP">Contact us →</a>
+      <a class="msp-btn msp-btn-gh" href="mailto:msp-alumni@maastrichtuniversity.nl?subject=Question%20about%20MSP">Contact us →</a>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="foot-grid">
-    <div class="foot-brand">
-      <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" />
-      <p>MSP Alumni Network. Part of the Faculty of Science and Engineering, Maastricht University.</p>
-    </div>
-    <div class="foot-col">
-      <h4>Explore</h4>
-      <a href="destinations.html">Destinations</a>
-      <a href="community.html">Community</a>
-      <a href="events.html">Events</a>
-      <a href="stories.html">Stories</a>
-    </div>
-    <div class="foot-col">
-      <h4>Connect</h4>
-      <a href="considering-msp.html">Considering MSP?</a>
-      <a href="https://www.maastrichtuniversity.nl">Maastricht University</a>
-      <a href="privacy.html">Privacy policy</a>
-    </div>
-    <div class="foot-col">
-      <h4>Follow</h4>
-      <a href="https://www.instagram.com/msp_alumni/">Instagram</a>
-      <a href="https://www.linkedin.com/groups/12893377/">LinkedIn (MSP)</a>
-      <a href="https://www.linkedin.com/groups/4689010/">LinkedIn (FSE)</a>
-    </div>
+</main>
+<footer class="msp-footer">
+  <div class="foot-links">
+    <a href="https://www.instagram.com/msp_alumni/">Instagram</a>
+    <a href="https://www.linkedin.com/groups/12893377/">LinkedIn (MSP)</a>
+    <a href="https://www.linkedin.com/groups/4689010/">LinkedIn (FSE)</a>
+    <a href="https://www.maastrichtuniversity.nl">Maastricht University</a>
+    <a href="privacy.html">Privacy policy</a>
   </div>
-  <div class="foot-bottom">
-    <span>© 2026 MSP Alumni Network. Maastricht University.</span>
-    <span data-text-template="Data current as of {lastUpdated}.">Data current as of July 2026.</span>
-  </div>
+  <div>&copy; 2026 MSP Alumni Network. Maastricht University, Faculty of Science and Engineering.</div>
+  <div class="foot-note"><span data-text-template="Data current as of {lastUpdated}.">Data current as of July 2026.</span></div>
 </footer>
 <script src="data.js"></script>
 <script src="data-bind.js"></script>
+<!-- Shared MSP frame: the sidebar is built from the config in site-nav.js -->
+<script src="assets/msp-ui/msp-shell.js"></script>
+<script src="site-nav.js"></script>
 </body>
 </html>

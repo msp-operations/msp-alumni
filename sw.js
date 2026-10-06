@@ -1,4 +1,4 @@
-const CACHE_NAME = 'msp-alumni-v2';
+const CACHE_NAME = 'msp-alumni-v3';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -11,6 +11,18 @@ const ASSETS_TO_CACHE = [
   '/country.html',
   '/data.js',
   '/data-bind.js',
+  '/home-render.js',
+  '/site-nav.js',
+  '/msp-redesign.css',
+  '/assets/msp-ui/msp-ui.css',
+  '/assets/msp-ui/msp-shell.js',
+  '/assets/msp-ui/um-wordmark.png',
+  '/assets/msp-ui/msp-emblem.png',
+  '/assets/msp-ui/fonts/inter-400-latin.woff2',
+  '/assets/msp-ui/fonts/inter-500-latin.woff2',
+  '/assets/msp-ui/fonts/inter-600-latin.woff2',
+  '/assets/msp-ui/fonts/inter-700-latin.woff2',
+  '/assets/msp-ui/fonts/dmsans-700-latin.woff2',
   '/assets/logos/msp-logo.png',
   '/assets/logos/maastricht-science-programme-logo.png',
   '/assets/icons/icon-192x192.png',

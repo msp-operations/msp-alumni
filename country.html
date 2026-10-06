@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#001C3D">
+    <meta name="theme-color" content="#011B3C">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MSP Alumni">
@@ -13,10 +13,8 @@
     <link rel="icon" type="image/png" href="assets/logos/maastricht-science-programme-logo.png">
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="assets/msp-ui/msp-ui.css">
+    <link rel="stylesheet" href="msp-redesign.css">
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -28,848 +26,103 @@
     <script src="data.js"></script>
     
     <style>
-        :root {
-            --um-dark-blue: #001C3D;
-            --um-darker-blue: #00101f;
-            --um-light-blue: #00A2DB;
-            --um-light-blue-glow: rgba(0, 162, 219, 0.4);
-            --um-orange: #E84E10;
-            --um-orange-glow: rgba(232, 78, 16, 0.4);
-            --um-white: #FFFFFF;
-            --um-gray-50: #f8fafc;
-            --um-gray-100: #f1f5f9;
-            --um-gray-200: #e2e8f0;
-            --um-gray-300: #cbd5e1;
-            --um-gray-500: #64748b;
-            --um-gray-600: #475569;
-            --um-gray-800: #1e293b;
-            
-            --font-heading: var(--font-display);
-            --font-body: 'Plus Jakarta Sans', sans-serif;
-            
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.06);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.08);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,0.1), 0 16px 48px rgba(0,0,0,0.1);
-            --shadow-xl: 0 20px 40px rgba(0,0,0,0.12), 0 30px 60px rgba(0,0,0,0.1);
-            
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 20px;
-            --radius-xl: 28px;
-            
-            --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--font-body); font-size: 16px; line-height: 1.6; color: var(--um-dark-blue); background: var(--um-gray-50); }
-        h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); line-height: 1.15; letter-spacing: -0.02em; }
-        a { color: var(--um-light-blue); text-decoration: none; transition: color 0.2s; }
-        a:hover { color: var(--um-orange); }
-        
-        /* Header */
-        header {
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0,28,61,0.06);
-            padding: 0 50px;
-            height: 72px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            transition: all var(--transition-smooth);
-        }
-        
-        header.scrolled {
-            background: var(--um-dark-blue);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-        
-        header.scrolled .logo-text h1,
-        header.scrolled .logo-text p {
-            color: white;
-        }
-        
-        header.scrolled .logo-text p {
-            color: rgba(255,255,255,0.7);
-        }
-        
-        header.scrolled .back-link {
-            color: rgba(255,255,255,0.8);
-        }
-        
-        header.scrolled .back-link:hover {
-            color: var(--um-orange);
-        }
-        
-        header.scrolled .logo-img {
-            filter: brightness(0) invert(1);
-        }
-        
-        .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-        .logo-img { height: 44px; width: auto; transition: filter var(--transition-smooth); }
-        .logo-text h1 { font-size: 15px; font-weight: 700; color: var(--um-dark-blue); margin: 0; transition: color var(--transition-smooth); }
-        .logo-text p { font-size: 11px; color: var(--um-gray-500); margin: 0; transition: color var(--transition-smooth); }
-        .back-link { 
-            font-size: 14px; 
-            font-weight: 500;
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            color: var(--um-gray-600);
-            transition: color var(--transition-smooth);
-        }
-        .back-link i, .back-link svg { width: 18px; height: 18px; }
-        .back-link:hover { color: var(--um-orange); }
-        
-        /* Hero with Flag Gradient */
-        .hero {
-            min-height: 55vh;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-        }
-        
-        .hero-flag-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            z-index: 1;
-        }
-        
-        .hero-flag-bg::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent 0%, transparent 30%, var(--um-dark-blue) 100%);
-        }
-        
-        .hero-blue-bg {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 55%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--um-dark-blue) 0%, #001530 50%, #00203d 100%);
-            z-index: 0;
-        }
-        
-        .hero-blue-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image:
-                linear-gradient(rgba(0,162,219,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,162,219,0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 140px 50px 80px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-            width: 100%;
-        }
-        
-        .hero-left {
-            /* Empty space over the flag */
-        }
-        
-        .hero-right {
-            color: white;
-        }
-        
-        .hero-country-name {
-            font-size: 56px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: -0.02em;
-        }
-        
-        .hero-subtitle {
-            font-size: 18px;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 40px;
-        }
-        
-        .hero-alumni-count {
-            display: inline-flex;
-            align-items: center;
-            gap: 16px;
-            background: rgba(232, 78, 16, 0.15);
-            border: 1px solid rgba(232, 78, 16, 0.3);
-            padding: 20px 30px;
-            border-radius: var(--radius-lg);
-            margin-bottom: 40px;
-        }
-        
-        .hero-alumni-number {
-            font-family: var(--font-heading);
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--um-orange);
-            line-height: 1;
-        }
-        
-        .hero-alumni-label {
-            font-size: 14px;
-            color: rgba(255,255,255,0.6);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        /* Country Facts Grid */
-        .country-facts {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-        
-        .fact-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255,255,255,0.05);
-            padding: 14px 18px;
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-        
-        .fact-emoji {
-            font-size: 24px;
-            line-height: 1;
-        }
-        
-        .fact-info {
-            flex: 1;
-        }
-        
-        .fact-label {
-            font-size: 11px;
-            color: rgba(255,255,255,0.5);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .fact-value {
-            font-family: var(--font-heading);
-            font-size: 14px;
-            font-weight: 600;
-            color: white;
-        }
-        
-        /* Main Content */
-        main {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 60px 50px;
-        }
-        
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        
-        .card {
-            background: white;
-            border: 1px solid var(--um-gray-200);
-            border-radius: var(--radius-lg);
-            padding: 30px;
-            box-shadow: var(--shadow-sm);
-            transition: all var(--transition-smooth);
-        }
-        
-        .card:hover {
-            box-shadow: var(--shadow-md);
-        }
-        
-        .card-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--um-dark-blue);
-        }
-        
-        .card-title i, .card-title svg {
-            color: var(--um-light-blue);
-            width: 22px;
-            height: 22px;
-        }
-        
-        /* Top Cities - Enhanced */
-        .cities-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .city-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 18px;
-            background: var(--um-gray-50);
-            border-radius: var(--radius-md);
-            transition: all var(--transition-smooth);
-        }
-        
-        .city-item:hover {
-            background: white;
-            box-shadow: var(--shadow-sm);
-            transform: translateX(4px);
-        }
-        
-        .city-rank {
-            width: 32px;
-            height: 32px;
-            background: var(--um-light-blue);
-            color: white;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: 14px;
-        }
-        
-        .city-item:nth-child(1) .city-rank { background: linear-gradient(135deg, #f59e0b, #d97706); }
-        .city-item:nth-child(2) .city-rank { background: linear-gradient(135deg, #9ca3af, #6b7280); }
-        .city-item:nth-child(3) .city-rank { background: linear-gradient(135deg, #f97316, #ea580c); }
-        
-        .city-name {
-            flex: 1;
-            font-weight: 600;
-            color: var(--um-dark-blue);
-        }
-        
-        .city-count {
-            font-family: var(--font-heading);
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--um-orange);
-        }
-        
-        .city-bar {
-            width: 80px;
-            height: 6px;
-            background: var(--um-gray-200);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        
-        .city-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--um-light-blue), #00c4ff);
-            border-radius: 3px;
-        }
-        
-        /* Nationalities with Flags */
-        .nationalities-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .nat-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            background: var(--um-gray-50);
-            border-radius: var(--radius-md);
-            transition: all var(--transition-smooth);
-        }
-        
-        .nat-item:hover {
-            background: white;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .nat-flag {
-            width: 36px;
-            height: 24px;
-            border-radius: 4px;
-            object-fit: cover;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        }
-        
-        .nat-name {
-            flex: 1;
-            font-weight: 500;
-            color: var(--um-dark-blue);
-        }
-        
-        .nat-count {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            color: var(--um-orange);
-        }
-        
-        .nat-bar {
-            width: 60px;
-            height: 6px;
-            background: var(--um-gray-200);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        
-        .nat-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--um-orange), #ff6b35);
-            border-radius: 3px;
-        }
-        
-        /* Universities Grid with Logos */
-        .universities-section {
-            margin-bottom: 30px;
-        }
-        
-        .universities-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
-        }
-        
-        .university-card {
-            background: white;
-            border: 1px solid var(--um-gray-200);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            transition: all var(--transition-smooth);
-            cursor: pointer;
-        }
-        
-        .university-card:hover {
-            border-color: var(--um-light-blue);
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .university-logo {
-            width: 56px;
-            height: 56px;
-            background: var(--um-gray-50);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border: 1px solid var(--um-gray-100);
-            flex-shrink: 0;
-        }
-        
-        .university-logo img {
-            width: 44px;
-            height: 44px;
-            object-fit: contain;
-        }
-        
-        .university-logo i {
-            color: var(--um-gray-400);
-            width: 28px;
-            height: 28px;
-        }
-        
-        .university-info {
-            flex: 1;
-        }
-        
-        .university-name {
-            font-family: var(--font-heading);
-            font-weight: 600;
-            font-size: 15px;
-            color: var(--um-dark-blue);
-            margin-bottom: 4px;
-        }
-        
-        .university-count {
-            font-size: 14px;
-            color: var(--um-gray-500);
-        }
-        
-        .university-count strong {
-            color: var(--um-orange);
-            font-weight: 700;
-        }
-        
-        /* University Modal */
-        .university-modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 28, 61, 0.85);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .university-modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: var(--radius-xl);
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-xl);
-        }
-        
-        .modal-header {
-            padding: 32px 32px 24px;
-            border-bottom: 1px solid var(--um-gray-200);
-            position: relative;
-        }
-        
-        .modal-close {
-            position: absolute;
-            top: 24px;
-            right: 24px;
-            background: var(--um-gray-100);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all var(--transition-smooth);
-            color: var(--um-gray-600);
-        }
-        
-        .modal-close:hover {
-            background: var(--um-orange);
-            color: white;
-            transform: rotate(90deg);
-        }
-        
-        .modal-logo-section {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .modal-logo {
-            width: 80px;
-            height: 80px;
-            background: var(--um-gray-50);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--um-gray-200);
-            flex-shrink: 0;
-        }
-        
-        .modal-logo img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-        }
-        
-        .modal-logo i {
-            color: var(--um-gray-400);
-            width: 40px;
-            height: 40px;
-        }
-        
-        .modal-title-section h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            margin-bottom: 8px;
-            line-height: 1.2;
-        }
-        
-        .modal-location {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--um-gray-600);
-            font-size: 15px;
-        }
-        
-        .modal-location i {
-            width: 16px;
-            height: 16px;
-        }
-        
-        .modal-body {
-            padding: 24px 32px 32px;
-        }
-        
-        .modal-info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        
-        .modal-info-item {
-            background: var(--um-gray-50);
-            padding: 16px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--um-gray-200);
-        }
-        
-        .modal-info-label {
-            font-size: 13px;
-            color: var(--um-gray-600);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        
-        .modal-info-value {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            font-family: var(--font-heading);
-        }
-        
-        .modal-description {
-            color: var(--um-gray-800);
-            line-height: 1.7;
-            font-size: 15px;
-            margin-bottom: 24px;
-        }
-        
-        .modal-website-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 24px;
-            background: var(--um-light-blue);
-            color: white;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            text-decoration: none;
-            transition: all var(--transition-smooth);
-        }
-        
-        .modal-website-link:hover {
-            background: var(--um-orange);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .modal-website-link i {
-            width: 18px;
-            height: 18px;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Map Section */
-        .map-section {
-            margin-bottom: 30px;
-        }
-        
-        .map-card {
-            background: white;
-            border: 1px solid var(--um-gray-200);
-            border-radius: var(--radius-lg);
-            padding: 30px;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        #countryMap {
-            height: 450px;
-            border-radius: var(--radius-md);
-            overflow: hidden;
-        }
-        
-        .map-legend {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .map-legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: var(--um-gray-600);
-        }
-        
-        .map-legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        
-        .map-legend-dot.city { background: var(--um-orange); }
-        .map-legend-dot.university { background: var(--um-light-blue); }
-        
-        /* Footer */
-        footer { background: var(--um-dark-blue); color: rgba(255,255,255,0.7); padding: 60px 50px 30px; }
-        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-        .footer-brand { padding-right: 20px; }
-        .footer-logo { height: 40px; width: auto; filter: brightness(0) invert(1); margin-bottom: 16px; }
-        .footer-brand h3 { font-size: 16px; font-weight: 700; color: white; margin-bottom: 10px; }
-        .footer-brand p { font-size: 14px; line-height: 1.7; }
-        .footer-links-group h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
-        .footer-links-group a { display: block; font-size: 14px; color: rgba(255,255,255,0.65); padding: 5px 0; transition: color var(--transition-fast); }
-        .footer-links-group a:hover { color: white; }
-        .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 24px; font-size: 13px; color: rgba(255,255,255,0.35); }
-        
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            
-            .hero-flag-bg {
-                width: 100%;
-            }
-            
-            .hero-flag-bg::after {
-                background: linear-gradient(180deg, transparent 0%, var(--um-dark-blue) 100%);
-            }
-            
-            .hero-blue-bg {
-                display: none;
-            }
-            
-            .hero-left {
-                display: none;
-            }
-            
-            .hero-right {
-                text-align: center;
-            }
-            
-            .hero-alumni-count {
-                justify-content: center;
-            }
-            
-            .country-facts {
-                max-width: 500px;
-                margin: 0 auto;
-            }
-        }
-        
-        @media (max-width: 900px) {
-            header { padding: 0 24px; }
-            .hero-content { padding: 140px 24px 60px; }
-            .hero-country-name { font-size: 42px; }
-            main { padding: 40px 24px; }
-            .content-grid { grid-template-columns: 1fr; }
-            .footer-container { grid-template-columns: 1fr 1fr; gap: 40px; }
-        }
+        /* Page-specific styles. Tokens, cards, .card-title, the university
+           modal and the Leaflet wrapper rules come from msp-redesign.css. */
 
-        @media (max-width: 600px) {
-            .hero-country-name { font-size: 32px; }
-            .hero-alumni-number { font-size: 36px; }
-            .country-facts { grid-template-columns: 1fr; }
+        /* Hero: flag tile + country facts inside the kit hero card */
+        .country-hero { display: flex; gap: 28px; align-items: flex-start; }
+        .hero-flag-bg { flex: 0 0 auto; width: 132px; height: 88px; border-radius: 8px; background-size: cover; background-position: center; background-color: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+        .hero-right { flex: 1; min-width: 0; }
+        .hero-subtitle { font-size: 13.5px; opacity: 0.75; margin: 0; }
+        .hero-alumni-count { display: inline-flex; align-items: center; gap: 14px; background: rgba(110,210,236,0.12); border: 1px solid rgba(110,210,236,0.3); padding: 10px 16px; border-radius: var(--msp-r); margin: 14px 0 16px; }
+        .hero-alumni-number { font-family: var(--msp-font-display); font-size: 32px; font-weight: 700; color: var(--msp-sky); line-height: 1; }
+        .hero-alumni-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.35; }
+        .country-facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+        .fact-item { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.06); padding: 9px 12px; border-radius: var(--msp-rs); border: 1px solid rgba(255,255,255,0.08); min-width: 0; }
+        .fact-emoji:empty { display: none; }
+        .fact-info { flex: 1; min-width: 0; }
+        .fact-label { font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; }
+        .fact-value { font-size: 13px; font-weight: 600; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        /* Content */
+        .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+        .universities-section, .map-section { margin-bottom: 16px; }
+
+        /* Top cities */
+        .cities-list, .nationalities-list { display: flex; flex-direction: column; gap: 6px; }
+        .city-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: var(--msp-g0); border: 1px solid var(--msp-g1); border-radius: var(--msp-rs); }
+        .city-rank { width: 26px; height: 26px; background: var(--msp-navy); color: #fff; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+        .city-item:nth-child(-n+3) .city-rank { background: var(--msp-sky); color: var(--msp-navy); }
+        .city-name { flex: 1; font-weight: 600; font-size: 13.5px; color: var(--msp-g9); min-width: 0; }
+        .city-count { font-weight: 700; font-size: 14px; color: var(--msp-navy); font-variant-numeric: tabular-nums; }
+        .city-bar, .nat-bar { width: 72px; height: 6px; background: var(--msp-g2); border-radius: 3px; overflow: hidden; flex-shrink: 0; }
+        .city-bar-fill { height: 100%; background: var(--blue); border-radius: 3px; }
+
+        /* Nationalities */
+        .nat-item { display: flex; align-items: center; gap: 12px; padding: 9px 12px; background: var(--msp-g0); border: 1px solid var(--msp-g1); border-radius: var(--msp-rs); }
+        .nat-flag { width: 30px; height: 20px; border-radius: 3px; object-fit: cover; box-shadow: 0 1px 3px rgba(0,0,0,0.15); flex-shrink: 0; }
+        .nat-name { flex: 1; font-weight: 500; font-size: 13.5px; color: var(--msp-g9); min-width: 0; }
+        .nat-count { font-weight: 700; font-size: 13.5px; color: var(--msp-navy); font-variant-numeric: tabular-nums; }
+        .nat-bar-fill { height: 100%; background: var(--orange); border-radius: 3px; }
+
+        /* Universities */
+        .universities-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+        .university-card { padding: 14px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; }
+        .university-logo { width: 48px; height: 48px; background: var(--msp-g0); border-radius: var(--msp-rs); display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--msp-g2); flex-shrink: 0; }
+        .university-logo img { width: 38px; height: 38px; object-fit: contain; }
+        .university-logo i, .university-logo svg { color: var(--msp-g4); width: 22px; height: 22px; }
+        .university-info { flex: 1; min-width: 0; }
+        .university-name { font-weight: 600; font-size: 13.5px; color: var(--msp-g9); margin-bottom: 2px; line-height: 1.3; }
+        .university-count { font-size: 12.5px; color: var(--msp-g5); }
+        .university-count strong { color: var(--msp-navy); font-weight: 700; }
+
+        /* Map */
+        .map-card { padding: 22px 24px; }
+        #countryMap { height: 420px; border-radius: var(--msp-rs); overflow: hidden; border: 1px solid var(--msp-g2); }
+        .map-legend { display: flex; justify-content: center; gap: 24px; margin-top: 14px; flex-wrap: wrap; }
+        .map-legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--msp-g5); }
+        .map-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .map-legend-dot.city { background: var(--orange); }
+        .map-legend-dot.university { background: var(--blue); }
+
+        @media (max-width: 900px) {
+            .content-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+            .country-hero { flex-direction: column; gap: 16px; }
+            .hero-flag-bg { width: 96px; height: 64px; }
+            .country-facts { grid-template-columns: 1fr 1fr; }
             .universities-grid { grid-template-columns: 1fr; }
             #countryMap { height: 300px; }
-            .footer-container { grid-template-columns: 1fr; gap: 30px; }
+            .map-card { padding: 14px; }
         }
     </style>
 </head>
 <body>
-    <header id="header" class="dark-header">
-        <a href="index.html" class="logo">
-            <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP Logo" class="logo-img">
-            <div class="logo-text">
-                <h1>MSP Alumni Network</h1>
-                <p>Maastricht Science Programme</p>
-            </div>
-        </a>
-        <a href="destinations.html" class="back-link">
+    <main class="msp-main wide">
+    <div class="msp-page-head">
+        <a href="destinations.html" class="msp-btn msp-btn-gh msp-btn-sm">
             <i data-lucide="arrow-left"></i>
             Back to Destinations
         </a>
-    </header>
+    </div>
 
-    <section class="hero">
+    <section class="msp-hero country-hero">
         <div class="hero-flag-bg" id="heroFlagBg"></div>
-        <div class="hero-blue-bg"></div>
-        
-        <div class="hero-content">
-            <div class="hero-left"></div>
-            
-            <div class="hero-right">
-                <h1 class="hero-country-name" id="countryName">Loading...</h1>
-                <p class="hero-subtitle" id="heroSubtitle">MSP Alumni Network</p>
-                
-                <div class="hero-alumni-count">
-                    <div class="hero-alumni-number" id="totalAlumni">0</div>
-                    <div class="hero-alumni-label">MSP Alumni<br>Living Here</div>
-                </div>
-                
-                <div class="country-facts" id="countryFacts">
-                    <!-- Populated by JS -->
-                </div>
+        <div class="hero-right">
+            <h1 class="hero-country-name" id="countryName">Loading...</h1>
+            <p class="hero-subtitle" id="heroSubtitle">MSP Alumni Network</p>
+
+            <div class="hero-alumni-count">
+                <div class="hero-alumni-number" id="totalAlumni">0</div>
+                <div class="hero-alumni-label">MSP Alumni<br>Living Here</div>
+            </div>
+
+            <div class="country-facts" id="countryFacts">
+                <!-- Populated by JS -->
             </div>
         </div>
     </section>
-
-    <main>
         <div class="content-grid">
             <div class="card">
                 <h3 class="card-title"><i data-lucide="map-pin"></i> Top Cities</h3>
@@ -906,37 +159,15 @@
         </div>
     </main>
 
-    <footer>
-        <div class="footer-container">
-            <div class="footer-brand">
-                <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" class="footer-logo">
-                <h3>MSP Alumni Network</h3>
-                <p>Connecting MSP graduates from the Maastricht Science Programme across the world. Part of the Faculty of Science and Engineering at Maastricht University.</p>
-            </div>
-            <div class="footer-links-group">
-                <h4>Explore</h4>
-                <a href="index.html">Home</a>
-                <a href="destinations.html">Destinations</a>
-                <a href="community.html">Community</a>
-                <a href="events.html">Events</a>
-                <a href="stories.html">Stories</a>
-            </div>
-            <div class="footer-links-group">
-                <h4>Connect</h4>
-                <a href="considering-msp.html">Considering MSP?</a>
-                <a href="https://www.maastrichtuniversity.nl" target="_blank">Maastricht University</a>
-                <a href="privacy.html">Privacy Policy</a>
-            </div>
-            <div class="footer-links-group">
-                <h4>Follow Us</h4>
-                <a href="https://www.instagram.com/msp_alumni/" target="_blank">Instagram</a>
-                <a href="https://www.linkedin.com/groups/12893377/" target="_blank">LinkedIn (MSP)</a>
-                <a href="https://www.linkedin.com/groups/4689010/" target="_blank">LinkedIn (FSE)</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 MSP Alumni Network. Maastricht University, Faculty of Science and Engineering.</p>
-        </div>
+    <footer class="msp-footer">
+    <div class="foot-links">
+        <a href="https://www.instagram.com/msp_alumni/">Instagram</a>
+        <a href="https://www.linkedin.com/groups/12893377/">LinkedIn (MSP)</a>
+        <a href="https://www.linkedin.com/groups/4689010/">LinkedIn (FSE)</a>
+        <a href="https://www.maastrichtuniversity.nl">Maastricht University</a>
+        <a href="privacy.html">Privacy policy</a>
+    </div>
+    <div>&copy; 2026 MSP Alumni Network. Maastricht University, Faculty of Science and Engineering.</div>
     </footer>
 
     <!-- University Information Modal -->
@@ -1215,8 +446,14 @@
                 }
             });
             
-            // Map with multiple markers
-            if (countryData.coords) {
+            // Map with multiple markers. The shared frame (site-nav.js) wraps
+            // the page into the content column after DOMContentLoaded and fires
+            // 'msp:frame'; the map is built then so Leaflet measures the final
+            // container and fitBounds is right. 'load' is the fallback.
+            let countryMapBuilt = false;
+            function buildCountryMap() {
+                if (countryMapBuilt || !countryData.coords) return;
+                countryMapBuilt = true;
                 const map = L.map('countryMap').setView(countryData.coords, 6);
                 // Basemap: Esri light gray canvas (keyless; Carto now watermarks unkeyed use)
                 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
@@ -1253,25 +490,21 @@
                 if (allCoords.length > 1) {
                     map.fitBounds(allCoords, { padding: [50, 50] });
                 }
+
+                // Keep Leaflet's size in step with the column (sidebar breakpoints, drawer)
+                if (window.ResizeObserver) {
+                    new ResizeObserver(() => map.invalidateSize()).observe(document.getElementById('countryMap'));
+                }
+                window.addEventListener('resize', () => map.invalidateSize());
             }
+            document.addEventListener('msp:frame', buildCountryMap);
+            window.addEventListener('load', buildCountryMap);
         }
-        
-        // Header scroll effect
-        const header = document.getElementById('header');
-        const hero = document.querySelector('.hero');
-        
-        function updateHeader() {
-            const heroBottom = hero.offsetTop + hero.offsetHeight - 100;
-            if (window.scrollY > heroBottom) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        }
-        
-        window.addEventListener('scroll', updateHeader);
-        updateHeader();
     </script>
+<!-- Shared MSP frame: the sidebar is built from the config in site-nav.js -->
+    <script src="assets/msp-ui/msp-shell.js"></script>
+    <script>window.MSP_SHELL_OPTS = { active: 'destinations.html' };</script>
+    <script src="site-nav.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');

@@ -5,39 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Community | MSP Alumni Network</title>
 <meta name="description" content="Update your details, join the country WhatsApp groups, and stay connected with MSP alumni worldwide." />
-<meta name="theme-color" content="#001C3D" />
+<meta name="theme-color" content="#011B3C" />
 <link rel="icon" type="image/png" href="assets/logos/maastricht-science-programme-logo.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin" />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/msp-ui/msp-ui.css" />
 <link rel="stylesheet" href="msp-redesign.css" />
 </head>
 <body>
+<main class="msp-main wide">
 
-<header>
-  <a class="logo" href="index.html">
-    <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" />
-    <span>MSP Alumni Network</span>
-  </a>
-  <nav>
-    <a href="destinations.html">Destinations</a>
-    <a href="community.html" class="active">Community</a>
-    <a href="events.html">Events</a>
-    <a href="stories.html">Stories</a>
-    <a class="cta" href="considering-msp.html">Considering MSP?</a>
-  </nav>
-</header>
-<section class="hero hero-flat">
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
+<section class="msp-hero">
   <div class="hero-grid" style="grid-template-columns: minmax(0, 1fr);">
     <div class="hero-copy">
-      <div class="hero-eyebrow">MSP alumni worldwide</div>
+      <div class="msp-hero-kicker">MSP alumni worldwide</div>
       <h1>Join the <em>community.</em></h1>
       <p>Stay connected with fellow graduates across 59 countries. Get updates, win merch, and help us build something great together.</p>
       <div class="btn-row">
-        <a class="btn btn-primary" href="#update">Update your info</a>
-        <a class="btn btn-ghost" href="#channels">Find your channel</a>
+        <a class="msp-btn msp-btn-or" href="#update">Update your info</a>
+        <a class="msp-btn btn-ghost" href="#channels">Find your channel</a>
       </div>
     </div>
   </div>
@@ -205,7 +189,7 @@
     </fieldset>
 
     <div class="form-actions">
-      <button class="btn btn-navy" type="submit" id="submit-btn">Send update →</button>
+      <button class="msp-btn msp-btn-navy" type="submit" id="submit-btn">Send update →</button>
       <span class="form-msg" id="form-msg" role="status"></span>
     </div>
     <p class="form-privacy">We use this to keep the alumni database current — nothing is published without asking you first. Questions? <a href="mailto:msp-alumni@maastrichtuniversity.nl">msp-alumni@maastrichtuniversity.nl</a></p>
@@ -253,7 +237,7 @@
       <h3>@msp_alumni</h3>
       <p>Follow us for alumni spotlights, quiz questions, merch giveaways, and behind-the-scenes MSP content. This is where the fun happens!</p>
       <span class="channel-handle">Alumni stories, quizzes &amp; giveaways</span>
-      <a class="btn-sm btn-navy" href="https://www.instagram.com/msp_alumni/" target="_blank" rel="noopener" style="align-self: flex-start;">Follow on Instagram →</a>
+      <a class="msp-btn msp-btn-sm msp-btn-navy" href="https://www.instagram.com/msp_alumni/" target="_blank" rel="noopener" style="align-self: flex-start;">Follow on Instagram →</a>
     </div>
     <div class="channel">
       <span class="chip chip-blue">WhatsApp</span>
@@ -281,15 +265,15 @@
           <span class="flag-chip">🇮🇹 Italy</span>
           <span class="flag-chip more">+9 more</span>
       </div>
-      <a class="btn-sm btn-navy" href="mailto:msp-alumni@maastrichtuniversity.nl?subject=I'd like to join a WhatsApp group&body=Hi MSP Alumni Team,%0D%0A%0D%0AI'd like to join a WhatsApp group!%0D%0A%0D%0AMy country:" style="align-self: flex-start;">Request to join →</a>
+      <a class="msp-btn msp-btn-sm msp-btn-navy" href="mailto:msp-alumni@maastrichtuniversity.nl?subject=I'd like to join a WhatsApp group&body=Hi MSP Alumni Team,%0D%0A%0D%0AI'd like to join a WhatsApp group!%0D%0A%0D%0AMy country:" style="align-self: flex-start;">Request to join →</a>
     </div>
     <div class="channel">
       <span class="chip">LinkedIn</span>
       <h3>Two groups</h3>
       <p>Connect professionally with fellow MSP alumni. Share your achievements, publications, career milestones, and academic news with the community.</p>
       <div style="display: flex; flex-direction: column; gap: 10px;">
-        <a class="btn-sm btn-outline" href="https://www.linkedin.com/groups/12893377/" target="_blank" rel="noopener">MSP graduates group →</a>
-        <a class="btn-sm btn-outline" href="https://www.linkedin.com/groups/4689010/" target="_blank" rel="noopener">FSE alumni group →</a>
+        <a class="msp-btn msp-btn-sm msp-btn-gh" href="https://www.linkedin.com/groups/12893377/" target="_blank" rel="noopener">MSP graduates group →</a>
+        <a class="msp-btn msp-btn-sm msp-btn-gh" href="https://www.linkedin.com/groups/4689010/" target="_blank" rel="noopener">FSE alumni group →</a>
       </div>
     </div>
   </div>
@@ -297,49 +281,30 @@
 
 <section class="band">
   <div class="wrap">
-    <div class="grid cols-2" style="align-items: center; gap: 40px;">
+    <div class="grid cols-2" style="align-items: center; gap: 28px;">
       <div>
         <div class="eyebrow eyebrow-blue">Doing a PhD?</div>
         <h2>We're building a showcase of MSP's research community.</h2>
       </div>
       <div>
-        <p style="font-size: 16px; line-height: 1.75; color: rgba(255,255,255,0.7); margin: 0 0 22px;">Whether you're currently pursuing a doctorate or have already completed one, your journey inspires future students. Drop us an email with your institution, research field, and any details you'd like to share. We'll feature MSP PhD alumni once we've gathered enough stories to do the community justice.</p>
-        <a class="btn btn-primary" href="mailto:msp-alumni@maastrichtuniversity.nl?subject=MSP%20PhD%20Alumni%20Feature">Get in touch →</a>
+        <p style="font-size: 13.5px; line-height: 1.7; color: rgba(255,255,255,0.72); margin: 0 0 16px;">Whether you're currently pursuing a doctorate or have already completed one, your journey inspires future students. Drop us an email with your institution, research field, and any details you'd like to share. We'll feature MSP PhD alumni once we've gathered enough stories to do the community justice.</p>
+        <a class="msp-btn msp-btn-or" href="mailto:msp-alumni@maastrichtuniversity.nl?subject=MSP%20PhD%20Alumni%20Feature">Get in touch →</a>
       </div>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="foot-grid">
-    <div class="foot-brand">
-      <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" />
-      <p>MSP Alumni Network. Part of the Faculty of Science and Engineering, Maastricht University.</p>
-    </div>
-    <div class="foot-col">
-      <h4>Explore</h4>
-      <a href="destinations.html">Destinations</a>
-      <a href="community.html">Community</a>
-      <a href="events.html">Events</a>
-      <a href="stories.html">Stories</a>
-    </div>
-    <div class="foot-col">
-      <h4>Connect</h4>
-      <a href="considering-msp.html">Considering MSP?</a>
-      <a href="https://www.maastrichtuniversity.nl">Maastricht University</a>
-      <a href="privacy.html">Privacy policy</a>
-    </div>
-    <div class="foot-col">
-      <h4>Follow</h4>
-      <a href="https://www.instagram.com/msp_alumni/">Instagram</a>
-      <a href="https://www.linkedin.com/groups/12893377/">LinkedIn (MSP)</a>
-      <a href="https://www.linkedin.com/groups/4689010/">LinkedIn (FSE)</a>
-    </div>
+</main>
+<footer class="msp-footer">
+  <div class="foot-links">
+    <a href="https://www.instagram.com/msp_alumni/">Instagram</a>
+    <a href="https://www.linkedin.com/groups/12893377/">LinkedIn (MSP)</a>
+    <a href="https://www.linkedin.com/groups/4689010/">LinkedIn (FSE)</a>
+    <a href="https://www.maastrichtuniversity.nl">Maastricht University</a>
+    <a href="privacy.html">Privacy policy</a>
   </div>
-  <div class="foot-bottom">
-    <span>© 2026 MSP Alumni Network. Maastricht University.</span>
-    <span data-text-template="Data current as of {lastUpdated}.">Data current as of July 2026.</span>
-  </div>
+  <div>&copy; 2026 MSP Alumni Network. Maastricht University, Faculty of Science and Engineering.</div>
+  <div class="foot-note"><span data-text-template="Data current as of {lastUpdated}.">Data current as of July 2026.</span></div>
 </footer>
 <script>
   // Formspree submission — same endpoint as the original community page
@@ -367,5 +332,8 @@
 </script>
 <script src="data.js"></script>
 <script src="data-bind.js"></script>
+<!-- Shared MSP frame: the sidebar is built from the config in site-nav.js -->
+<script src="assets/msp-ui/msp-shell.js"></script>
+<script src="site-nav.js"></script>
 </body>
 </html>

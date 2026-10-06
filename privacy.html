@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#001C3D">
+    <meta name="theme-color" content="#011B3C">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MSP Alumni">
@@ -13,267 +13,36 @@
     <link rel="icon" type="image/png" href="assets/logos/maastricht-science-programme-logo.png">
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="assets/msp-ui/msp-ui.css">
+    <link rel="stylesheet" href="msp-redesign.css">
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@0.576.0/dist/umd/lucide.js"></script>
-    
     <style>
-        :root {
-            --um-dark-blue: #001C3D;
-            --um-light-blue: #00A2DB;
-            --um-orange: #E84E10;
-            --um-white: #FFFFFF;
-            --um-gray-50: #f8fafc;
-            --um-gray-100: #f1f5f9;
-            --um-gray-200: #e2e8f0;
-            --um-gray-500: #64748b;
-            --um-gray-600: #475569;
-            
-            --font-heading: var(--font-display);
-            --font-body: 'Plus Jakarta Sans', sans-serif;
-            
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-            --radius-md: 12px;
-            --radius-lg: 20px;
-            --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--um-dark-blue); background: var(--um-gray-50); }
-        h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.2; letter-spacing: -0.02em; }
-        a { color: var(--um-light-blue); text-decoration: none; }
-        a:hover { color: var(--um-orange); }
-        
-        /* Header */
-        header {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--um-gray-200);
-            padding: 0 50px;
-            height: 72px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-        }
-        .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-        .logo-img { height: 44px; }
-        .logo-text h1 { font-size: 15px; font-weight: 700; color: var(--um-dark-blue); margin: 0; }
-        .logo-text p { font-size: 11px; color: var(--um-gray-500); margin: 0; }
-        .header-nav { display: flex; gap: 6px; }
-        .header-nav a { font-size: 14px; font-weight: 500; padding: 10px 18px; border-radius: 8px; color: var(--um-gray-600); }
-        .header-nav a:hover { background: var(--um-gray-100); color: var(--um-dark-blue); }
-        .header-nav .btn-cta { background: linear-gradient(135deg, var(--um-orange), #d94008); color: white; margin-left: 12px; }
-
-        /* Mobile menu toggle button */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            z-index: 1002;
-            width: 32px;
-            height: 32px;
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .menu-toggle span {
-            display: block;
-            width: 22px;
-            height: 2px;
-            background: var(--um-dark-blue);
-            border-radius: 2px;
-            position: absolute;
-            left: 5px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .menu-toggle span:nth-child(1) { top: 8px; }
-        .menu-toggle span:nth-child(2) { top: 15px; }
-        .menu-toggle span:nth-child(3) { top: 22px; }
-
-        .menu-toggle.open span:nth-child(1) {
-            top: 15px;
-            transform: rotate(45deg);
-        }
-
-        .menu-toggle.open span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.open span:nth-child(3) {
-            top: 15px;
-            transform: rotate(-45deg);
-        }
-
-        header.scrolled .menu-toggle span {
-            background: white;
-        }
-
-        /* Mobile nav overlay */
-        @media (max-width: 900px) {
-            .menu-toggle {
-                display: block;
-            }
-
-            .header-nav {
-                position: fixed;
-                top: 0;
-                right: 0;
-                width: 280px;
-                height: 100vh;
-                height: 100dvh;
-                background: white;
-                flex-direction: column;
-                align-items: stretch;
-                padding: 80px 24px 32px;
-                gap: 0;
-                box-shadow: -4px 0 24px rgba(0,0,0,0.12);
-                transform: translateX(100%);
-                visibility: hidden;
-                transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
-                z-index: 1001;
-                overflow-y: auto;
-            }
-
-            .header-nav.open {
-                transform: translateX(0);
-                visibility: visible;
-            }
-
-            .header-nav a {
-                font-size: 16px;
-                padding: 14px 16px;
-                border-radius: var(--radius-sm);
-                color: var(--um-gray-600);
-                border-bottom: 1px solid var(--um-gray-100);
-            }
-
-            .header-nav a:last-child {
-                border-bottom: none;
-            }
-
-            .header-nav a:hover,
-            .header-nav a.active {
-                background: var(--um-gray-50);
-                color: var(--um-dark-blue);
-            }
-
-            .header-nav .btn-cta {
-                margin-left: 0;
-                margin-top: 12px;
-                text-align: center;
-            }
-        }
-
-        /* Content */
-        .content-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 120px 50px 80px;
-        }
-        .content-card {
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            padding: 50px 60px;
-        }
-        h1 { font-size: 36px; font-weight: 700; color: var(--um-dark-blue); margin-bottom: 10px; }
-        .subtitle { color: var(--um-gray-500); font-size: 15px; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid var(--um-gray-200); }
-        
-        h2 { font-size: 20px; font-weight: 700; color: var(--um-dark-blue); margin: 40px 0 15px; }
-        h2:first-of-type { margin-top: 0; }
-        h3 { font-size: 16px; font-weight: 600; color: var(--um-gray-600); margin: 25px 0 10px; }
-        p { margin-bottom: 15px; }
-        ul, ol { margin: 15px 0 15px 25px; }
-        li { margin-bottom: 8px; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
-        th, td { text-align: left; padding: 12px 15px; border: 1px solid var(--um-gray-200); }
-        th { background: var(--um-gray-50); font-weight: 600; }
-        
-        .highlight {
-            background: var(--um-gray-50);
-            border-left: 3px solid var(--um-light-blue);
-            padding: 15px 20px;
-            margin: 20px 0;
-            font-size: 15px;
-        }
-        .contact-box {
-            background: linear-gradient(135deg, var(--um-dark-blue), #002a5c);
-            color: white;
-            padding: 25px 30px;
-            border-radius: var(--radius-md);
-            margin: 30px 0;
-        }
-        .contact-box h3 { color: white; margin-top: 0; }
-        .contact-box a { color: var(--um-light-blue); }
-        
-        .address-block {
-            background: var(--um-gray-50);
-            padding: 20px;
-            border-radius: var(--radius-md);
-            margin: 15px 0;
-            font-size: 15px;
-            line-height: 1.8;
-        }
-        
-        /* Footer */
-        footer { background: var(--um-dark-blue); color: rgba(255,255,255,0.7); padding: 60px 50px 30px; }
-        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-        .footer-brand { padding-right: 20px; }
-        .footer-logo { height: 40px; width: auto; filter: brightness(0) invert(1); margin-bottom: 16px; }
-        .footer-brand h3 { font-size: 16px; font-weight: 700; color: white; margin-bottom: 10px; }
-        .footer-brand p { font-size: 14px; line-height: 1.7; }
-        .footer-links-group h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
-        .footer-links-group a { display: block; font-size: 14px; color: rgba(255,255,255,0.65); padding: 5px 0; transition: color var(--transition-fast); }
-        .footer-links-group a:hover { color: white; }
-        .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 24px; font-size: 13px; color: rgba(255,255,255,0.35); }
-        
-        @media (max-width: 900px) {
-            .footer-container { grid-template-columns: 1fr 1fr; gap: 40px; }
-        }
-        @media (max-width: 768px) {
-            header { padding: 0 20px; }
-            .content-wrapper { padding: 100px 20px 60px; }
-            .content-card { padding: 30px; }
-            h1 { font-size: 28px; }
-        }
-        @media (max-width: 600px) {
-            .footer-container { grid-template-columns: 1fr; gap: 30px; }
+        /* Page-specific styles; tokens and the card surface come from msp-redesign.css. */
+        .content-card { max-width: 820px; margin: 0 auto; padding: 32px 36px; }
+        .content-card h1 { margin: 0 0 6px; }
+        .subtitle { color: var(--msp-g5); font-size: 13px; margin: 0 0 24px; padding-bottom: 18px; border-bottom: 1px solid var(--msp-g1); }
+        .content-card h2 { font-size: 18px; margin: 28px 0 10px; }
+        .content-card h2:first-of-type { margin-top: 0; }
+        .content-card h3 { font-size: 13.5px; font-weight: 600; color: var(--msp-g5); margin: 18px 0 8px; }
+        .content-card p { font-size: 14px; line-height: 1.7; color: var(--msp-g7); margin: 0 0 12px; }
+        .content-card ul, .content-card ol { font-size: 14px; line-height: 1.7; color: var(--msp-g7); margin: 10px 0 12px; padding-left: 22px; }
+        .content-card li { margin-bottom: 5px; }
+        .content-card table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+        .content-card th, .content-card td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--msp-g1); vertical-align: top; }
+        .content-card th { background: var(--msp-g0); font-size: 10px; font-weight: 700; color: var(--msp-g4); text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 2px solid var(--msp-g2); }
+        .highlight { background: rgba(12,74,110,0.04); border-left: 3px solid var(--msp-inf-bd); border-radius: 0 var(--msp-rs) var(--msp-rs) 0; padding: 10px 14px; margin: 14px 0; font-size: 13.5px; color: var(--msp-g7); }
+        .contact-box { background: linear-gradient(135deg, var(--msp-navy) 0%, var(--msp-navy3) 100%); color: #fff; padding: 20px 24px; border-radius: var(--msp-r); margin: 20px 0; }
+        .contact-box h3 { color: #fff; margin: 0 0 8px; font-size: 14px; }
+        .contact-box p { color: rgba(255,255,255,0.8); margin: 0 0 4px; }
+        .contact-box a { color: var(--msp-sky); }
+        .address-block { background: var(--msp-g0); border: 1px solid var(--msp-g2); padding: 14px 16px; border-radius: var(--msp-rs); margin: 10px 0 14px; font-size: 13.5px; line-height: 1.7; }
+        @media (max-width: 640px) {
+            .content-card { padding: 20px 16px; }
         }
     </style>
 </head>
 <body>
-    <header id="header">
-        <a href="index.html" class="logo">
-            <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP Logo" class="logo-img">
-            <div class="logo-text">
-                <h1>MSP Alumni Network</h1>
-                <p>Faculty of Science and Engineering</p>
-            </div>
-        </a>
-        <nav class="header-nav">
-            <a href="index.html">Home</a>
-            <a href="destinations.html">Destinations</a>
-            <a href="community.html">Community</a>
-            <a href="events.html">Events</a>
-            <a href="stories.html">Stories</a>
-            <a href="considering-msp.html" class="btn-cta">Considering MSP?</a>
-        </nav>
-        <button class="menu-toggle" onclick="toggleMobileNav(this)" aria-label="Menu"><span></span><span></span><span></span></button>
-    </header>
-
-    <div class="content-wrapper">
+    <main class="msp-main wide">
         <div class="content-card">
             <h1>MSP Alumni Network Privacy Policy</h1>
             <p class="subtitle">Last updated: March 2026</p>
@@ -408,79 +177,22 @@
                 <li>File a complaint with the <a href="https://autoriteitpersoonsgegevens.nl" target="_blank">Dutch Data Protection Authority (Autoriteit Persoonsgegevens)</a></li>
             </ol>
         </div>
-    </div>
+    </main>
 
-    <footer>
-        <div class="footer-container">
-            <div class="footer-brand">
-                <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" class="footer-logo">
-                <h3>MSP Alumni Network</h3>
-                <p>Connecting MSP graduates from the Maastricht Science Programme across the world. Part of the Faculty of Science and Engineering at Maastricht University.</p>
-            </div>
-            <div class="footer-links-group">
-                <h4>Explore</h4>
-                <a href="index.html">Home</a>
-                <a href="destinations.html">Destinations</a>
-                <a href="community.html">Community</a>
-                <a href="events.html">Events</a>
-                <a href="stories.html">Stories</a>
-            </div>
-            <div class="footer-links-group">
-                <h4>Connect</h4>
-                <a href="considering-msp.html">Considering MSP?</a>
-                <a href="https://www.maastrichtuniversity.nl" target="_blank">Maastricht University</a>
-                <a href="privacy.html">Privacy Policy</a>
-            </div>
-            <div class="footer-links-group">
-                <h4>Follow Us</h4>
-                <a href="https://www.instagram.com/msp_alumni/" target="_blank">Instagram</a>
-                <a href="https://www.linkedin.com/groups/12893377/" target="_blank">LinkedIn (MSP)</a>
-                <a href="https://www.linkedin.com/groups/4689010/" target="_blank">LinkedIn (FSE)</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 MSP Alumni Network. Maastricht University, Faculty of Science and Engineering.</p>
-        </div>
+    <footer class="msp-footer">
+    <div class="foot-links">
+        <a href="https://www.instagram.com/msp_alumni/">Instagram</a>
+        <a href="https://www.linkedin.com/groups/12893377/">LinkedIn (MSP)</a>
+        <a href="https://www.linkedin.com/groups/4689010/">LinkedIn (FSE)</a>
+        <a href="https://www.maastrichtuniversity.nl">Maastricht University</a>
+        <a href="privacy.html">Privacy policy</a>
+    </div>
+    <div>&copy; 2026 MSP Alumni Network. Maastricht University, Faculty of Science and Engineering.</div>
     </footer>
     
-    <script>
-        // Mobile nav toggle
-        function toggleMobileNav(btn) {
-            const nav = document.querySelector('.header-nav');
-            const isOpen = nav.classList.contains('open');
-            btn.classList.toggle('open');
-            nav.classList.toggle('open');
-
-            if (!isOpen) {
-                const backdrop = document.createElement('div');
-                backdrop.className = 'nav-backdrop';
-                backdrop.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);z-index:999;opacity:0;transition:opacity 0.3s ease';
-                document.body.appendChild(backdrop);
-                document.body.style.overflow = 'hidden';
-                requestAnimationFrame(() => backdrop.style.opacity = '1');
-                backdrop.addEventListener('click', () => toggleMobileNav(btn));
-            } else {
-                const backdrop = document.querySelector('.nav-backdrop');
-                if (backdrop) {
-                    backdrop.style.opacity = '0';
-                    setTimeout(() => backdrop.remove(), 300);
-                }
-                document.body.style.overflow = '';
-            }
-        }
-
-        // Close mobile nav when a link is clicked
-        document.querySelectorAll('.header-nav a').forEach(link => {
-            link.addEventListener('click', () => {
-                const btn = document.querySelector('.menu-toggle');
-                if (btn.classList.contains('open')) {
-                    toggleMobileNav(btn);
-                }
-            });
-        });
-
-        lucide.createIcons();
-    </script>
+    <!-- Shared MSP frame: the sidebar is built from the config in site-nav.js -->
+    <script src="assets/msp-ui/msp-shell.js"></script>
+    <script src="site-nav.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');

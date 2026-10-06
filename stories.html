@@ -5,34 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Alumni Stories | MSP Alumni Network</title>
 <meta name="description" content="Real stories from MSP alumni — from nuclear research in Singapore to gray whale research in Mexico." />
-<meta name="theme-color" content="#001C3D" />
+<meta name="theme-color" content="#011B3C" />
 <link rel="icon" type="image/png" href="assets/logos/maastricht-science-programme-logo.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin" />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/msp-ui/msp-ui.css" />
 <link rel="stylesheet" href="msp-redesign.css" />
 </head>
 <body>
+<main class="msp-main wide">
 
-<header>
-  <a class="logo" href="index.html">
-    <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" />
-    <span>MSP Alumni Network</span>
-  </a>
-  <nav>
-    <a href="destinations.html">Destinations</a>
-    <a href="community.html">Community</a>
-    <a href="events.html">Events</a>
-    <a href="stories.html" class="active">Stories</a>
-    <a class="cta" href="considering-msp.html">Considering MSP?</a>
-  </nav>
-</header>
-<section class="hero hero-flat">
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
+<section class="msp-hero">
   <div class="hero-grid" style="grid-template-columns: minmax(0, 1fr);">
     <div class="hero-copy">
-      <div class="hero-eyebrow">Alumni journeys</div>
+      <div class="msp-hero-kicker">Alumni journeys</div>
       <h1>Every path is <em>unique.</em></h1>
       <p>Explore the journeys of our alumni after MSP — where they went, what they discovered, and how it all began.</p>
     </div>
@@ -52,7 +36,7 @@
         <img class="story-photo" src="assets/images/Diaz.jpg" alt="Francesca Diaz Cabal" />
         <span style="display: flex; flex-direction: column; gap: 14px; padding: 22px 22px 24px;">
           <span class="chip">Marine biology</span>
-          <span class="story-quote" style="font-size: 18px;">"MSP gave me the freedom to shape my academic path around my passions."</span>
+          <span class="story-quote">"MSP gave me the freedom to shape my academic path around my passions."</span>
           <span class="story-by">
             <span class="story-name">Francesca Diaz Cabal</span>
             <span class="story-role">Gray whale researcher · Ecuador / Mexico</span>
@@ -63,7 +47,7 @@
         <img class="story-photo" src="assets/images/Vitesh.JPG" alt="Vitesh" />
         <span style="display: flex; flex-direction: column; gap: 14px; padding: 22px 22px 24px;">
           <span class="chip">Nuclear physics</span>
-          <span class="story-quote" style="font-size: 18px;">"It nurtured curiosity, encouraged independent thinking, and reignited my genuine enjoyment of learning."</span>
+          <span class="story-quote">"It nurtured curiosity, encouraged independent thinking, and reignited my genuine enjoyment of learning."</span>
           <span class="story-by">
             <span class="story-name">Vitesh</span>
             <span class="story-role">Nuclear researcher · Singapore</span>
@@ -74,7 +58,7 @@
         <img class="story-photo" src="assets/images/Daria.jpg" alt="Daria Legostaeva" />
         <span style="display: flex; flex-direction: column; gap: 14px; padding: 22px 22px 24px;">
           <span class="chip">Sustainability</span>
-          <span class="story-quote" style="font-size: 18px;">"I wanted to become a bridge between scientific research and real-world business applications."</span>
+          <span class="story-quote">"I wanted to become a bridge between scientific research and real-world business applications."</span>
           <span class="story-by">
             <span class="story-name">Daria Legostaeva</span>
             <span class="story-role">Environmental engineer at SBM Offshore · Netherlands</span>
@@ -85,7 +69,7 @@
         <img class="story-photo" src="assets/images/Yannick.jpg" alt="Yannick" />
         <span style="display: flex; flex-direction: column; gap: 14px; padding: 22px 22px 24px;">
           <span class="chip">Conservation</span>
-          <span class="story-quote" style="font-size: 18px;">"I wanted to do something that would help create change now."</span>
+          <span class="story-quote">"I wanted to do something that would help create change now."</span>
           <span class="story-by">
             <span class="story-name">Yannick</span>
             <span class="story-role">Wildlife crime consultant · Fauna Flux</span>
@@ -202,48 +186,32 @@
     <div class="cta-card">
       <h3>Share your story</h3>
       <p>Every MSP journey is worth telling. Whether you're doing a PhD, working in industry, or charting your own path — we'd love to feature you.</p>
-      <a class="btn btn-navy" href="mailto:msp-alumni@maastrichtuniversity.nl?subject=I'd%20like%20to%20share%20my%20alumni%20story">Get in touch →</a>
+      <a class="msp-btn msp-btn-navy" href="mailto:msp-alumni@maastrichtuniversity.nl?subject=I'd%20like%20to%20share%20my%20alumni%20story">Get in touch →</a>
     </div>
     <div class="cta-card">
       <h3>See where alumni are</h3>
       <p>Graduates across <span data-stat="countriesLivingIn">59</span> countries, <span data-stat="universitiesAttended">262</span> master&rsquo;s universities and every continent but one.</p>
-      <a class="btn btn-outline" href="index.html">Explore the network →</a>
+      <a class="msp-btn msp-btn-gh" href="index.html">Explore the network →</a>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="foot-grid">
-    <div class="foot-brand">
-      <img src="assets/logos/maastricht-science-programme-logo.png" alt="MSP" />
-      <p>MSP Alumni Network. Part of the Faculty of Science and Engineering, Maastricht University.</p>
-    </div>
-    <div class="foot-col">
-      <h4>Explore</h4>
-      <a href="destinations.html">Destinations</a>
-      <a href="community.html">Community</a>
-      <a href="events.html">Events</a>
-      <a href="stories.html">Stories</a>
-    </div>
-    <div class="foot-col">
-      <h4>Connect</h4>
-      <a href="considering-msp.html">Considering MSP?</a>
-      <a href="https://www.maastrichtuniversity.nl">Maastricht University</a>
-      <a href="privacy.html">Privacy policy</a>
-    </div>
-    <div class="foot-col">
-      <h4>Follow</h4>
-      <a href="https://www.instagram.com/msp_alumni/">Instagram</a>
-      <a href="https://www.linkedin.com/groups/12893377/">LinkedIn (MSP)</a>
-      <a href="https://www.linkedin.com/groups/4689010/">LinkedIn (FSE)</a>
-    </div>
+</main>
+<footer class="msp-footer">
+  <div class="foot-links">
+    <a href="https://www.instagram.com/msp_alumni/">Instagram</a>
+    <a href="https://www.linkedin.com/groups/12893377/">LinkedIn (MSP)</a>
+    <a href="https://www.linkedin.com/groups/4689010/">LinkedIn (FSE)</a>
+    <a href="https://www.maastrichtuniversity.nl">Maastricht University</a>
+    <a href="privacy.html">Privacy policy</a>
   </div>
-  <div class="foot-bottom">
-    <span>© 2026 MSP Alumni Network. Maastricht University.</span>
-    <span data-text-template="Data current as of {lastUpdated}.">Data current as of July 2026.</span>
-  </div>
+  <div>&copy; 2026 MSP Alumni Network. Maastricht University, Faculty of Science and Engineering.</div>
+  <div class="foot-note"><span data-text-template="Data current as of {lastUpdated}.">Data current as of July 2026.</span></div>
 </footer>
 <script src="data.js"></script>
 <script src="data-bind.js"></script>
+<!-- Shared MSP frame: the sidebar is built from the config in site-nav.js -->
+<script src="assets/msp-ui/msp-shell.js"></script>
+<script src="site-nav.js"></script>
 </body>
 </html>
