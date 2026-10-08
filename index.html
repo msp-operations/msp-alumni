@@ -55,6 +55,8 @@
   .glow-2 { bottom: -180px; left: -140px; width: 460px; height: 460px; background: radial-gradient(circle, rgba(232,78,16,0.20) 0%, rgba(232,78,16,0) 70%); }
   .hero-grid { position: relative; max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 56px; align-items: center; }
   .hero-copy { animation: riseIn 0.7s cubic-bezier(0.19,1,0.22,1) both; }
+  .hero-logo { display: block; width: 76px; height: auto; margin: 0 0 22px; opacity: 0.95; }
+  @media (max-width: 600px) { .hero-logo { width: 60px; margin-bottom: 16px; } }
   .hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.62); margin-bottom: 26px; }
   .hero-eyebrow::before { content: ''; display: block; width: 26px; height: 1px; background: var(--orange); }
   .hero h1 { font-size: clamp(42px, 5.6vw, 76px); line-height: 1.02; color: #fff; margin-bottom: 22px; }
@@ -201,7 +203,8 @@
     .bar-num { font-size: 10.5px; }
     .cta-card { padding: 28px 24px; }
   }
-</style>
+        html { overflow-x: clip; } /* keeps the off-canvas phone menu and hero glow from widening the page */
+    </style>
 </head>
 <body>
 
@@ -224,6 +227,7 @@
   <div class="glow glow-2"></div>
   <div class="hero-grid">
     <div class="hero-copy">
+      <img class="hero-logo" src="assets/logos/msp-logo-white.png" alt="Maastricht Science Programme logo" width="76" height="100">
       <div class="hero-eyebrow">Maastricht Science Programme · since 2011</div>
       <h1>Where <em>fifteen years</em> of scientists went next.</h1>
       <p>Every MSP graduate since the first cohort, mapped: the countries they live in, the universities they continued at, and the work they do now. Updated <span data-stat="lastUpdated">July 2026</span>.</p>
