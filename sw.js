@@ -1,4 +1,4 @@
-const CACHE_NAME = 'msp-alumni-v5';
+const CACHE_NAME = 'msp-alumni-v6';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
