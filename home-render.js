@@ -115,7 +115,7 @@
         uniWrap.innerHTML = unis.map(function (u, i) {
             var pct = Math.round((u.count / uniMax) * 100);
             return '' +
-                '<div class="uni">' +
+                '<a class="uni" href="destinations.html?uni=' + encodeURIComponent(u.name) + '" title="What MSP alumni studied at ' + esc(u.name) + '">' +
                   '<span class="uni-rank">' + String(i + 1).padStart(2, '0') + '</span>' +
                   '<span class="uni-logo">' + uniLogo(u) + '</span>' +
                   '<span class="uni-main">' +
@@ -124,7 +124,7 @@
                   '</span>' +
                   '<span class="track track-lg"><span class="fill bar-navy" style="width: ' + pct + '%"></span></span>' +
                   '<span class="uni-num">' + fmt(u.count) + '</span>' +
-                '</div>';
+                '</a>';
         }).join('');
     }
 

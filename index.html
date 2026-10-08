@@ -135,6 +135,9 @@
   .panel { background: #fff; border: 1px solid var(--hair); border-radius: 18px; padding: 44px 40px; }
   .panel h2 { font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; }
   .panel-note { font-size: 13.5px; color: rgba(0,28,61,0.55); max-width: 22em; }
+  a.uni { color: inherit; text-decoration: none; cursor: pointer; transition: background 0.15s; border-radius: 6px; }
+  a.uni:hover .uni-name { color: var(--orange); }
+  a.uni:hover { background: rgba(0,28,61,0.03); }
   .uni { display: grid; grid-template-columns: 26px 34px minmax(0, 1fr) 120px 54px; align-items: center; gap: 16px; padding: 13px 0; border-top: 1px solid rgba(0,28,61,0.07); }
   .uni-rank { font-size: 12px; font-weight: 600; color: rgba(0,28,61,0.32); font-variant-numeric: tabular-nums; }
   /* Logos arrive as a mix of square marks and wide wordmarks, so the cell is
@@ -333,7 +336,7 @@
         <div class="eyebrow eyebrow-blue">Master's destinations</div>
         <h2><span data-stat="universitiesAttended">262</span> universities, ten most common.</h2>
       </div>
-      <div class="panel-note">Counts are alumni enrolled, not applications. Includes ETH Zurich, Imperial, Cambridge and Karolinska.</div>
+      <div class="panel-note">Counts are alumni enrolled, not applications. Includes ETH Zurich, Imperial, Cambridge and Karolinska. Click a university to see what alumni studied there.</div>
     </div>
     <div id="uni-list"></div>
   </div>

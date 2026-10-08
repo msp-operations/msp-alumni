@@ -1096,6 +1096,9 @@
             renderCountries();
             initTableControls();
             initModal();
+            // opened from the homepage top ten: destinations.html?uni=<name> shows that university straight away
+            const wanted = new URLSearchParams(location.search).get('uni');
+            if (wanted) setTimeout(() => openUniModal(wanted), 300);
         });
         
         function initHeader() {
