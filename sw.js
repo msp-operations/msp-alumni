@@ -1,4 +1,4 @@
-const CACHE_NAME = 'msp-alumni-v2';
+const CACHE_NAME = 'msp-alumni-v3';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -11,6 +11,7 @@ const ASSETS_TO_CACHE = [
   '/country.html',
   '/data.js',
   '/data-bind.js',
+  '/programmes.js',
   '/assets/logos/msp-logo.png',
   '/assets/logos/maastricht-science-programme-logo.png',
   '/assets/icons/icon-192x192.png',
